@@ -1,0 +1,9 @@
+create clean parametric openscad design cutting standard sushi rolls to even peaces widht defined lenghts of 20mm the length of the board is 250mm. make sure the design is symmetrical.
+make the bottom about 5mm thick so it will not break and sides high enough to position the knife just before touching the sushi roll
+it is a cutting board with the length of a sushi roll, with round edges so that the sushi roll does not deform while cutting and the round edges should on both side should have 2mm wide slots for cutting knife.
+make all the edges rounded with 1mm radius
+make upper 20% of the cutting slots go wider towards the top for guiding the knife and 20% of the bottom of the cutting slots go narrower towards the bottom with the final width of the slot in the bottom 1mm
+let me define the width of peaces and not amount. start with
+no reasoning
+show full code
+
