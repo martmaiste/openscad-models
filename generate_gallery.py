@@ -146,37 +146,53 @@ def create_thumbnail_html(scad_files, base_dir):
 
 
 def create_thumbnail_markdown(scad_files, base_dir):
-    """Create Markdown thumbnail gallery without tables to avoid alternating backgrounds."""
+    """Create Markdown thumbnail gallery using HTML table for three equal-width columns."""
     markdown_content = f"""# OpenSCAD Thumbnail Gallery v{VERSION}
 
 This gallery contains all OpenSCAD designs in this repository with their visual representations.
 
 ## Gallery
 
-<div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: flex-start;">
+<table style="width: 100%; border-collapse: collapse;">
+  <tbody>
 """
 
-    # We use inline-block divs instead of a table.
-    # This automatically wraps items to the next line and completely avoids zebra-striping.
-    for scad_path in scad_files:
-        rel_png = scad_path.with_suffix(".png").relative_to(base_dir)
-        rel_scad = scad_path.relative_to(base_dir)
-        clean_name = rel_scad.name.replace(".scad", "").replace("-", " ")
+    # Process files in groups of 3 to create table rows
+    for i in range(0, len(scad_files), 3):
+        markdown_content += "    <tr>\n"
 
-        markdown_content += (
-            f'<div style="display: inline-block; width: 250px; margin: 10px; vertical-align: top; text-align: center;">\n'
-            f'  <a href="{rel_png}">\n'
-            f'    <img src="{rel_png}" alt="{clean_name}" width="250" height="250" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; margin: 0 auto; display: block;">\n'
-            f"  </a>\n"
-            f'  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word; text-align: center;">{clean_name}</div>\n'
-            f"</div>\n"
-        )
+        # Process up to 3 files per row
+        for j in range(3):
+            if i + j < len(scad_files):
+                scad_path = scad_files[i + j]
+                rel_png = scad_path.with_suffix(".png").relative_to(base_dir)
+                rel_scad = scad_path.relative_to(base_dir)
+                clean_name = rel_scad.name.replace(".scad", "").replace("-", " ")
 
-    markdown_content += "</div>\n"
+                # Create the table cell content
+                cell_content = (
+                    f'<div style="text-align: center; padding: 10px;">\n'
+                    f'  <a href="{rel_png}">\n'
+                    f'    <img src="{rel_png}" alt="{clean_name}" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">\n'
+                    f"  </a>\n"
+                    f'  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">{clean_name}</div>\n'
+                    f"</div>\n"
+                )
+
+                markdown_content += f'      <td style="width: 33%; vertical-align: top;">{cell_content}</td>\n'
+            else:
+                # Add empty cell if less than 3 items in this row
+                markdown_content += (
+                    '      <td style="width: 33%; vertical-align: top;"></td>\n'
+                )
+
+        markdown_content += "    </tr>\n"
+
+    markdown_content += "  </tbody>\n</table>\n"
 
     # Write the markdown file
     (base_dir / "README.md").write_text(markdown_content, encoding="utf-8")
-    print("Generated README.md with pure HTML div-based gallery")
+    print("Generated README.md with three-column HTML table gallery")
 
 
 if __name__ == "__main__":
