@@ -24,7 +24,7 @@ stand_angle = 45; // [30:75]
 /* [Phone Fit] */
 
 // Thickness allowed for phone + case
-phone_t = 12.5; 
+phone_t = 11.5; 
 
 // Height of the front retaining lip
 lip_h = 10; 

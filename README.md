@@ -8,6 +8,105 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Caliper-Notched-Jaws/Caliper-Notched-Jaws.png">
+    <img src="Caliper-Notched-Jaws/Caliper-Notched-Jaws.png" alt="Caliper Notched Jaws" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Caliper Notched Jaws</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="NEWONE-Unlocking-PIN/NEWONE-Unlocking-PIN.png">
+    <img src="NEWONE-Unlocking-PIN/NEWONE-Unlocking-PIN.png" alt="NEWONE Unlocking PIN" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">NEWONE Unlocking PIN</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder.png">
+    <img src="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder.png" alt="Foil Track Nut Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Foil Track Nut Holder</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder_backup.png">
+    <img src="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder_backup.png" alt="Foil Track Nut Holder_backup" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Foil Track Nut Holder_backup</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder-0.13.png">
+    <img src="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder-0.13.png" alt="Foil Track Nut Holder 0.13" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Foil Track Nut Holder 0.13</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder-v0.12.png">
+    <img src="Foil-Track-Nut-Holder/Foil-Track-Nut-Holder-v0.12.png" alt="Foil Track Nut Holder v0.12" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Foil Track Nut Holder v0.12</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="USB-Cap/USB-Cap.png">
+    <img src="USB-Cap/USB-Cap.png" alt="USB Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">USB Cap</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Apollo-AIR-1-Wall-Mount/Apollo-AIR-1-Wall-Mount.png">
+    <img src="Apollo-AIR-1-Wall-Mount/Apollo-AIR-1-Wall-Mount.png" alt="Apollo AIR 1 Wall Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Apollo AIR 1 Wall Mount</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Surface-Mount-Box/Surface-Mount-Box.png">
+    <img src="Surface-Mount-Box/Surface-Mount-Box.png" alt="Surface Mount Box" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Surface Mount Box</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Holder.png">
+    <img src="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Holder.png" alt="IKEA LIBOJ E2010 Phone Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA LIBOJ E2010 Phone Holder</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Toothbrush-Stand/Toothbrush_Stand.png">
+    <img src="Toothbrush-Stand/Toothbrush_Stand.png" alt="Toothbrush_Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Toothbrush_Stand</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Holder-groovy.png">
+    <img src="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Holder-groovy.png" alt="IKEA LIBOJ E2010 Phone Holder groovy" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA LIBOJ E2010 Phone Holder groovy</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Stand.png">
+    <img src="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Stand.png" alt="IKEA LIBOJ E2010 Phone Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA LIBOJ E2010 Phone Stand</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Tile-Glue-Applicator/Tile-Glue-Applicator.png">
     <img src="Tile-Glue-Applicator/Tile-Glue-Applicator.png" alt="Tile Glue Applicator" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
@@ -21,6 +120,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Minecraft Keychain</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="DIN-Mount/DIN-Mount.png">
     <img src="DIN-Mount/DIN-Mount.png" alt="DIN Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -28,8 +129,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">DIN Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pipe-Plug/Pipe-Cap.png">
     <img src="Pipe-Plug/Pipe-Cap.png" alt="Pipe Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -44,6 +143,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pole Mount Rectangular</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="GalaxyTab2Active-Wall-Mount/GalaxyTab2Active-Wall-Mount.png">
     <img src="GalaxyTab2Active-Wall-Mount/GalaxyTab2Active-Wall-Mount.png" alt="GalaxyTab2Active Wall Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -51,8 +152,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">GalaxyTab2Active Wall Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Vacuum-Adapter-31mm-to-31mm/Vacuum-Adapter-31mm-to-31mm.png">
     <img src="Vacuum-Adapter-31mm-to-31mm/Vacuum-Adapter-31mm-to-31mm.png" alt="Vacuum Adapter 31mm to 31mm" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -65,13 +164,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
     <img src="Pipe-Plug/Pipe-Plug.png" alt="Pipe Plug" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pipe Plug</div>
-</div>
-</td>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="USB-Cap/USB-Cap.png">
-    <img src="USB-Cap/USB-Cap.png" alt="USB Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">USB Cap</div>
 </div>
 </td>
     </tr>
@@ -160,21 +252,14 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="Apollo-AIR-1-Wall-Mount/Apollo-AIR-1-Wall-Mount.png">
-    <img src="Apollo-AIR-1-Wall-Mount/Apollo-AIR-1-Wall-Mount.png" alt="Apollo AIR 1 Wall Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Apollo AIR 1 Wall Mount</div>
-</div>
-</td>
-    </tr>
-    <tr>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pole-Mount-Round/Pole-Mount-Round.png">
     <img src="Pole-Mount-Round/Pole-Mount-Round.png" alt="Pole Mount Round" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pole Mount Round</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Thermos-Lid/Thermos-Lid.png">
     <img src="Thermos-Lid/Thermos-Lid.png" alt="Thermos Lid" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -189,8 +274,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA BROGRUND Sloped Washer</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Wall-Mount-J-Hook/Wall-Mount-J-Hook.png">
     <img src="Wall-Mount-J-Hook/Wall-Mount-J-Hook.png" alt="Wall Mount J Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -198,6 +281,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Wall Mount J Hook</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Cabinet-Key/Cabinet-Key.png">
     <img src="Cabinet-Key/Cabinet-Key.png" alt="Cabinet Key" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -212,8 +297,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">RJ45 Plug</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pencil-Postit-Sharpener/Pencil-Postit-Sharpener.png">
     <img src="Pencil-Postit-Sharpener/Pencil-Postit-Sharpener.png" alt="Pencil Postit Sharpener" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -221,27 +304,13 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pencil Postit Sharpener</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pole-Hook/Pole-Hook.png">
     <img src="Pole-Hook/Pole-Hook.png" alt="Pole Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pole Hook</div>
-</div>
-</td>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Stand.png">
-    <img src="IKEA-LIBOJ-E2010-Phone-Stand/IKEA-LIBOJ-E2010-Phone-Stand.png" alt="IKEA LIBOJ E2010 Phone Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA LIBOJ E2010 Phone Stand</div>
-</div>
-</td>
-    </tr>
-    <tr>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="Surface-Mount-Box/Surface-Mount-Box.png">
-    <img src="Surface-Mount-Box/Surface-Mount-Box.png" alt="Surface Mount Box" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Surface Mount Box</div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">

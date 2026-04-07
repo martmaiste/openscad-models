@@ -1,8 +1,20 @@
+//
+// Cap for the USB plug on LED Light Beanie Hat
+//
 // v0.09 - Added chamfers to all four edges of the back end of the cap.
+
+// Tolerances for the PCB-integraded USB plugs vary widely
+
 // Parameters for the USB-A plug
+// Märt's hat
 plug_width = 12.5;
 plug_thickness = 2.1;
 plug_length = 10;
+
+// Dad's hat
+// plug_width = 12.6;
+// plug_thickness = 2.2;
+// plug_length = 10;
 
 // Parameters for the cap
 cap_thickness = 2;
