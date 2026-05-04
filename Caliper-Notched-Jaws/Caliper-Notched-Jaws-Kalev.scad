@@ -8,7 +8,7 @@
  */
 
 /* [Version] */
-version = "0.07";
+version = "0.08";
 
 /* [General Settings] */
 // Which part to generate, laid flat for 3D printing
@@ -16,15 +16,17 @@ part = "both"; // [left_fixed, right_sliding, both, cutaway, split_halves]
 
 /* [Caliper Metal Jaw Dimensions] */
 // Total length of the metal jaw to cover
-jaw_length = 32.0;
+jaw_length = 41.0;
 // Thickness of the metal jaw
-jaw_thickness = 3.1;
+//jaw_thickness = 3.65; // both - slightly more room
+jaw_thickness = 3.6; // split halves
+
 // Width of the metal jaw at the base (top, where it meets the caliper body)
-jaw_base_width = 14.0;
+jaw_base_width = 16;
 // Width of the metal jaw where the main outer slant begins (X offset at the cutback)
-jaw_tip_slant_width = 6.0;
+jaw_tip_slant_width = 6.2;
 // Distance from the tip (Y=0) where the main outer slant begins (Y offset of the cutback)
-jaw_tip_slant_height = 4.0;
+jaw_tip_slant_height = 3.0;
 
 /* [Cover Dimensions] */
 // Total thickness of the printed cover

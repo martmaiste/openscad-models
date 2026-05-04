@@ -4,6 +4,7 @@
  * Designed to exactly match the provided sketch:
  * - Straight measuring face with a V-notch
  * - Slanted outer face
+ * - Top extension tab for alignment
  * - Slanted bottom tip
  */
 
@@ -12,15 +13,15 @@ version = "0.07";
 
 /* [General Settings] */
 // Which part to generate, laid flat for 3D printing
-part = "both"; // [left_fixed, right_sliding, both, cutaway, split_halves]
+part = "split_halves"; // [left_fixed, right_sliding, both, cutaway, split_halves]
 
 /* [Caliper Metal Jaw Dimensions] */
-// Total length of the metal jaw to cover
-jaw_length = 32.0;
+// Total length of the metal jaw to cover (including the tab area)
+jaw_length = 40.0;
 // Thickness of the metal jaw
-jaw_thickness = 3.1;
+jaw_thickness = 3.0;
 // Width of the metal jaw at the base (top, where it meets the caliper body)
-jaw_base_width = 14.0;
+jaw_base_width = 16.0;
 // Width of the metal jaw where the main outer slant begins (X offset at the cutback)
 jaw_tip_slant_width = 6.0;
 // Distance from the tip (Y=0) where the main outer slant begins (Y offset of the cutback)
@@ -30,25 +31,27 @@ jaw_tip_slant_height = 4.0;
 // Total thickness of the printed cover
 cover_total_thickness = 8.0;
 // Thickness of the plastic on the measuring (straight) face
-wall_measuring_face = 5.0;
+wall_measuring_face = 8.0;
 // Thickness of the plastic on the outer (slanted) faces (perpendicular thickness)
-wall_outer_face = 2.0;
+wall_outer_face = 6.0;
 // Thickness of the plastic at the bottom tip
 wall_tip = 4.0;
 
-
+/* [Tab and Cutout Dimensions] */
+// Length of the cutout at the top to clear the caliper body (makes the tab)
+cutout_length = 7.0;
 
 /* [Notch Dimensions] */
 // Distance from the inner metal jaw tip to the center of the V-notch
 notch_distance_from_tip = 15.0;
 // Total vertical height of the V-notch opening
-notch_height = 8.0;
+notch_height = 12.0;
 // Depth of the V-notch into the plastic
-notch_depth = 4.0;
+notch_depth = 6.0;
 
 /* [Bolt Holes] */
 // Add optional M2 bolt holes to clamp the cover
-enable_bolt_holes = false;
+enable_bolt_holes = true;
 // Y position (height) of the top bolt holes
 bolt_hole_top_y = 28.0;
 // Y position (height) of the bottom bolt holes
@@ -109,10 +112,15 @@ module jaw_cover_2d_profile() {
         // Notch top
         [wall_measuring_face, notch_distance_from_tip + notch_height/2],
 
-        // Top right
+        // Top right of tab
         [wall_measuring_face, jaw_length],
-        // Top left
-        [outer_main_x(jaw_length), jaw_length],
+        // Top left of tab (aligns with straight edge of cavity)
+        [0, jaw_length],
+        // Inner corner of cutout
+        [0, jaw_length - cutout_length],
+
+        // Top left of main body (calculated to stay perfectly parallel to the cavity at exact perpendicular distance)
+        [outer_main_x(jaw_length - cutout_length), jaw_length - cutout_length],
         // Corner where the main slant meets the bottom cutback
         [x_int, y_int],
         // Bottom left (calculated to stay perfectly parallel to the bottom cutback cavity)
