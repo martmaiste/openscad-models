@@ -7,7 +7,7 @@
 //
 
 // The outer diameter of the pipe this cap should fit over
-pipe_diameter = 50; // [mm]
+pipe_diameter = 40; // [mm]
 
 // The total length/height of the cap
 cap_length = 30; // [mm]

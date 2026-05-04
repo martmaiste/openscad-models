@@ -5,13 +5,13 @@
 /* [Dimensions] */
 
 // Outer Diameter of the plug body (mm). Should match the pipe ID.
-plug_od = 50; // [10:200]
+plug_od = 36; // [10:200]
 
 // Length of the part of the plug that goes inside the pipe (mm).
 plug_length = 40; // [10:200]
 
 // Diameter of the wider flange/stop (mm). Should be larger than pipe OD.
-flange_od = 60; // [20:250]
+flange_od = 40; // [20:250]
 
 // Thickness of the flange (mm).
 flange_height = 5; // [1:50]
