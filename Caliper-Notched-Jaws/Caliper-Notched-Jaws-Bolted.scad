@@ -48,7 +48,7 @@ notch_depth = 4.0;
 
 /* [Bolt Holes] */
 // Add optional M2 bolt holes to clamp the cover
-enable_bolt_holes = false;
+enable_bolt_holes = true;
 // Y position (height) of the top bolt holes
 bolt_hole_top_y = 28.0;
 // Y position (height) of the bottom bolt holes
