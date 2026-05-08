@@ -1,30 +1,31 @@
 /*
  * Parametric OpenSCAD design for a caliper notched jaw cover.
- * Version: v0.07
- * Designed to exactly match the provided sketch:
- * - Straight measuring face with a V-notch
- * - Slanted outer face
- * - Slanted bottom tip
+ * Version: v0.03
+ * Designed to exactly match the provided sketch with robust geometric handling.
+ * Fixed: Robust handling of small jaw_tip_slant_height using vector-based offsets.
  */
 
 /* [Version] */
-version = "0.07";
+version = "0.03";
 
 /* [General Settings] */
-// Which part to generate, laid flat for 3D printing
-part = "both"; // [left_fixed, right_sliding, both, cutaway, split_halves]
+// Which part to generate
+part = "half"; // [both, half]
 
-/* [Caliper Metal Jaw Dimensions] */
-// Total length of the metal jaw to cover
-jaw_length = 32.0;
-// Thickness of the metal jaw
-jaw_thickness = 3.1;
-// Width of the metal jaw at the base (top, where it meets the caliper body)
-jaw_base_width = 14.0;
-// Width of the metal jaw where the main outer slant begins (X offset at the cutback)
-jaw_tip_slant_width = 6.0;
-// Distance from the tip (Y=0) where the main outer slant begins (Y offset of the cutback)
-jaw_tip_slant_height = 4.0;
+// --- Profile Data [length, thickness, base_width, tip_width, tip_height] ---
+profile_kl2      = [32.0, 3.1, 14.0, 7.0, 1.0];
+profile_bmrs     = [32.0, 3.5, 15.0, 9.0, 4.0];
+profile_kalev    = [41.0, 3.6, 16.0, 6.2, 3.0];
+profile_example  = [40.0, 3.5, 15.0, 8.0, 2.0];
+
+/* [Caliper Profile Selection] */
+profile = profile_kalev;
+
+jaw_length           = profile[0];
+jaw_thickness        = profile[1];
+jaw_base_width       = profile[2];
+jaw_tip_slant_width  = profile[3];
+jaw_tip_slant_height = profile[4];
 
 /* [Cover Dimensions] */
 // Total thickness of the printed cover
@@ -36,8 +37,6 @@ wall_outer_face = 2.0;
 // Thickness of the plastic at the bottom tip
 wall_tip = 4.0;
 
-
-
 /* [Notch Dimensions] */
 // Distance from the inner metal jaw tip to the center of the V-notch
 notch_distance_from_tip = 15.0;
@@ -46,84 +45,77 @@ notch_height = 8.0;
 // Depth of the V-notch into the plastic
 notch_depth = 4.0;
 
-/* [Bolt Holes] */
-// Add optional M2 bolt holes to clamp the cover
-enable_bolt_holes = false;
-// Y position (height) of the top bolt holes
-bolt_hole_top_y = 28.0;
-// Y position (height) of the bottom bolt holes
-bolt_hole_bottom_y = 5.0;
-// Diameter of the M2 bolt shaft clearance hole
-m2_hole_dia = 2.4;
-// Flat-to-flat width of the M2 nut (4.0mm standard + 0.2mm clearance)
-m2_nut_flat_to_flat = 4.2;
-// Depth of the M2 nut recession
-m2_nut_depth = 1.8;
-// Diameter of the M2 bolt head recession
-m2_head_dia = 4.2;
-// Depth of the M2 bolt head recession
-m2_head_depth = 2.0;
-// Thickness of the sacrificial bridge layer to support the nut recession overhang (typically 1 layer height)
-bridge_layer_thickness = 0.2;
-
 // --- Implementation ---
 $fn = 64;
 
 // Calculate Z wall thickness to perfectly center the cavity
 wall_z = (cover_total_thickness - jaw_thickness) / 2;
 
-// --- Math for exact perpendicular offsets of the slanted outer walls ---
-// Main Slant
-m_main = (jaw_tip_slant_width - jaw_base_width) / (jaw_length - jaw_tip_slant_height);
-b_main = -jaw_tip_slant_width - m_main * jaw_tip_slant_height;
-function outer_main_x(y) = m_main * y + b_main - wall_outer_face * sqrt(1 + m_main*m_main);
+// --- Robust Math for Outer Walls ---
+// We use vector math to avoid division by zero when angles are sharp
+eps = 0.0001;
+sh_safe = max(eps, jaw_tip_slant_height);
 
-// Bottom Cutback Slant
-m_cut = -jaw_tip_slant_width / jaw_tip_slant_height;
-b_cut = 0;
-function outer_cut_x(y) = m_cut * y + b_cut - wall_outer_face * sqrt(1 + m_cut*m_cut);
+// Points of the metal jaw profile
+p_jaw0 = [0, 0];
+p_jaw1 = [-jaw_tip_slant_width, sh_safe];
+p_jaw2 = [-jaw_base_width, jaw_length];
 
-// Intersection corner of the two perfectly offset outer walls
-m_diff = m_main - m_cut;
-y_int = abs(m_diff) > 0.0001 ? (b_cut - b_main + wall_outer_face * (sqrt(1 + m_main*m_main) - sqrt(1 + m_cut*m_cut))) / m_diff : jaw_tip_slant_height;
-x_int = outer_main_x(y_int);
+// Vectors of the segments
+v01 = p_jaw1 - p_jaw0;
+v12 = p_jaw2 - p_jaw1;
 
+// Lengths
+l01 = sqrt(v01[0]*v01[0] + v01[1]*v01[1]);
+l12 = sqrt(v12[0]*v12[0] + v12[1]*v12[1]);
 
-// Function to calculate the internal metal jaw width at any Y coordinate (linear interpolation along the main slant)
-function get_jaw_width(y) = jaw_tip_slant_width + (jaw_base_width - jaw_tip_slant_width) * ((y - jaw_tip_slant_height) / (jaw_length - jaw_tip_slant_height));
+// Unit Normals (pointing left/outward)
+n01 = [-v01[1]/l01, v01[0]/l01];
+n12 = [-v12[1]/l12, v12[0]/l12];
 
-// Functions to get exact X coordinates of inner/outer walls at any given Y
-function get_inner_x(y) = (y > jaw_tip_slant_height) ? -get_jaw_width(y) : -jaw_tip_slant_width * (y / jaw_tip_slant_height);
-function get_outer_x(y) = (y > y_int) ? outer_main_x(y) : outer_cut_x(y);
+// Intersection of offset segments 1 and 2
+// Solve for intersection of Line 1 and Line 2
+// Line 1: (p_jaw0 + wall_outer_face*n01) + t*v01
+// Line 2: (p_jaw1 + wall_outer_face*n12) + u*v12
+det = -v01[0]*v12[1] + v01[1]*v12[0];
+t_int = (abs(det) < eps) ? 0 : (-(p_jaw1[0] - p_jaw0[0] + wall_outer_face*(n12[0] - n01[0]))*v12[1] + (p_jaw1[1] - p_jaw0[1] + wall_outer_face*(n12[1] - n01[1]))*v12[0]) / det;
+
+p_int = (abs(det) < eps) ? (p_jaw1 + wall_outer_face*n01) : [ (p_jaw0[0] + wall_outer_face*n01[0]) + t_int*v01[0], (p_jaw0[1] + wall_outer_face*n01[1]) + t_int*v01[1] ];
+
+x_int = p_int[0];
+y_int = p_int[1];
+
+// Function for X coordinates along the main offset wall
+function outer_main_x(y) = (abs(v12[1]) < eps) ? (p_jaw2[0] + wall_outer_face*n12[0]) : (p_jaw2[0] + wall_outer_face*n12[0]) + ((y - (p_jaw2[1] + wall_outer_face*n12[1])) / v12[1]) * v12[0];
+
+x_top_left = outer_main_x(jaw_length);
+
+// Metal jaw width calculation
+function get_jaw_width(y) = jaw_tip_slant_width + (jaw_base_width - jaw_tip_slant_width) * ((y - jaw_tip_slant_height) / max(eps, jaw_length - jaw_tip_slant_height));
 
 module jaw_cover_2d_profile() {
-    // Outer Shell Polygon
     p_outer = [
-        // Bottom right (tip of measuring face)
+        // Bottom Right
         [wall_measuring_face, -wall_tip],
-
         // Notch bottom
         [wall_measuring_face, notch_distance_from_tip - notch_height/2],
         // Notch inner point
         [wall_measuring_face - notch_depth, notch_distance_from_tip],
         // Notch top
         [wall_measuring_face, notch_distance_from_tip + notch_height/2],
-
         // Top right
         [wall_measuring_face, jaw_length],
         // Top left
-        [outer_main_x(jaw_length), jaw_length],
-        // Corner where the main slant meets the bottom cutback
+        [x_top_left, jaw_length],
+        // Miter Point (where outer cutback meets outer main slant)
         [x_int, y_int],
-        // Bottom left (calculated to stay perfectly parallel to the bottom cutback cavity)
-        [outer_cut_x(-wall_tip), -wall_tip]
+        // Bottom Mid (at axis)
+        [0, -wall_tip]
     ];
-
     polygon(p_outer);
 }
 
 module cavity_2d_profile() {
-    // Extended slightly in Y at the top for a clean boolean difference
     p_cavity = [
         [0, 0], // Bottom right "Tip"
         [-jaw_tip_slant_width, jaw_tip_slant_height], // Bottom left cutback point
@@ -133,104 +125,24 @@ module cavity_2d_profile() {
     polygon(p_cavity);
 }
 
-module m2_bolt_hole(x, y) {
-    translate([x, y, 0]) {
-        // Main shaft
-        // Starts above the nut bridge layer and ends below the bolt head bridge layer
-        // This leaves exactly a 1-layer solid bridge at both ends for support-free printing
-        translate([0, 0, m2_nut_depth + bridge_layer_thickness])
-            cylinder(h = cover_total_thickness - m2_head_depth - m2_nut_depth - 2 * bridge_layer_thickness, d = m2_hole_dia, $fn=32);
-
-        // Nut recession (bottom)
-        translate([0, 0, -0.01])
-            rotate([0, 0, 30])
-                cylinder(h = m2_nut_depth + 0.01, d = m2_nut_flat_to_flat / cos(30), $fn=6);
-
-        // Bolt head recession (top)
-        translate([0, 0, cover_total_thickness - m2_head_depth])
-            cylinder(h = m2_head_depth + 0.01, d = m2_head_dia, $fn=32);
-    }
-}
-
 module single_jaw_cover() {
     difference() {
-        // Main body extrusion
         linear_extrude(height = cover_total_thickness)
             jaw_cover_2d_profile();
-
-        // Hollow cavity subtraction for the metal jaw
         translate([0, 0, wall_z])
             linear_extrude(height = jaw_thickness)
                 cavity_2d_profile();
-
-        // Bolt Holes
-        if (enable_bolt_holes) {
-            // --- Top Pair ---
-            // Right hole (measuring face side)
-            m2_bolt_hole(wall_measuring_face / 2, bolt_hole_top_y);
-            // Left hole (outer slanted face side)
-            m2_bolt_hole((get_inner_x(bolt_hole_top_y) + get_outer_x(bolt_hole_top_y)) / 2, bolt_hole_top_y);
-
-            // --- Bottom Pair ---
-            // Right hole (measuring face side)
-            m2_bolt_hole(wall_measuring_face / 2, bolt_hole_bottom_y);
-            // Left hole (outer slanted face side)
-            m2_bolt_hole((get_inner_x(bolt_hole_bottom_y) + get_outer_x(bolt_hole_bottom_y)) / 2, bolt_hole_bottom_y);
-        }
     }
 }
 
 // --- Render Logic ---
-// The base model represents the Left (Fixed) Jaw.
-// It is oriented flat on the XY plane for easy FDM 3D printing (bridging the cavity).
-
 if (part == "both") {
-    // Left fixed jaw
-    translate([-10, 0, 0])
-        single_jaw_cover();
-
-    // Right sliding jaw (mirrored to face the left jaw)
-    translate([10, 0, 0])
-        mirror([1, 0, 0])
-            single_jaw_cover();
-
-} else if (part == "left_fixed") {
-    single_jaw_cover();
-
-} else if (part == "right_sliding") {
-    mirror([1, 0, 0])
-        single_jaw_cover();
-
-} else if (part == "cutaway") {
-    // Render an inspection view with the top half sliced off and the metal jaw rendered inside
-    difference() {
-        color("SteelBlue", 0.8)
-            single_jaw_cover();
-
-        // Cutaway bounding box bisecting the total thickness
-        translate([-50, -50, cover_total_thickness / 2])
-            cube([100, 100, 50]);
-    }
-
-} else if (part == "split_halves") {
-    // Render the jaw split exactly down the middle so the two clam-shell halves can be printed
-
-    // Bottom Half (contains nut recessions)
+    translate([-10, 0, 0]) single_jaw_cover();
+    translate([10, 0, 0]) mirror([1, 0, 0]) single_jaw_cover();
+} else if (part == "half") {
+    // Render the bottom half of the cover
     intersection() {
         single_jaw_cover();
-        translate([-50, -50, 0])
-            cube([100, 100, cover_total_thickness / 2]);
+        translate([-50, -50, 0]) cube([100, 100, cover_total_thickness / 2]);
     }
-
-    // Top Half (contains bolt head recessions)
-    // Flipped 180 degrees so the outer flat face sits perfectly on the build plate
-    // and the internal cavity cutout faces UP
-    translate([35, 0, 0])
-        rotate([0, 180, 0])
-        translate([0, 0, -cover_total_thickness])
-        intersection() {
-            single_jaw_cover();
-            translate([-50, -50, cover_total_thickness / 2])
-                cube([100, 100, cover_total_thickness / 2]);
-        }
 }
