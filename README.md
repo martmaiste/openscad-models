@@ -8,6 +8,29 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Kiteboard-Handle-Spacer/Kiteboard-Handle-Spacer.png">
+    <img src="Kiteboard-Handle-Spacer/Kiteboard-Handle-Spacer.png" alt="Kiteboard Handle Spacer" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Kiteboard Handle Spacer</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png">
+    <img src="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png" alt="KT SuperK2 120 Noserest" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">KT SuperK2 120 Noserest</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Gustavsberg-Hydrant-Valve-Key/Gustavsberg-Hydrant-Valve-Key.png">
+    <img src="Gustavsberg-Hydrant-Valve-Key/Gustavsberg-Hydrant-Valve-Key.png" alt="Gustavsberg Hydrant Valve Key" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Gustavsberg Hydrant Valve Key</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="RayFoil-Stand/RayFoil-Stand.png">
     <img src="RayFoil-Stand/RayFoil-Stand.png" alt="RayFoil Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
