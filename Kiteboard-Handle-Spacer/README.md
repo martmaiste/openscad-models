@@ -6,7 +6,23 @@ The model features a **right-trapezoid side profile** (sloped on the outer face,
 
 Additionally, it includes a **custom half-cylinder anti-rotation lip** ($1.5\,\text{mm}$ high, $3\,\text{mm}$ wide, and $14\,\text{mm}$ long) centered on the top edge of the vertical wall to prevent any rotation under load.
 
-![Rendered Spacer](view1.png)
+## Gallery
+
+### 3D Model Render
+![Rendered Spacer 3D View](Kiteboard-Handle-Spacer.png)
+
+### Sketches and Reference Photos
+* **Original Handle Top View & Measurements:**
+  ![Original Handle Top View](20260525_161328.jpg)
+
+* **Handle Profile, Side and End Spacer Sketches:**
+  ![Handle Profile & Sketches](20260525_161332.jpg)
+
+* **Assembly & Workspace Design Sketch:**
+  ![Assembly Sketch](Kiteboard-Handle-Spacer.jpg)
+
+* **Detailed Fine-tuning Details:**
+  ![Fine-tuning Details](Kiteboard-Handle-Spacer-Fixer.jpg)
 
 ## Dimensions
 
