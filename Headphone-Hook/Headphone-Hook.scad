@@ -6,12 +6,12 @@
  */
 
 // --- Parameters ---
-tube_size = 40;            
+tube_size = 40.5;            
 bracket_depth = 25;        
 material_thickness = 10;   
 
 left_side_internal = 20;   
-hook_base_internal = 25;   
+hook_base_internal = 26;   
 hook_lip_internal = 12.5;  
 
 chamfer_size = 2;          
