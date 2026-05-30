@@ -4,17 +4,20 @@ A fully parametric OpenSCAD model of a kiteboard handle spacer designed to raise
 
 The model features a **right-trapezoid side profile** (sloped on the outer face, vertical on the inner face) to seamlessly match the handle's aesthetics, and a **symmetrically-sloped end profile** with smooth rounded edges for ergonomics and safety.
 
+Additionally, it includes a **custom half-cylinder anti-rotation lip** ($1.5\,\text{mm}$ high, $3\,\text{mm}$ wide, and $14\,\text{mm}$ long) centered on the top edge of the vertical wall to prevent any rotation under load.
+
 ![Rendered Spacer](view1.png)
 
 ## Dimensions
 
-The model is configured with the following defaults (based on standard Crazyfly handles):
-* **Spacer Height:** 40 mm (raises the handle)
-* **Top Width:** 25 mm (along handle length)
-* **Bottom Width:** 35 mm (along handle length)
-* **Top Length:** 36 mm (transverse to handle)
-* **Bottom Length:** 45 mm (transverse to handle)
+The model is configured with your updated defaults:
+* **Spacer Height:** 47 mm (raises the handle)
+* **Top Width:** 24 mm (transverse to handle)
+* **Bottom Width:** 36 mm (transverse to handle)
+* **Top Length:** 36 mm (along handle length)
+* **Bottom Length:** 45 mm (along handle length)
 * **Corner Radius:** 4 mm (vertical edges)
+* **Anti-Rotation Lip:** $1.5\,\text{mm}$ high, $3\,\text{mm}$ wide, $14\,\text{mm}$ long half-cylinder on the top-inner edge ($y=0$)
 * **Bolt Hole Location:** 20 mm from the flat vertical inner face (fits M6 hardware)
 
 ## Files in this Repository
@@ -28,6 +31,7 @@ The model is configured with the following defaults (based on standard Crazyfly 
 You can open `Kiteboard-Handle-Spacer.scad` in **OpenSCAD** and use the **Customizer panel** to easily adjust:
 * Spacer height, length, and width dimensions.
 * Bolt hole diameter and placement.
+* **Anti-rotation Lip:** Toggle `enable_wall_lip` on/off, change the `wall_lip_height` (cylinder radius), `wall_lip_width` (cylinder diameter), or `wall_lip_length`.
 * Corner rounding radius (`corner_radius`).
 * **Optional Counterbore:** Enable and configure a top recess for the screw heads/washers.
 

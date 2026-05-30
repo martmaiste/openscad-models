@@ -9,22 +9,38 @@
 
 /* [Spacer Dimensions] */
 // Total height of the spacer (raises the handle by this amount)
-spacer_height = 40; // [10:1:100]
+spacer_height = 47; // [10:1:100]
 
 // Width of the spacer at the top interface with the handle (transverse to handle)
-top_width = 25; // [10:1:100]
+top_width = 24; // [10:1:100]
 
 // Width of the spacer at the bottom interface with the board (transverse to handle)
-bottom_width = 35; // [10:1:100]
+bottom_width = 36; // [10:1:100]
 
 // Length of the spacer at the top (along the length of the handle)
-top_length = 36; // [10:1:100]
+top_length = 37; // [10:1:100]
 
 // Length of the spacer at the bottom (along the length of the handle)
-bottom_length = 45; // [10:1:100]
+bottom_length = 47; // [10:1:100]
 
 // Corner radius for rounding vertical edges (smooth corners for safety and aerodynamics)
 corner_radius = 4; // [0:0.5:15]
+
+/* [Anti-Rotation Lip] */
+// Enable the anti-rotation lip at the top edge of the straight vertical inner wall
+enable_wall_lip = true;
+
+// Height of the wall lip (normally 1.5mm, corresponds to cylinder radius)
+wall_lip_height = 1.5; // [0.5:0.1:5]
+
+// Width of the wall lip (normally 3.0mm, corresponds to cylinder diameter)
+wall_lip_width = 3.0; // [1.0:0.1:10]
+
+// Length of the wall lip along the X-axis (normally 14.0mm)
+wall_lip_length = 14.0; // [5:1:30]
+
+// Position style: true = flush with the vertical wall (Y=0 to Y=width), false = centered on the vertical wall
+wall_lip_flush = true;
 
 /* [Bolt Hole Settings] */
 // Distance of the bolt hole from the flat/straight vertical inner side
@@ -86,9 +102,31 @@ module spacer_body() {
     }
 }
 
+// Helper module to generate a 3D half-cylinder along the X-axis
+module half_cylinder(diameter, length) {
+    radius = diameter / 2;
+    difference() {
+        rotate([0, 90, 0])
+        cylinder(d = diameter, h = length, center = true);
+
+        // Cut away the bottom half (Z < 0)
+        translate([-length, -radius - 1, -radius * 2])
+        cube([length * 2, radius * 2 + 2, radius * 2]);
+    }
+}
+
 module spacer_with_holes() {
     difference() {
-        spacer_body();
+        union() {
+            spacer_body();
+
+            // Add the anti-rotation wall lip
+            if (enable_wall_lip && wall_lip_length > 0 && wall_lip_width > 0) {
+                y_pos = wall_lip_flush ? (wall_lip_width / 2) : 0;
+                translate([0, y_pos, spacer_height])
+                half_cylinder(wall_lip_width, wall_lip_length);
+            }
+        }
 
         // Bolt through-hole
         translate([0, bolt_distance_from_straight, -1])
