@@ -1,6 +1,6 @@
 # Kiteboard Handle Spacer
 
-A fully parametric OpenSCAD model of a kiteboard handle spacer designed to raise the grab handle by 40mm. This makes the board much easier to grab during board-offs, handle passes, or when carrying it.
+A fully parametric OpenSCAD model of a kiteboard handle spacer designed to raise the grab handle by 47mm. This makes the board much easier to grab during board-offs, handle passes, or when carrying it.
 
 The model features a **right-trapezoid side profile** (sloped on the outer face, vertical on the inner face) to seamlessly match the handle's aesthetics, and a **symmetrically-sloped end profile** with smooth rounded edges for ergonomics and safety.
 
@@ -46,6 +46,7 @@ Kiteboarding gear experiences high structural loads, continuous UV exposure, and
 
 ## Hardware Requirements
 
-Since the spacer raises the handle by **40mm**, you will need to replace the original handle screws with longer M6 bolts:
-* **Bolt Type:** M6 Marine-Grade Stainless Steel (A4 / 316 grade highly recommended).
-* **Bolt Length:** Original Bolt Length + 40 mm.
+Since the spacer raises the handle by **47mm**, you will need to replace the original handle screws with longer M6 bolts:
+* **Bolt Type:** M6 Marine-Grade Stainless Steel (A4 / 316 grade is highly recommended).
+* **Bolt Length:** **60 mm** length is perfectly adjusted for the default 47mm spacer height when using standard round-head Torx bolts.
+* **Alternative Bolt Length:** For other heights, use `Original Bolt Length + Spacer Height`.
