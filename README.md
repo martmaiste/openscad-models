@@ -15,6 +15,29 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="SUP-Nozzle/SUP-Nozzle.png">
+    <img src="SUP-Nozzle/SUP-Nozzle.png" alt="SUP Nozzle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">SUP Nozzle</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Headphone-Hook/Headphone-Hook.png">
+    <img src="Headphone-Hook/Headphone-Hook.png" alt="Headphone Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Headphone Hook</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Threaded-Plug/Threaded-Plug.png">
+    <img src="Threaded-Plug/Threaded-Plug.png" alt="Threaded Plug" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Threaded Plug</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png">
     <img src="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png" alt="KT SuperK2 120 Noserest" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
@@ -353,13 +376,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
     </tr>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="Headphone-Hook/Headphone-Hook.png">
-    <img src="Headphone-Hook/Headphone-Hook.png" alt="Headphone Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Headphone Hook</div>
-</div>
-</td>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Utility-Door-Key-Knob/Utility-Door-Key-Knob.png">
     <img src="Utility-Door-Key-Knob/Utility-Door-Key-Knob.png" alt="Utility Door Key Knob" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
@@ -373,8 +389,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Makita DCL180 Wall Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pole-Mount-Round/Pole-Mount-Round.png">
     <img src="Pole-Mount-Round/Pole-Mount-Round.png" alt="Pole Mount Round" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -382,6 +396,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pole Mount Round</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Thermos-Lid/Thermos-Lid.png">
     <img src="Thermos-Lid/Thermos-Lid.png" alt="Thermos Lid" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -396,8 +412,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">IKEA BROGRUND Sloped Washer</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Wall-Mount-J-Hook/Wall-Mount-J-Hook.png">
     <img src="Wall-Mount-J-Hook/Wall-Mount-J-Hook.png" alt="Wall Mount J Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -405,6 +419,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Wall Mount J Hook</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Cabinet-Key/Cabinet-Key.png">
     <img src="Cabinet-Key/Cabinet-Key.png" alt="Cabinet Key" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -419,8 +435,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">RJ45 Plug</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pencil-Postit-Sharpener/Pencil-Postit-Sharpener.png">
     <img src="Pencil-Postit-Sharpener/Pencil-Postit-Sharpener.png" alt="Pencil Postit Sharpener" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -428,6 +442,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pencil Postit Sharpener</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Pole-Hook/Pole-Hook.png">
     <img src="Pole-Hook/Pole-Hook.png" alt="Pole Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -442,6 +458,7 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Allen Key Handle</div>
 </div>
 </td>
+      <td style="width: 33%; vertical-align: top;"></td>
     </tr>
   </tbody>
 </table>
