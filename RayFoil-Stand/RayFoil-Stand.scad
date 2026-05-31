@@ -1,6 +1,6 @@
 /*
  * Parametric RayFoil E-Foil Mast Support Stand
- * Version: v0.05
+ * Version: v0.15
  *
  * This design creates a stand that allows the e-foil mast to rest
  * horizontally on the ground with its leading edge facing downwards.
@@ -44,19 +44,27 @@ hole_offset_from_back = 25;
 // Diameter of the counterbore recess (12mm for M6 socket head)
 head_diameter = 12;
 // Depth of the counterbore recess (mm)
-head_depth = 5;
-// Add a 0.2mm sacrificial bridging layer in the counterbores for support-free 3D printing?
-add_sacrificial_bridges = true;
+head_depth = 30;
+
+/* [End Cutouts] */
+// Add circular cradles on the top and bottom faces (for motor & propeller clearance)?
+add_side_cutouts = true;
+// Radius of the top cutout (e.g. propeller guard clearance) (mm)
+top_cyl_radius = 250.0;
+// Radius of the bottom cutout (e.g. motor casing rest) (mm)
+bottom_cyl_radius = 32.75;
+// Depth of both side cutouts (mm)
+side_cutout_depth = 5.0;
 
 /* [Stand Dimensions] */
 // Total width of the stand, transverse to the mast (mm)
 stand_width = 118;
 // Total length/depth of the stand, along the mast's chord direction (mm)
-stand_length = 60;
+stand_length = 50;
 // How deep the mast's leading edge goes into the stand (mm)
 cut_depth = 40;
 // Extrusion height of the stand, along the mast's span direction (mm)
-stand_height = 40;
+stand_height = 50;
 
 /* [Tolerances] */
 // Gap to ensure the mast fits easily without being too tight (mm)
@@ -127,71 +135,49 @@ module stand_2d() {
         // Offset expands the profile slightly outwards
         offset(r = tolerance)
             mast_profile_2d(chord = mast_chord, thickness = mast_thickness);
-
-        // Optional mounting holes for M6 bolts
-        if (add_mounting_holes) {
-            hole_x = -wall_thickness + hole_offset_from_back;
-
-            // Left hole
-            translate([hole_x, hole_spacing/2])
-                circle(d = hole_diameter, $fn=60);
-
-            // Right hole
-            translate([hole_x, -hole_spacing/2])
-                circle(d = hole_diameter, $fn=60);
-        }
     }
 }
 
 // 3. 3D Extrusion and Orientation for 3D Printing
 module stand_3d() {
     difference() {
-        // Rotate so the flat back of the stand is perfectly on the build plate
-        // and center it on the X and Y axes
+        // Rotate [0, -90, 0] so the flat back of the stand is perfectly on the build plate (Z=0)
+        // and the opening faces UP (+Z) for support-free printing.
         translate([0, 0, wall_thickness])
-            rotate([0, 90, 0])
+            rotate([0, -90, 0])
                 linear_extrude(height = stand_height, center = true, convexity = 3)
                     stand_2d();
 
-        // Add counterbores for the bolt heads/nuts on the outer side faces
+        // Subtract the vertical through-holes and counterbores
         if (add_mounting_holes) {
-            hole_x_2d = -wall_thickness + hole_offset_from_back;
-            // Calculate the actual Z height of the holes after the 3D rotation
-            z_pos = -hole_x_2d + wall_thickness;
-
             for (y_pos = [hole_spacing/2, -hole_spacing/2]) {
-                translate([0, y_pos, z_pos]) {
-                    // Right side counterbore
-                    translate([stand_height/2 - head_depth, 0, 0])
-                        rotate([0, 90, 0])
-                            cylinder(h = head_depth + 1, d = head_diameter, $fn=60);
+                translate([0, y_pos, 0]) {
+                    // Vertical M6 Through-Hole (Z=0 to top)
+                    translate([0, 0, -1])
+                        cylinder(h = stand_length + 2, d = hole_diameter, $fn=60);
 
-                    // Left side counterbore
-                    translate([-stand_height/2 - 1, 0, 0])
-                        rotate([0, 90, 0])
-                            cylinder(h = head_depth + 1, d = head_diameter, $fn=60);
+                    // Counterbore for bolt head (top down)
+                    translate([0, 0, stand_length - head_depth])
+                        cylinder(h = head_depth + 1, d = head_diameter, $fn=60);
                 }
             }
         }
-    }
 
-    // Fill in the sacrificial bridges if requested
-    if (add_mounting_holes && add_sacrificial_bridges) {
-        hole_x_2d = -wall_thickness + hole_offset_from_back;
-        z_pos = -hole_x_2d + wall_thickness;
+        // Subtract the side cutouts on the left and right outer faces (oriented along the Z-axis, parallel to the mast)
+        if (add_side_cutouts) {
+            // Cutout 1 (on the left face, running vertically)
+            // Center is calculated so the cylinder cuts exactly side_cutout_depth into the left face
+            left_cyl_x = -stand_height/2 + side_cutout_depth - top_cyl_radius;
 
-        for (y_pos = [hole_spacing/2, -hole_spacing/2]) {
-            translate([0, y_pos, z_pos]) {
-                // Right bridge (0.2mm thick)
-                translate([stand_height/2 - head_depth, 0, 0])
-                    rotate([0, 90, 0])
-                        cylinder(h = 0.2, d = head_diameter, $fn=60);
+            translate([left_cyl_x, 0, -1])
+                cylinder(h = stand_length + 2, r = top_cyl_radius, $fn = top_cyl_radius * 10);
 
-                // Left bridge (0.2mm thick)
-                translate([-stand_height/2 + head_depth - 0.2, 0, 0])
-                    rotate([0, 90, 0])
-                        cylinder(h = 0.2, d = head_diameter, $fn=60);
-            }
+            // Cutout 2 (on the right face, running vertically)
+            // Center is calculated so the cylinder cuts exactly side_cutout_depth into the right face
+            right_cyl_x = stand_height/2 - side_cutout_depth + bottom_cyl_radius;
+
+            translate([right_cyl_x, 0, -1])
+                cylinder(h = stand_length + 2, r = bottom_cyl_radius, $fn = bottom_cyl_radius * 10);
         }
     }
 }

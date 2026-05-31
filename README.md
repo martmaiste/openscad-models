@@ -8,6 +8,13 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="RayFoil-Stand/RayFoil-Stand.png">
+    <img src="RayFoil-Stand/RayFoil-Stand.png" alt="RayFoil Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">RayFoil Stand</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Terrace-Bench/Terrace-Bench.png">
     <img src="Terrace-Bench/Terrace-Bench.png" alt="Terrace Bench" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
@@ -21,6 +28,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Kiteboard Handle Spacer</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="SUP-Nozzle/SUP-Nozzle.png">
     <img src="SUP-Nozzle/SUP-Nozzle.png" alt="SUP Nozzle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -28,8 +37,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">SUP Nozzle</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Headphone-Hook/Headphone-Hook.png">
     <img src="Headphone-Hook/Headphone-Hook.png" alt="Headphone Hook" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -44,6 +51,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Threaded Plug</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png">
     <img src="KT-SuperK2-120-Noserest/KT-SuperK2-120-Noserest.png" alt="KT SuperK2 120 Noserest" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -51,20 +60,11 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">KT SuperK2 120 Noserest</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Gustavsberg-Hydrant-Valve-Key/Gustavsberg-Hydrant-Valve-Key.png">
     <img src="Gustavsberg-Hydrant-Valve-Key/Gustavsberg-Hydrant-Valve-Key.png" alt="Gustavsberg Hydrant Valve Key" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Gustavsberg Hydrant Valve Key</div>
-</div>
-</td>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="RayFoil-Stand/RayFoil-Stand.png">
-    <img src="RayFoil-Stand/RayFoil-Stand.png" alt="RayFoil Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">RayFoil Stand</div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
