@@ -1,6 +1,6 @@
 # EasyDrive Battery Charger Wall Mount
 
-![EasyDrive Battery Charger Wall Mount Render](EasyDrive-Charger-Holder-Render.png)
+![EasyDrive Battery Charger Wall Mount Render](EasyDrive-Charger-Holder.png)
 
 A professional, fully parametric, high-performance wall mount for the **EasyDrive Battery Charger** designed in OpenSCAD.
 
