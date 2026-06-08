@@ -38,7 +38,7 @@ show_accessories = true;
 // Wall-to-wall width of the terrace (mm)
 total_width = 2720; // [2000:3500]
 // Total depth of the bench top (mm) (Increased to 860 to maintain backrest slope)
-total_depth = 850; // [750:1100]
+total_depth = 860; // [750:1100]
 // Depth of the sitting area (mm) (Fixed so pillows always fit regardless of total_depth)
 seat_depth = 620; // [500:800]
 // Thickness of the Ikea garden pillows (mm)
