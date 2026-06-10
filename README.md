@@ -8,10 +8,10 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="Pressure-Releaf-Plug-Socket">
-    <img src="Pressure-Releaf-Plug-Socket/Pressure-Releaf-Plug-Socket.png" alt="Pressure Releaf Plug Socket" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  <a href="Surfboard-Airvent-Socket">
+    <img src="Surfboard-Airvent-Socket/Surfboard-Airvent-Socket.png" alt="Surfboard Airvent Socket" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pressure Releaf Plug Socket</div>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Surfboard Airvent Socket</div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">

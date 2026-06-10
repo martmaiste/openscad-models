@@ -1,9 +1,9 @@
 // ============================================================================
-// Pressure-Releaf-Plug-Socket.scad
-// Version: v0.08
+// Surfboard-Airvent-Socket.scad
+// Version: v0.09
 // Date: 2026-06-10
 // Author: Zed Coding Agent
-// Description: Parametric 3D-printable socket tool for carbon-sandwich wing-foiling board pressure relief plug.
+// Description: Parametric 3D-printable socket tool for surfboard pressure relief plugs (hex airvent plugs).
 // Designed to be printed upright (handle-down) without any supports.
 // Features customizable handle styles (Rounded or Chamfered Cube) via Customizer.
 // ============================================================================

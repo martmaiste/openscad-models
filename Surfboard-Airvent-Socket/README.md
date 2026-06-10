@@ -1,19 +1,19 @@
-# Carbon Sandwich Wing-Foil Board Pressure Relief Plug Socket Tool
+# Surfboard Airvent Socket Tool
 
-A highly optimized, fully parametric OpenSCAD 3D-printable socket tool designed specifically for installing and removing 16mm hex-head pressure relief vent plugs in carbon sandwich wing-foiling or windsurfing boards.
+A highly optimized, fully parametric OpenSCAD 3D-printable socket tool designed for installing and removing hex-head pressure relief vent plugs in surfboards, windsurfing boards, stand-up paddleboards (SUPs), and wing-foil boards.
 
 ---
 
 ## Gallery
 
 ### 3D Model Render
-![OpenSCAD 3D Render of Chamfered Cube Style](Pressure-Releaf-Plug-Socket.png)
+![OpenSCAD 3D Render of Chamfered Cube Style](Surfboard-Airvent-Socket.png)
 
 ### 3D Printed Tool in Action
-![Printed Socket Tool sliding into Board Recess](Pressure-Releaf-Plug-Socket-1.jpg)
+![Printed Socket Tool sliding into Board Recess](Surfboard-Airvent-Socket-1.jpg)
 
 ### Socket Engagement Detail
-![Inside and Outside Chamfers of the Printed Socket Tool](Pressure-Releaf-Plug-Socket-2.jpg)
+![Inside and Outside Chamfers of the Printed Socket Tool](Surfboard-Airvent-Socket-2.jpg)
 
 ---
 
@@ -47,7 +47,7 @@ For maximum mechanical strength to withstand twisting forces without cracking:
 
 ## Customizer Variables
 
-Open `Pressure-Releaf-Plug-Socket.scad` in OpenSCAD and adjust these settings in the sidebar to match any custom board specs:
+Open `Surfboard-Airvent-Socket.scad` in OpenSCAD and adjust these settings in the sidebar to match any custom board specs:
 
 | Variable | Default | Description |
 | :--- | :--- | :--- |
