@@ -340,7 +340,7 @@ module rack_visualization() {
 
 // --- Main Assembly Control ---
 if (render_mode == "stand") {
-    color("DodgerBlue") stand_block();
+    stand_block();
 } else if (render_mode == "rack") {
     rack_visualization();
 } else if (render_mode == "both") {
