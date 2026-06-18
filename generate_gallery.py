@@ -125,11 +125,12 @@ def create_thumbnail_html(scad_files, base_dir):
     for scad_path in scad_files:
         rel_png = scad_path.with_suffix(".png").relative_to(base_dir)
         rel_scad = scad_path.relative_to(base_dir)
+        rel_dir = rel_scad.parent
         # Clean file name for display (remove .scad extension and replace dashes with spaces)
         clean_name = rel_scad.name.replace(".scad", "").replace("-", " ")
         html_content += f"""
         <div class="card">
-            <a href="{rel_png}" target="_blank">
+            <a href="{rel_dir}">
                 <img src="{rel_png}" loading="lazy" alt="{rel_scad}">
             </a>
             <div class="card-info">{clean_name}</div>
@@ -167,12 +168,13 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
                 scad_path = scad_files[i + j]
                 rel_png = scad_path.with_suffix(".png").relative_to(base_dir)
                 rel_scad = scad_path.relative_to(base_dir)
+                rel_dir = rel_scad.parent
                 clean_name = rel_scad.name.replace(".scad", "").replace("-", " ")
 
                 # Create the table cell content
                 cell_content = (
                     f'<div style="text-align: center; padding: 10px;">\n'
-                    f'  <a href="{rel_png}">\n'
+                    f'  <a href="{rel_dir}">\n'
                     f'    <img src="{rel_png}" alt="{clean_name}" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">\n'
                     f"  </a>\n"
                     f'  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">{clean_name}</div>\n'
