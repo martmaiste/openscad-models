@@ -2,7 +2,7 @@
 
 A high-precision, parametric OpenSCAD model of a protective cap designed to screw onto the protruding end of M6 mast-mounting bolts. This prevents the metal bolt tip from digging into and damaging the bottom of your wing-foil track box (US box) when tightening your foil.
 
-![Cross Section Preview](cross_section.png)
+![Cross Section Preview](Bolt-End-Cap.png)
 
 ## Features
 

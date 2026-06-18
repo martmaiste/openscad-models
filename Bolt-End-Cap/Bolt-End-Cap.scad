@@ -30,7 +30,7 @@ clearance = 0.25;        // [0:1]
 
 /* [Visualization] */
 // Set to true to see a 50% cutaway of the internal threads
-show_cross_section = false;
+show_cross_section = true;
 
 // ========================
 // COMPUTED VALUES
