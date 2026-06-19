@@ -8,10 +8,33 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="OSRAM-Nightlux-Stair-Mount">
+    <img src="OSRAM-Nightlux-Stair-Mount/OSRAM-Nightlux-Stair-Mount.png" alt="OSRAM Nightlux Stair Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">OSRAM Nightlux Stair Mount</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="OSRAM-Nightlux-Stair-Mount">
+    <img src="OSRAM-Nightlux-Stair-Mount/OSRAM-Nightlux-Stair-Mount-notches.png" alt="OSRAM Nightlux Stair Mount notches" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">OSRAM Nightlux Stair Mount notches</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Bolt-End-Cap">
     <img src="Bolt-End-Cap/Bolt-End-Cap.png" alt="Bolt End Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Bolt End Cap</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Makita-2xLXT-Carry-Handle">
+    <img src="Makita-2xLXT-Carry-Handle/Makita-2xLXT-Carry-Handle.png" alt="Makita 2xLXT Carry Handle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Makita 2xLXT Carry Handle</div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
