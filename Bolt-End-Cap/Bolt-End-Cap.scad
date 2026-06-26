@@ -16,7 +16,7 @@ outer_chamfer = 1.0;     // [0:2]
 
 /* [Thread Parameters] */
 // Nominal thread diameter (M6 = 6)
-thread_diameter = 6;     // [3:12]
+thread_diameter = 5;     // [3:12]
 // Thread pitch (M6 standard = 1.0)
 thread_pitch = 1.0;      // [0.5:2.5]
 // Depth of internal threads (3mm as requested)
@@ -30,7 +30,7 @@ clearance = 0.25;        // [0:1]
 
 /* [Visualization] */
 // Set to true to see a 50% cutaway of the internal threads
-show_cross_section = true;
+show_cross_section = false;
 
 // ========================
 // COMPUTED VALUES
