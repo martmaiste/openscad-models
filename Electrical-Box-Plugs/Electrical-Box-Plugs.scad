@@ -1,17 +1,18 @@
 // =================================================================================
 // Electrical-Box-Plugs.scad
 // Parametric Threaded Plugs and Nuts for Electrical Boxes to Close Empty Holes
-// Version: v0.10 (2026-06-28)
+// Version: v0.11 (2026-06-28)
 // License: Creative Commons - Attribution - ShareAlike
 // =================================================================================
 // Changelog:
+// - v0.11: Grouped profiles by name in a single multi-dimensional lookup array
+//   to keep all the dimensions of a single size together in one line. This replaces
+//   separate, hard-to-maintain ternary chains with a clean, searchable dataset.
 // - v0.10: Re-oriented both the plug and the nut to sit in their ideal 3D printing
-//   positions: plug is head-down, thread-up (huge print bed contact area); nut is
-//   flange-down, hex-up (perfect seal face flatness and zero overhangs). Both parts
+//   positions: plug is head-down, thread-up; nut is flange-down, hex-up. Both parts
 //   now print side-by-side with 100% stability and zero support material required.
 // - v0.09: Added smooth horizontal edge chamfering (beveling) for the top and bottom
-//   edges of the plug's hex head, and the outer hexagonal edge of the nut. This
-//   removes all sharp edge lips and replicates professional, high-end hex fasteners.
+//   edges of the plug's hex head, and the outer hexagonal edge of the nut.
 // - v0.08: Added corner rounding for the hexagon heads (both plug and nut).
 //   This is done via a highly efficient 2D hull helper module that maintains exact
 //   flat-to-flat sizing so standard wrenches still fit, while making corners smooth.
@@ -29,7 +30,7 @@
 //   gasket/seal retention recess is fully optional (toggled via Customizer).
 // - v0.03: Upgraded the thread generator to a 360-degree polar-wedge profile.
 //   This eliminates the flat bottom valley, producing adjacent, continuous
-//   triangular ridges (shape) that perfectly match PG and Metric fittings.
+//   triangular ridges (sawtooth shape) that perfectly match PG and Metric fittings.
 // - v0.02: Replaced the 2D Cartesian thread profile with a mathematically perfect
 //   polar-wedge profile to solve the "hair-thin" thread thickness bug.
 // - v0.01: Initial parametric implementation.
@@ -102,57 +103,31 @@ circle_fn = 60; // [36, 45, 60, 90, 120]
 // PROFILE LOOKUP TABLE
 // =================================================================================
 
-od =
-    (size_profile == "M12") ? 12.0 :
-    (size_profile == "M16") ? 16.0 :
-    (size_profile == "M20") ? 20.0 :
-    (size_profile == "M25") ? 25.0 :
-    (size_profile == "M32") ? 32.0 :
-    (size_profile == "PG7") ? 12.5 :
-    (size_profile == "PG9") ? 15.2 :
-    (size_profile == "PG11") ? 18.6 :
-    (size_profile == "PG13.5") ? 20.4 :
-    (size_profile == "PG16") ? 22.5 :
-    (size_profile == "PG21") ? 28.3 : custom_od;
+// Profiles are grouped by name to keep all dimensions of a single size together.
+// Format: [ Name, Thread_OD, Pitch, Flange_Diameter, Wrench_Hex_Size ]
+profiles = [
+    [ "M12",     12.0, 1.5,   16.0,     14.0 ],
+    [ "M16",     16.0, 1.5,   20.0,     18.0 ],
+    [ "M20",     20.0, 1.5,   25.0,     22.0 ],
+    [ "M25",     25.0, 1.5,   30.0,     27.0 ],
+    [ "M32",     32.0, 1.5,   38.0,     34.0 ],
+    [ "PG7",     12.5, 1.27,  16.0,     14.0 ],
+    [ "PG9",     15.2, 1.411, 19.0,     17.0 ],
+    [ "PG11",    18.6, 1.411, 23.0,     20.0 ],
+    [ "PG13.5",  20.4, 1.411, 25.0,     22.0 ],
+    [ "PG16",    22.5, 1.411, 27.0,     24.0 ],
+    [ "PG21",    28.3, 1.588, 34.0,     30.0 ]
+];
 
-pitch =
-    (size_profile == "M12") ? 1.5 :
-    (size_profile == "M16") ? 1.5 :
-    (size_profile == "M20") ? 1.5 :
-    (size_profile == "M25") ? 1.5 :
-    (size_profile == "M32") ? 1.5 :
-    (size_profile == "PG7") ? 1.27 :
-    (size_profile == "PG9") ? 1.411 :
-    (size_profile == "PG11") ? 1.411 :
-    (size_profile == "PG13.5") ? 1.411 :
-    (size_profile == "PG16") ? 1.411 :
-    (size_profile == "PG21") ? 1.588 : custom_pitch;
+// Look up selected profile index
+profile_indices = search([size_profile], profiles);
+profile_idx = (len(profile_indices) > 0) ? profile_indices[0] : -1;
 
-flange_d =
-    (size_profile == "M12") ? 16.0 :
-    (size_profile == "M16") ? 20.0 :
-    (size_profile == "M20") ? 25.0 :
-    (size_profile == "M25") ? 30.0 :
-    (size_profile == "M32") ? 38.0 :
-    (size_profile == "PG7") ? 16.0 :
-    (size_profile == "PG9") ? 19.0 :
-    (size_profile == "PG11") ? 23.0 :
-    (size_profile == "PG13.5") ? 25.0 :
-    (size_profile == "PG16") ? 27.0 :
-    (size_profile == "PG21") ? 34.0 : custom_flange_d;
-
-hex_w =
-    (size_profile == "M12") ? 14.0 :
-    (size_profile == "M16") ? 18.0 :
-    (size_profile == "M20") ? 22.0 :
-    (size_profile == "M25") ? 27.0 :
-    (size_profile == "M32") ? 34.0 :
-    (size_profile == "PG7") ? 14.0 :
-    (size_profile == "PG9") ? 17.0 :
-    (size_profile == "PG11") ? 20.0 :
-    (size_profile == "PG13.5") ? 22.0 :
-    (size_profile == "PG16") ? 24.0 :
-    (size_profile == "PG21") ? 30.0 : custom_hex_w;
+// Extract dimensions (fallback to Custom values if "Custom" or not found)
+od = (profile_idx >= 0) ? profiles[profile_idx][1] : custom_od;
+pitch = (profile_idx >= 0) ? profiles[profile_idx][2] : custom_pitch;
+flange_d = (profile_idx >= 0) ? profiles[profile_idx][3] : custom_flange_d;
+hex_w = (profile_idx >= 0) ? profiles[profile_idx][4] : custom_hex_w;
 
 
 // =================================================================================
