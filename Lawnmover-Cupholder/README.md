@@ -1,6 +1,6 @@
 # Lawnmover-Cupholder
 
-A **parametric, heavy-duty utility and cup holder** designed in OpenSCAD to clamp securely onto horizontal metal bars or pipes (such as on lawnmowers, strollers, or workshop equipment). It is engineered for durability, vibration resistance, and clean, support-free 3D printing.
+A **parametric utility and cup holder** designed in OpenSCAD to clamp securely onto horizontal metal bars or pipes (such as on lawnmowers, strollers, or workshop equipment). It is engineered for durability, vibration resistance, and clean 3D printing.
 
 ---
 
@@ -23,10 +23,8 @@ Here is the printed cupholder mounted on the handle bar of a Makita battery-powe
 ## ✨ Features
 
 - 🔧 **Fully Parametric Design:** Easily customize the cup diameter, cup height, mounting bar/pipe diameter, wall thicknesses, and bolt dimensions within OpenSCAD's Customizer.
-- 💪 **Heavy-Duty Construction:** Features integrated top and bottom **structural reinforcement gussets (wedges)** on the clamp body to prevent fatigue and bending from heavy lawnmower vibrations.
-- 🚫 **100% Support-Free Printing:** 
-  - Designed from the ground up to print cleanly without any slicer-generated supports.
-  - The counterbored bolt holes on the clamp cap feature a **0.25mm sacrificial membrane**. This allows the cap to print completely flat on its back and bridge beautifully. After printing, simply poke through the thin layer with a screwdriver or bolt!
+- 💪 **Structural Reinforcement:** Features integrated top and bottom **reinforcement gussets (wedges)** on the clamp body to prevent fatigue and bending from lawnmower vibrations.
+- ⚙️ **Sacrificial Membrane Design:** The counterbored bolt holes on the clamp cap feature a **0.25mm sacrificial membrane**. This allows the cap to print flat on its back and bridge beautifully, avoiding the need for complex internal supports. After printing, simply poke through the thin layer with a screwdriver or bolt!
 - 🕳️ **Dual-Chamfered Drain Hole:** A large 40mm drain hole at the bottom prevents water, wet grass, and dirt from pooling, while the chamfers keep edges smooth and make it easy to push tight-fitting bottles back up.
 - 🔩 **Integrated Hardware Capture:** Includes captive hex nut slots on the inside of the cup wall and matching recess pockets for bolt heads on the clamp cap, keeping all hardware flush and neat.
 
@@ -48,7 +46,7 @@ To ensure the cupholder withstands outdoor elements and high mechanical stress:
 - **Material:** **PETG, ASA, or ABS** is highly recommended. *Avoid PLA*, as it will warp and lose clamping force when exposed to direct sunlight or warm weather.
 - **Perimeters / Walls:** **4 or more** (critical for the structural integrity of the clamping ears and threads/nuts).
 - **Infill:** **30% to 50%** (using **Gyroid** or **Grid** patterns for maximum three-dimensional rigidity).
-- **Supports:** **None needed!** Just slice and print the model as oriented in `"print"` mode.
+- **Supports:** The parts are pre-oriented in `"print"` mode to minimize the need for supports.
 
 ---
 
