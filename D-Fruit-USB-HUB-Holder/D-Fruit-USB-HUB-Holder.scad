@@ -1,15 +1,14 @@
 // =================================================================================================
 // Title:       Vertical D-Fruit USB HUB Holder / Wall Mount
 // File Name:   D-Fruit-USB-HUB-Holder.scad
-// Version:     v0.12 (2026-07-10)
+// Version:     v0.15 (2026-07-10)
 // License:     Creative Commons - Attribution - ShareAlike
 // Description: A fully parametric, two-part vertical wall mount for the D-Fruit USB Hub.
 //              Optimized with a completely hidden screw mount design (no external ears/tabs).
 //              Features a seamless outer profile with flat sides and rounded front.
-//              Uses an elegant dual-shelf design at the bottom to hold the hub.
-//              Flips the top part upside-down in print renders so the chamfered opening
-//              prints at the top, offering perfect bed adhesion and clean, support-free overhangs.
-//              Pre-configures the camera to display the front-face of the assembly fully on load.
+//              Both parts have the exact same outer width and depth for perfect vertical
+//              alignment. Uses a single tight clearance for both parts but adds a dedicated
+//              additional thickness clearance for the top part to allow tilting during insertion.
 // =================================================================================================
 
 // Special OpenSCAD camera viewport parameters to instantly show the front side of the mount
@@ -37,10 +36,10 @@ hub_length = 145.0;
 profile_type = "curved_lens"; // [curved_lens: Curved Lens (50mm Radius Face), rounded_rectangle: Rounded Rectangle, capsule: Full Oval/Capsule]
 
 /* [Fit Clearances] */
-// Tolerance around the hub in the bottom part (in mm, for a snug rest)
+// Snug tolerance around the hub for both parts (in mm, for a secure fit with no wobble)
 clearance_bottom = 0.3;
-// Tolerance around the hub in the top part (in mm, slightly larger to allow easy insertion/tilting)
-clearance_top = 0.8;
+// Additional thickness (front-to-back Y-axis) clearance for the upper part to allow tilting when sliding in (in mm)
+top_thickness_clearance_add = 0.9;
 
 /* [Bottom Part Options] */
 // Depth of the bottom pocket holding the hub (in mm)
@@ -81,10 +80,10 @@ $fn = 64;
 // 2D Profile Generation
 // =================================================================================================
 
-// Generates the 2D cross section of the hub with an optional clearance offset
-module hub_shape(clearance) {
-    w = hub_width + clearance;
-    t = hub_thickness + clearance;
+// Generates the 2D cross section of the hub with separate width and thickness clearance offsets
+module hub_shape(clearance_w, clearance_t) {
+    w = hub_width + clearance_w;
+    t = hub_thickness + clearance_t;
 
     if (profile_type == "rounded_rectangle") {
         // Standard rounded rectangle
@@ -105,7 +104,7 @@ module hub_shape(clearance) {
         }
     } else if (profile_type == "curved_lens") {
         // Curved lens shape (50mm radius face + rounded ends)
-        R = hub_face_radius + clearance / 2;
+        R = hub_face_radius + clearance_t / 2;
         r_val = hub_corner_radius;
         r = max(0.1, min(r_val, t / 2 - 0.1, w / 2 - 0.1));
 
@@ -130,19 +129,19 @@ module hub_shape(clearance) {
 }
 
 // Generates the 2D cross section of the outer shell (walls)
-module shell_shape(clearance, wall_thickness) {
-    offset(r = wall_thickness) hub_shape(clearance);
+module shell_shape(clearance_w, clearance_t, wall_thickness) {
+    offset(r = wall_thickness) hub_shape(clearance_w, clearance_t);
 }
 
 // Generates a seamless, monolithic outer 2D profile for the holder body.
 // Uses a 2D hull to bridge the flat back wall and the rounded front sleeve,
 // ensuring perfectly flat, smooth sides with no grooves or notches.
-module outer_body_shape(clearance, shell_wall, back_wall, y_wall) {
-    back_width = hub_width + clearance + 2 * shell_wall;
+module outer_body_shape(clearance_w, clearance_t, shell_wall, back_wall, y_wall) {
+    back_width = hub_width + clearance_w + 2 * shell_wall;
 
     hull() {
         // 1. Rounded front sleeve outer profile
-        shell_shape(clearance, shell_wall);
+        shell_shape(clearance_w, clearance_t, shell_wall);
 
         // 2. Flat back line representing the wall mounting face
         translate([-back_width/2, y_wall]) {
@@ -190,20 +189,20 @@ module screw_hole(plate_thickness) {
 // =================================================================================================
 
 module bottom_part() {
-    // Coordinate offsets and dimensions
+    // Coordinate offsets and dimensions (both parts use bottom clearance as master for outer sizing)
     y_wall = -hub_thickness/2 - clearance_bottom/2 - back_wall_thickness;
     total_height = bottom_depth + bottom_wall_thickness;
 
     difference() {
         // 1. Extrude the seamless 2D outer shape (flat back/sides, rounded front)
         linear_extrude(height = total_height) {
-            outer_body_shape(clearance_bottom, shell_wall_thickness, back_wall_thickness, y_wall);
+            outer_body_shape(clearance_bottom, clearance_bottom, shell_wall_thickness, back_wall_thickness, y_wall);
         }
 
         // 2. Inner pocket for the hub
         translate([0, 0, bottom_wall_thickness]) {
             linear_extrude(height = bottom_depth + 1) {
-                hub_shape(clearance_bottom);
+                hub_shape(clearance_bottom, clearance_bottom);
             }
         }
 
@@ -238,25 +237,28 @@ module bottom_part() {
 // =================================================================================================
 
 module top_part() {
-    // Coordinate offsets and dimensions
-    y_wall = -hub_thickness/2 - clearance_top/2 - back_wall_thickness;
+    // Coordinate offsets and dimensions (both parts use bottom clearance as master for outer sizing)
+    y_wall = -hub_thickness/2 - clearance_bottom/2 - back_wall_thickness;
 
-    // Front wall of the outer shell coordinate
-    y_front_outer = hub_thickness/2 + clearance_top/2 + shell_wall_thickness;
+    // Front wall of the outer shell coordinate (based on bottom master size for alignment)
+    y_front_outer = hub_thickness/2 + clearance_bottom/2 + shell_wall_thickness;
 
     // Access hole diameter (slightly larger than screw head for screwdriver clearance)
     access_hole_dia = screw_head_diameter + 1.2;
 
+    // Back wall thickness at the center of the top part pocket (accounting for additional thickness clearance)
+    back_wall_thickness_top = -hub_thickness/2 - (clearance_bottom + top_thickness_clearance_add)/2 - y_wall;
+
     difference() {
-        // 1. Extrude the seamless 2D outer shape (flat back/sides, rounded front)
+        // 1. Extrude the seamless 2D outer shape based on bottom clearance for perfect width/depth alignment
         linear_extrude(height = top_height) {
-            outer_body_shape(clearance_top, shell_wall_thickness, back_wall_thickness, y_wall);
+            outer_body_shape(clearance_bottom, clearance_bottom, shell_wall_thickness, back_wall_thickness, y_wall);
         }
 
-        // 2. Through-hole for sliding the hub in
+        // 2. Through-hole for sliding the hub in (uses same width clearance but larger thickness clearance)
         translate([0, 0, -1]) {
             linear_extrude(height = top_height + 2) {
-                hub_shape(clearance_top);
+                hub_shape(clearance_bottom, clearance_bottom + top_thickness_clearance_add);
             }
         }
 
@@ -265,12 +267,12 @@ module top_part() {
             hull() {
                 translate([0, 0, -0.01]) {
                     linear_extrude(height = 0.01) {
-                        hub_shape(clearance_top + 2 * top_entry_flare);
+                        hub_shape(clearance_bottom, clearance_bottom + top_thickness_clearance_add + 2 * top_entry_flare);
                     }
                 }
                 translate([0, 0, top_entry_flare]) {
                     linear_extrude(height = 0.01) {
-                        hub_shape(clearance_top);
+                        hub_shape(clearance_bottom, clearance_bottom + top_thickness_clearance_add);
                     }
                 }
             }
@@ -279,7 +281,7 @@ module top_part() {
         // 4. Hidden screw hole inside the back wall of the collar
         // Placed centered vertically on the collar
         translate([0, y_wall, top_height / 2]) {
-            screw_hole(back_wall_thickness);
+            screw_hole(back_wall_thickness_top);
         }
 
         // 5. Front access hole coaxial with the screw hole
@@ -302,7 +304,7 @@ module usb_hub_preview() {
     color([0.65, 0.70, 0.75, 0.6]) {
         translate([0, 0, bottom_wall_thickness]) {
             linear_extrude(height = hub_length) {
-                hub_shape(0);
+                hub_shape(0, 0);
             }
         }
     }
@@ -352,7 +354,7 @@ if (part == "bottom") {
     }
 } else if (part == "both") {
     // Print layout: lay both parts side-by-side flat on the print bed
-    spacing = hub_width + clearance_top + 2 * shell_wall_thickness + 15;
+    spacing = hub_width + clearance_bottom + 2 * shell_wall_thickness + 15;
 
     // Bottom Cup sits flat in normal orientation
     translate([-spacing/2, 0, 0]) {
@@ -370,10 +372,10 @@ if (part == "bottom") {
     // Bottom part sits at the origin (z = 0)
     bottom_part();
 
-    // Top part sits near the top of the hub, aligned flush to the back wall (not flipped in preview)
+    // Top part sits near the top of the hub, aligned flush to the back wall
+    // Since both parts now share the exact same outer dimensions, they align vertically on the wall naturally
     top_z = bottom_wall_thickness + hub_length - top_height;
-    y_shift = (clearance_top - clearance_bottom) / 2;
-    translate([0, y_shift, top_z]) {
+    translate([0, 0, top_z]) {
         top_part();
     }
 
