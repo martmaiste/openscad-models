@@ -4,7 +4,7 @@ A highly refined, fully parametric, and customizer-friendly vertical wall mount 
 
 This sleek holder consists of two distinct, minimalist parts that securely cradle the hub's symmetrical curved $15.8 \times 8.4\text{ mm}$ aluminum profile while completely hiding all mounting screws behind the device.
 
-![D-Fruit USB HUB Wall Mount Preview](preview.png)
+![D-Fruit USB HUB Wall Mount Preview](D-Fruit-USB-HUB-Holder.png)
 
 ---
 
