@@ -142,7 +142,6 @@ if (mode == "assembly") {
 
 // --- MAIN CUP WITH INTEGRATED CLAMP BODY ---
 module cup() {
-    color([0.2, 0.6, 0.8]) {
         difference() {
             union() {
                 // Main Cup Shell
@@ -256,12 +255,10 @@ module cup() {
                 rotate([0, 90, 0])
                     cylinder(h = nut_thickness + 0.2, r = nut_flat_width / sqrt(3), $fn = 6, center = true);
         }
-    }
 }
 
 // --- CLAMP CAP IN ASSEMBLY COORDINATES ---
 module clamp_cap() {
-    color([1.0, 0.4, 0.2]) {
         X_start = X_split + clamp_gap / 2;
         X_end = X_split + r_pipe + wall_thickness + 2.0; // solid cap width
 
@@ -344,7 +341,6 @@ module clamp_cap() {
                         cube([L_val, C_val, C_val], center = true);
             }
         }
-    }
 }
 
 // --- PRINT-READY CLAMP CAP (Laid flat on bed, no support needed) ---
