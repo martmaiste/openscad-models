@@ -116,12 +116,10 @@ if (mode == "assembly") {
     cup();
     clamp_cap();
 
-    // Translucent reference metal pipe
-    color([0.7, 0.7, 0.7, 0.4]) {
-        translate([X_split, 0, clamp_z_offset])
-            rotate([90, 0, 0])
-                cylinder(h = clamp_width * 2, r = r_pipe, center = true);
-    }
+    // Reference metal pipe
+    translate([X_split, 0, clamp_z_offset])
+        rotate([90, 0, 0])
+            cylinder(h = clamp_width * 2, r = r_pipe, center = true);
 } else if (mode == "cup") {
     // Render only the cup (ready to print upright)
     cup();
