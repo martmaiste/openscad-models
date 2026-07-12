@@ -77,7 +77,7 @@ skadis_grid_y = 40.0;
 num_holes_x = 4; // [1:1:6]
 
 // Number of vertical screw holes.
-num_holes_y = 1; // [1:1:4]
+num_holes_y = 2; // [1:1:4]
 
 // Diameter of the mounting screw/bolt shaft (mm). 4.5mm or 5.0mm works well for M4/M5 on Skadis.
 screw_hole_diameter = 4.5; // [3.0:0.1:6.0]
@@ -92,6 +92,11 @@ screw_recess_depth = 2.0; // [0.0:0.5:8.0]
 /* [Rendering Parameters] */
 // Smoothness factor for curves ($fn). Higher is smoother but slower to render.
 render_smoothness = 80; // [20:10:150]
+
+// Default camera view for thumbnails (shows the front side)
+$vpr = [60, 0, 225];
+$vpt = [0, 25, 25];
+$vpd = 600;
 
 // ==============================================================================
 // CALCULATIONS & VALS (DO NOT CHANGE)
