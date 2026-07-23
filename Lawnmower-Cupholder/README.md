@@ -1,4 +1,4 @@
-# Lawnmover-Cupholder
+# Lawnmower-Cupholder
 
 A **parametric utility and cup holder** designed in OpenSCAD to clamp securely onto horizontal metal bars or pipes (such as on lawnmowers, strollers, or workshop equipment). It is engineered for durability, vibration resistance, and clean 3D printing.
 
@@ -9,14 +9,14 @@ A **parametric utility and cup holder** designed in OpenSCAD to clamp securely o
 ### 3D Render
 The project features a two-part clamping system: the main cup body with an integrated clamp side (blue) and the clamp cap (orange). Both are oriented for optimal print bed contact.
 
-![OpenSCAD 3D Render](Lawnmover-Cupholder.png)
+![OpenSCAD 3D Render](Lawnmower-Cupholder.png)
 
 ### Real-Life Application
 Here is the printed cupholder mounted on the handle bar of a Makita battery-powered lawnmower, showing its exceptionally solid grip and ability to hold utility canisters (like ant repellent or shaker bottles):
 
 | Clamped to Handle Bar | With Utility Canister |
 | :---: | :---: |
-| ![Lawnmower Cupholder Mounted](Lawnmover-Cupholder-1.jpg) | ![Lawnmower Cupholder with Bottle](Lawnmover-Cupholder-2.jpg) |
+| ![Lawnmower Cupholder Mounted](Lawnmower-Cupholder-1.jpg) | ![Lawnmower Cupholder with Bottle](Lawnmower-Cupholder-2.jpg) |
 
 ---
 
@@ -52,7 +52,7 @@ To ensure the cupholder withstands outdoor elements and high mechanical stress:
 
 ## 🛠️ How to Customize
 
-1. Open `Lawnmover-Cupholder.scad` in [OpenSCAD](https://openscad.org/).
+1. Open `Lawnmower-Cupholder.scad` in [OpenSCAD](https://openscad.org/).
 2. Adjust the parameters in the **Customizer Panel** on the right:
    - **`cup_diameter`**: Set to match your bottle/can (default is `77.0` mm, which perfectly fits utility bottles and large tumblers).
    - **`pipe_diameter`**: Adjust to match your equipment handle diameter (default is `19.0` mm).

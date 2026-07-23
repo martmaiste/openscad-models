@@ -1,4 +1,4 @@
-// Lawnmover-Cupholder v0.12
+// Lawnmower-Cupholder v0.12
 // Parametric, heavy-duty lawnmower cupholder designed to clamp onto a horizontal metal pipe.
 //
 // Recommended Print Settings:
@@ -7,7 +7,7 @@
 // - Infill: 30% to 50% (Gyroid or Grid for structural strength)
 // - Support: None needed! Designed to print completely support-free in "print" mode.
 //
-// Filename: Lawnmover-Cupholder.scad (templated from directory name)
+// Filename: Lawnmower-Cupholder.scad (templated from directory name)
 
 /* [General Cup Dimensions] */
 // Inner diameter of the cup holder cavity (matches your bottle/cup diameter, e.g., 77.0 for ant repellent bottle)
