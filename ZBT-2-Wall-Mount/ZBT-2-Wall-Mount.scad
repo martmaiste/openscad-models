@@ -1,8 +1,9 @@
 //====================================================================
 // Home Assistant ZBT-2 Zigbee/Matter Device Wall Mount
 // File: ZBT-2-Wall-Mount.scad
-// Version: v0.11 (Reinforced Bottom Shelf Thickness to 4.0mm)
+// Version: v0.14 (Updated for 4mm Screw / 8mm Head Keyhole slots)
 // Date: 2026-07-06
+// License: MIT
 // Description: A sleek, parametric wall-mount bracket for the Home Assistant
 //              Connect ZBT-2 device, featuring its 83x83mm square base,
 //              160mm antenna, and a smooth 23mm fillet transition.
@@ -11,6 +12,9 @@
 //              Device has 1mm high feet on bottom and flat-topped antenna.
 //              Bottom slot is 26mm and bottom hole is 71mm to allow flat-base resting.
 //              Bottom shelf is reinforced with a 4.0mm thickness.
+//              Back wall has keyhole hangers spaced 60mm apart for removable mounting.
+//              Side USB-C slots are adjusted to 11mm center and 10mm height for dual-orientation support.
+//              Keyholes are updated for 4mm screw shafts with 8mm diameter, 3mm thick flat heads, and the high-back wall is thickened to 4.5mm.
 //              Bottom slot is widened to 26mm to support upside-down mounting.
 //====================================================================
 
@@ -58,17 +62,19 @@ bottom_slot_width = 26.0;
 // Enable USB-C socket cutouts on the side walls
 enable_side_usbc_cutouts = true;
 // Height of the USB-C socket center from the base bottom (mm)
-usbc_center_z = 10.0;
+usbc_center_z = 11.0;
 // Width of the USB-C cable connector cutout (along Y-axis) (mm)
 usbc_cutout_width = 14.0;
 // Height of the USB-C cable connector cutout (along Z-axis) (mm)
-usbc_cutout_height = 8.0;
+usbc_cutout_height = 10.0;
 
 /* [Mounting Options] */
 // Type of mounting bracket ears
 mount_style = "high_back"; // [high_back:High Back Wall (Very Strong), ears_sides:Side Mounting Tabs, ears_top_bottom:Top & Bottom Mounting Tabs, flat:Flat Back (for Double-sided Tape)]
+// Screw hole style for the high_back mounting option
+high_back_hole_type = "keyhole"; // [keyhole:Keyhole Hanger (Removable), countersink:Standard Countersunk Screws]
 // Horizontal spacing of back wall screw holes (mm)
-back_screw_spacing = 50.0;
+back_screw_spacing = 60.0;
 // Thickness of the mounting tabs (mm)
 tab_thickness = 2.4;
 // Width/diameter of the mounting tabs (mm)
@@ -145,20 +151,19 @@ module transition_fillet(r_ant, r_fill, steps=24) {
 }
 
 // Outer profile of the bracket 2D shape (flat back, rounded front)
-module bracket_outer_profile() {
+module bracket_outer_profile(wt = wall_thickness, back_wt = wall_thickness) {
     w = base_width;
     t = base_length;
     tol = fit_tolerance;
-    wt = wall_thickness;
     r = base_corner_radius;
 
     ow = w + 2*tol + 2*wt;
     ot = t + 2*tol + 2*wt;
 
     hull() {
-        // Flat back plate
-        translate([-ow/2, -(t/2 + tol + wt)])
-            square([ow, wt]);
+        // Flat back plate (with back_wt thickness)
+        translate([-ow/2, -(t/2 + tol + back_wt)])
+            square([ow, back_wt]);
 
         // Front rounded profile (matches the rounded square with added wall thickness)
         rounded_rect_profile(ow, ot, r + wt + tol);
@@ -246,7 +251,10 @@ module bracket() {
 
     ow = w + 2*tol + 2*wt;
     ot = t + 2*tol + 2*wt;
-    y_back = -(t/2 + tol + wt);
+
+    // Determine the back wall thickness (thickened to 4.5mm for high_back to house the 3mm deep screw head recess)
+    back_wt = (mount_style == "high_back") ? 4.5 : wt;
+    y_back = -(t/2 + tol + back_wt);
 
     // Determine the height of the back wall (twice as high for high_back style)
     back_wall_height = (mount_style == "high_back") ? (2 * bracket_height) : bracket_height;
@@ -255,7 +263,7 @@ module bracket() {
         // 1. Main solid outer body of the bracket
         translate([0, 0, -bottom_shelf_thickness])
             linear_extrude(height = back_wall_height + bottom_shelf_thickness)
-                bracket_outer_profile();
+                bracket_outer_profile(wt, back_wt);
 
         // 2. Inner pocket cavity for the device base to slide in
         // (we extrude it all the way up to back_wall_height + 1.0 to ensure a clean cutout)
@@ -272,7 +280,7 @@ module bracket() {
             cube([bottom_slot_width, 100.0, bottom_shelf_thickness + 0.2]);
 
         // 5. Front U-slot cutout to clear the antenna & curved fillet transition (open top)
-        translate([-front_cutout_width/2, 0, -0.1])
+        translate([-front_cutout_width/2, 0, 0])
             cube([front_cutout_width, 100.0, back_wall_height + 1.0]);
 
         // 6. Side USB-C socket cutouts (left and right walls, centered at usbc_center_z)
@@ -298,16 +306,68 @@ module bracket() {
 
         // 8. Subtract screw holes in the extended back wall if "high_back" is selected
         if (mount_style == "high_back") {
-            z_screw = bracket_height + (back_wall_height - bracket_height) / 2;
+            z_seated = bracket_height + (back_wall_height - bracket_height) / 2;
 
-            // Two spaced screw holes
-            translate([-back_screw_spacing/2, y_back, z_screw])
-                rotate([-90, 0, 0])
-                    countersunk_hole(screw_diameter, screw_head_diameter, screw_head_depth, wt);
+            if (high_back_hole_type == "countersink") {
+                // Two standard spaced countersunk screw holes
+                translate([-back_screw_spacing/2, y_back, z_seated])
+                    rotate([-90, 0, 0])
+                        countersunk_hole(screw_diameter, screw_head_diameter, screw_head_depth, back_wt);
 
-            translate([back_screw_spacing/2, y_back, z_screw])
-                rotate([-90, 0, 0])
-                    countersunk_hole(screw_diameter, screw_head_diameter, screw_head_depth, wt);
+                translate([back_screw_spacing/2, y_back, z_seated])
+                    rotate([-90, 0, 0])
+                        countersunk_hole(screw_diameter, screw_head_diameter, screw_head_depth, back_wt);
+            } else if (high_back_hole_type == "keyhole") {
+                // Keyhole slots spaced 60mm apart (optimized for 4mm screw shafts and 8mm flat screw heads, 3mm thick)
+                slot_len = 8.0;
+                z_entry = z_seated - slot_len/2; // center the slide vertical travel on the plate
+
+                // Clearance tolerances added for 3D printing accuracy
+                shaft_d = 4.4;   // 4.0mm shaft + 0.4mm clearance
+                head_d = 8.8;    // 8.0mm head + 0.8mm clearance
+                head_h = 3.2;    // 3.2mm deep recess inside the 4.5mm back wall (leaves 1.3mm solid holding tab)
+                recess_w = head_d + 0.8; // 9.6mm wide clearance track
+
+                // Left keyhole
+                // entry hole (bottom)
+                translate([-back_screw_spacing/2, y_back - 0.1, z_entry])
+                    rotate([-90, 0, 0])
+                        cylinder(d = head_d, h = back_wt + 0.2, $fn = 32);
+                // shaft slot (vertical body)
+                translate([-back_screw_spacing/2 - shaft_d/2, y_back - 0.1, z_entry])
+                    cube([shaft_d, back_wt + 0.2, slot_len]);
+                // rounded slot top
+                translate([-back_screw_spacing/2, y_back - 0.1, z_entry + slot_len])
+                    rotate([-90, 0, 0])
+                        cylinder(d = shaft_d, h = back_wt + 0.2, $fn = 32);
+                // head recess track (on the front/pocket-facing side of the back wall)
+                translate([-back_screw_spacing/2 - recess_w/2, y_back + back_wt - head_h, z_entry])
+                    cube([recess_w, head_h + 0.1, slot_len]);
+                // rounded recess top
+                translate([-back_screw_spacing/2, y_back + back_wt - head_h, z_entry + slot_len])
+                    rotate([-90, 0, 0])
+                        cylinder(d = recess_w, h = head_h + 0.1, $fn = 32);
+
+                // Right keyhole
+                // entry hole (bottom)
+                translate([back_screw_spacing/2, y_back - 0.1, z_entry])
+                    rotate([-90, 0, 0])
+                        cylinder(d = head_d, h = back_wt + 0.2, $fn = 32);
+                // shaft slot (vertical body)
+                translate([back_screw_spacing/2 - shaft_d/2, y_back - 0.1, z_entry])
+                    cube([shaft_d, back_wt + 0.2, slot_len]);
+                // rounded slot top
+                translate([back_screw_spacing/2, y_back - 0.1, z_entry + slot_len])
+                    rotate([-90, 0, 0])
+                        cylinder(d = shaft_d, h = back_wt + 0.2, $fn = 32);
+                // head recess track (on the front/pocket-facing side of the back wall)
+                translate([back_screw_spacing/2 - recess_w/2, y_back + back_wt - head_h, z_entry])
+                    cube([recess_w, head_h + 0.1, slot_len]);
+                // rounded recess top
+                translate([back_screw_spacing/2, y_back + back_wt - head_h, z_entry + slot_len])
+                    rotate([-90, 0, 0])
+                        cylinder(d = recess_w, h = head_h + 0.1, $fn = 32);
+            }
         }
     }
 

@@ -20,14 +20,18 @@ The model is designed around the official physical dimensions of the Connect ZBT
 ## Wall Bracket Features
 
 - **High-Back Wall Mounting (Recommended/Default)**:
-  - Extends the back plate to **twice the pocket height** ($32$ mm).
-  - Houses **two spaced countersunk screw holes** ($50$ mm spacing) directly in this back plate above the device pocket.
+  - Extends the back plate to **twice the pocket height** ($36$ mm) and thickens it to **$4.5$ mm** vertically. This provides plenty of physical solid material to house the deep head-clearance recesses, while leaving a robust $1.3$ mm solid wall to support the bracket and device.
+  - Houses **two spaced keyhole slots** spaced exactly **$60$ mm apart** directly in this back plate above the device pocket.
   - Slices the side and front walls diagonally, forming **triangular structural bracing gussets** that resist pulling forces while keeping screw installation 100% accessible to any screwdriver or drill from the front.
+  - Sized and optimized out-of-the-box for standard **$4$ mm screw shafts with $8$ mm flat heads ($3$ mm thick)**. The slot includes a circular entry hole ($8.8$ mm), a vertical sliding channel ($4.4$ mm), and a flat-head clearance recess ($9.6$ mm wide, $3.2$ mm deep) on the pocket-facing side. This allows you to mount/remove the bracket on wall screws cleanly, keeping the pocket interior perfectly flush so the screw heads never scratch or press against your ZBT-2 device base!
 - **Front-Loading U-Slot**:
   - Features a **$74$ mm wide front cutout** that clears the $70$ mm diameter curved fillet transition.
   - Allows the device to slide vertically into the bracket from above, leaving the antenna completely unhindered while keeping the base locked in place securely on all sides with a solid $4.75$ mm lip.
 - **Dual Side USB-C Ports**:
-  - Features custom rounded-rectangle cutout clearance holes ($14 \times 8$ mm) on both the left and right side walls, centered exactly **$10$ mm from the bottom shelf**.
+  - Features custom rounded-rectangle cutout clearance holes ($14 \times 10$ mm) on both the left and right side walls, centered exactly at **$11$ mm from the bottom shelf**.
+  - Specifically optimized to support both standard and upside-down configurations:
+    - **Right Side Up Mounting**: The $1$ mm silicone feet lift the base, placing the physical port center exactly at $z = 11$ mm (perfect, symmetrical alignment).
+    - **Upside Down Mounting**: Slipped upside down, the flat base rests directly on the shelf, placing the physical port center at $z = 10$ mm. With the slot height increased to $10$ mm (spanning $z = [6, 16]$ mm), any standard USB-C cable plugs in with comfortable vertical clearance!
   - Allows you to easily plug in a USB-C power or data cable from either side, making your wall outlet setup fully versatile.
 - **Universal Dual-Orientation Mounting**:
   - Features a **$71$ mm central hole** in the bottom shelf with a **$26$ mm front-loading slot** running to the front.
@@ -65,6 +69,9 @@ The model is designed around the official physical dimensions of the Connect ZBT
 
 ## Versioning & Changelog
 
+- **v0.14** (2026-07-06): Updated keyhole slots to support standard 4mm screw shafts with 8mm flat heads (3mm head thickness). Thickened the default back wall of the mounting plate to 4.5mm (when `high_back` is active) to provide ample solid material for a deep 3.2mm head-clearance recess, leaving a robust 1.3mm printed tab to anchor the bracket on the screws. Sized tolerances to 8.8mm entry, 4.4mm through-slot, and 9.6mm wide recess.
+- **v0.13** (2026-07-06): Optimized side-wall USB-C port cutouts for dual-orientation support. Shifted the vertical center `usbc_center_z` from 10.0mm to 11.0mm and increased the vertical slot height `usbc_cutout_height` from 8.0mm to 10.0mm. This easily clears the physical port height in both configurations (centered at 11.0mm right-side-up due to the 1.0mm feet, and centered at 10.0mm upside-down).
+- **v0.12** (2026-07-06): Added keyhole hanger support to the default `high_back` mounting plate, spaced exactly 60mm apart and optimized for standard 3mm screw shafts with 5mm flat heads. Includes a 5.6mm entry hole, 3.4mm through-slot, and a 6.2mm wide by 1.4mm deep recess track on the front of the back wall. This keeps the back wall inside the pocket perfectly flush so screw heads do not touch the device enclosure. Added `high_back_hole_type` parameter to switch between keyhole and countersink modes.
 - **v0.11** (2026-07-06): Reinforced the default bottom shelf thickness `bottom_shelf_thickness` from 2.0mm to 4.0mm to provide extreme mechanical strength. This ensures the bracket easily holds the device's full resting weight in either orientation and fully resists cord tension.
 - **v0.10** (2026-07-06): Calculated bottom hole clearance to allow flat-base resting. Sized the bottom shelf central hole to 71.0mm (which accommodates the 70.0mm outer diameter of the 23mm fillet transition). This allows the fillet to pass completely through, letting the flat part of the square base rest flatly against the bottom shelf of the bracket in both standard and upside-down mounting modes.
 - **v0.09** (2026-07-06): Added Dual-Orientation upside-down mounting support by widening the bottom shelf's front-loading slot from 12mm to 26mm. This allows the 24mm diameter antenna to slide horizontally into the bottom shelf from the front, while its smooth 23mm fillet shoulder rests securely on the circular 30mm opening as a self-centering seat.
