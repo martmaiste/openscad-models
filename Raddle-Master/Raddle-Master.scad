@@ -4,8 +4,7 @@ File Name:     Raddle-Master.scad
 Description:   Parametric anti-rattle clamp for a foldable camper door bug net.
 Version:       v0.10
 Date:          2026-07-23
-Author:        Zed Coding Agent
-License:       Creative Commons - Attribution - ShareAlike
+License:       MIT
 
 Description:
   This is a fully parametric, heavy-duty clamp designed to prevent the bug-net
