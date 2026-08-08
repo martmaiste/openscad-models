@@ -1,0 +1,23 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "$fn": "64",
+            "bottom_smoothing": "0.5",
+            "box_depth": "94",
+            "box_width": "160",
+            "corner_radius_inner": "2",
+            "corner_radius_outer": "4",
+            "end_length": "15",
+            "part_to_render": "both",
+            "preview_box_height": "80",
+            "preview_strap_width": "25",
+            "show_preview": "true",
+            "steps_bottom": "8",
+            "steps_top": "16",
+            "stop_height": "7",
+            "stop_width": "20",
+            "top_smoothing": "1.5"
+        }
+    }
+}
