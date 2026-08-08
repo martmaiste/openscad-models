@@ -8,6 +8,59 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Soap-Funnel">
+    <img src="Soap-Funnel/Soap-Funnel.png" alt="Soap Funnel" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Soap Funnel</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Slug-Trap">
+    <img src="Slug-Trap/Slug-Trap.png" alt="Slug Trap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Slug Trap</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Cargo-Strap-Guide">
+    <img src="Cargo-Strap-Guide/Cargo-Strap-Guide.png" alt="Cargo Strap Guide" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Cargo Strap Guide</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="Cargo-Strap-Mast-Fix">
+    <img src="Cargo-Strap-Mast-Fix/Cargo-Strap-Mast-Fix.png" alt="Cargo Strap Mast Fix" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Cargo Strap Mast Fix</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="EasyDrive-Charger-Holder">
+    <img src="EasyDrive-Charger-Holder/EasyDrive-Charger-Holder.png" alt="EasyDrive Charger Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">EasyDrive Charger Holder</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="XT90-Cap">
+    <img src="XT90-Cap/XT90-Cap.png" alt="XT90 Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">XT90 Cap</div>
+</div>
+</td>
+    </tr>
+    <tr>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="EasyDrive-Box-Stops">
+    <img src="EasyDrive-Box-Stops/EasyDrive-Box-Stops.png" alt="EasyDrive Box Stops" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">EasyDrive Box Stops</div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Cable-Comb">
     <img src="Cable-Comb/Cable-Comb.png" alt="Cable Comb" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
@@ -21,6 +74,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Pocket Coin Op Bottle Opener</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="ZBT-2-Wall-Mount">
     <img src="ZBT-2-Wall-Mount/ZBT-2-Wall-Mount.png" alt="ZBT 2 Wall Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -28,8 +83,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">ZBT 2 Wall Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Raddle-Master">
     <img src="Raddle-Master/Raddle-Master.png" alt="Raddle Master" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -44,6 +97,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Makita Lawnmower Hatch Lever</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Lawnmower-Cupholder">
     <img src="Lawnmower-Cupholder/Lawnmower-Cupholder.png" alt="Lawnmower Cupholder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -51,8 +106,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Lawnmower Cupholder</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Locker-Washer">
     <img src="Locker-Washer/Locker-Washer.png" alt="Locker Washer" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -67,6 +120,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Spacer</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Makita-Vacuum-Nozzles-Mount">
     <img src="Makita-Vacuum-Nozzles-Mount/Makita-Vacuum-Nozzles-Mount.png" alt="Makita Vacuum Nozzles Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -74,8 +129,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Makita Vacuum Nozzles Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="IKEA-BROGRUND-Battery-Knob">
     <img src="IKEA-BROGRUND-Battery-Knob/IKEA-BROGRUND-Battery-Knob.png" alt="IKEA BROGRUND Battery Knob" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -90,6 +143,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">D Fruit USB HUB Holder</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Knob">
     <img src="Knob/Knob.png" alt="Knob" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -97,8 +152,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Knob</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Round-to-Flat">
     <img src="Round-to-Flat/Round-to-Flat.png" alt="Round to Flat" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -113,6 +166,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">DIN Mount</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Electrical-Box-Plugs">
     <img src="Electrical-Box-Plugs/Electrical-Box-Plugs.png" alt="Electrical Box Plugs" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -120,8 +175,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Electrical Box Plugs</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Mantafoils-Takeoff-Standar-Charger-Mount">
     <img src="Mantafoils-Takeoff-Standar-Charger-Mount/Mantafoils-Takeoff-Standar-Charger-Mount.png" alt="Mantafoils Takeoff Standar Charger Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -136,6 +189,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Ligerus Blank</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Oil-Bottle-Base">
     <img src="Oil-Bottle-Base/Oil-Bottle-Base.png" alt="Oil Bottle Base" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -143,8 +198,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Oil Bottle Base</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="IKEA-BROGRUND-Battery-Holder">
     <img src="IKEA-BROGRUND-Battery-Holder/IKEA-BROGRUND-Battery-Holder.png" alt="IKEA BROGRUND Battery Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -159,6 +212,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Step Ladder Feet</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="OSRAM-Nightlux-Stair-Mount">
     <img src="OSRAM-Nightlux-Stair-Mount/OSRAM-Nightlux-Stair-Mount.png" alt="OSRAM Nightlux Stair Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -166,8 +221,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">OSRAM Nightlux Stair Mount</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Bolt-End-Cap">
     <img src="Bolt-End-Cap/Bolt-End-Cap.png" alt="Bolt End Cap" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -182,6 +235,8 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Makita 2xLXT Carry Handle</div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="ADO-AIR-Carbon-Rear-Rack-Stand">
     <img src="ADO-AIR-Carbon-Rear-Rack-Stand/ADO-AIR-Carbon-Rear-Rack-Stand.png" alt="ADO AIR Carbon Rear Rack Stand" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -189,8 +244,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">ADO AIR Carbon Rear Rack Stand</div>
 </div>
 </td>
-    </tr>
-    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Faucet-Valve-Handle">
     <img src="Faucet-Valve-Handle/Faucet-Valve-Handle.png" alt="Faucet Valve Handle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
@@ -203,13 +256,6 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
     <img src="Surfboard-Airvent-Socket/Surfboard-Airvent-Socket.png" alt="Surfboard Airvent Socket" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">Surfboard Airvent Socket</div>
-</div>
-</td>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="EasyDrive-Charger-Holder">
-    <img src="EasyDrive-Charger-Holder/EasyDrive-Charger-Holder.png" alt="EasyDrive Charger Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">EasyDrive Charger Holder</div>
 </div>
 </td>
     </tr>
