@@ -1,6 +1,6 @@
 # Slug Trap
 
-A printable, slug-free garden trap in two parts (base + lid), designed in OpenSCAD. Slugs crawl in through the low entry slots, drop onto the bait bed and into the central ferment cup, while the raised door sill keeps rain out. The lid screws on with a watertight 90° manifold thread, and a 7 mm central hole lets you stake the trap to the ground with a nail.
+A printable slug trap in two parts (base + lid), designed in OpenSCAD. A fermenting sugar-and-yeast mixture in the central cup lures slugs in through the low entry doors, where they eat indigestible ironmax pellets. The raised door sill keeps rain out, the lid screws on with a watertight 90° manifold thread, and a 7 mm central hole lets you stake the trap to the ground with a nail.
 
 Video: <https://youtu.be/3ELC7s2WZh4>
 
@@ -24,7 +24,11 @@ _Assembled on the lawn_
 
 ## How it works
 
-- **Base** — 120 mm outer diameter, 35 mm tall, 3 mm walls. Pentagonal entry slots (24 × 18 mm) sit on an 8 mm door sill that blocks rain; the pellet floor slopes down toward the central ferment cup (55 mm Ø) and drains through 2 mm holes.
+1. **Lure** — a sugar + yeast mix in the central ferment cup (55 mm Ø) starts fermenting on the moisture in the air, and the smell lures the slugs in.
+2. **Bait** — they enter through the doors and start eating the indigestible ironmax pellets instead.
+3. **Goodbye** — they return home, go to sleep, and never return.
+
+- **Base** — 120 mm outer diameter, 35 mm tall, 3 mm walls. Pentagonal entry doors (24 × 18 mm) sit on an 8 mm door sill that blocks rain; the pellet floor slopes down toward the central ferment cup and drains through 2 mm holes.
 - **Lid** — screw-on cap with a matching internal thread (3 mm pitch, 1.5 mm depth, 45°/45° symmetric tooth).
 - **Grounding** — a 7 mm hole runs through the base's central tube and the lid, so a nail can be driven through to anchor the trap.
 
