@@ -6,13 +6,21 @@ Video: <https://youtu.be/3ELC7s2WZh4>
 
 ## Gallery
 
-| Render | In the garden |
-| --- | --- |
-| ![Base and lid render](Slug-Trap.png) | ![Trap placed on leaf litter](Slug-Trap-1.jpg) |
+![Base and lid render](Slug-Trap.png)
 
-| Base loaded with pellet bait | Assembled on the lawn |
-| --- | --- |
-| ![Base with blue pellets, lid off](Slug-Trap-2.jpg) | ![Assembled trap on grass](Slug-Trap-3.jpg) |
+_Base and lid render_
+
+![Trap placed on leaf litter](Slug-Trap-1.jpg)
+
+_Trap in the garden_
+
+![Base with blue pellets, lid off](Slug-Trap-2.jpg)
+
+_Base loaded with pellet bait_
+
+![Assembled trap on grass](Slug-Trap-3.jpg)
+
+_Assembled on the lawn_
 
 ## How it works
 
@@ -39,3 +47,7 @@ Set `view_mode` at the top of `Slug-Trap.scad`:
 - `"both"` — base and lid side-by-side (default)
 - `"assembled"` — assembled
 - `"cut"` — assembled cross-section
+
+## License
+
+MIT — see [LICENSE](LICENSE).
