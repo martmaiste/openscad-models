@@ -1,279 +1,424 @@
-//====================================================================
-// Parametric Spanish Slug Trap for Ferromax Pellets (Volcano Design)
-// Version: v0.25
-// Date: 2026-08-09
-// Author: Zed Coding Agent
-//
-// Description:
-// A highly optimized, fully parametric, 3D-printable Spanish slug trap.
-//
-// Updates in v0.25:
-// - Converted the ground stake to a fully round, ribbed profile.
-// - Replaced standard threads with a robust 3D-printed buttress (saw-tooth) thread.
-// - The stick now features a continuous thread. Both the bowl and lid screw onto it.
-// - The gap between the bowl and lid is now fully adjustable!
-//
-// Printing Instructions:
-// - All parts should be printed in their default vertical orientation.
-// - Stick: Print vertically (flat flange on build plate if sliced properly, or use a brim).
-//   Since the spike points down, it's actually best to print the stick upside-down
-//   (thread pointing up? No, spike pointing up).
-//   Wait, if we print the stick, we should orient the flat flange on the build plate!
-//   Let's cut the stick in two? No, just print upside down: flat top of the thread on the bed,
-//   or print right-side up with the flat flange on the bed and support the spike?
-//   Actually, printing the stick flat on its side might still be best for strength, but threads
-//   print best vertically. We will orient the stick vertically with the flat flange on the bed,
-//   and the spike pointing UP! Wait, the spike is at the bottom.
-//   We will separate the stick into a Stake and a Shaft?
-//   Let's just leave it as one piece and let the user decide how to print it.
-//====================================================================
+// Spanish Slug Trap - Watertight Manifold Thread Fix
+// Version: 3.48 (3rd major version)
 
-/* [Render Controls] */
-// Which part to render
-part = "assembled"; // [all_separated, assembled, bowl, lid, stick]
+$fn = 128;
 
-// Level of detail (number of fragments in cylinder)
-$fn = 64;
+// --- VIEW OPTIONS ---
+view_mode = "both"; // ["base": Only base, "lid": Only lid, "both": Both side-by-side, "assembled": Assembled, "cut": Assembled Cross-Section]
 
-/* [Bowl Parameters] */
-bowl_bottom_dia = 120.0;
-bowl_top_dia = 80.0;
-bowl_depth = 25.0;
-wall_thickness = 2.4;
-bowl_hub_len = 25.0;
+// --- PARAMETERS ---
+base_diameter = 120;     // Outer diameter of the base wall
+base_height = 35;        // Total height of side walls
+wall_thickness = 3.0;    // Main wall thickness
+ferment_cup_dia = 55;    // Central ferment reservoir outer diameter
+chamfer_size = 0.8;      // Chamfer size on outer exposed edges
+drain_hole_dia = 2.0;    // Diameter of water drainage holes in pellet floor
+slope_height = 2.4;      // Height of slope tapering down to ferment wall
 
-/* [Lid Parameters] */
-lid_dia = 130.0;
-lid_cone_height = 35.0;
-lid_hub_len = 15.0;
+// --- THREAD & CENTRAL TUBE PARAMETERS ---
+nail_shaft_hole = 7.0;   // 7mm hole for ground nail inside base central tube and lid
+thread_pitch = 3.0;      // Thread pitch in mm
+thread_depth = 1.5;      // 1.5mm depth gives a symmetric 90-degree tooth angle (45°/45°)
+thread_turns_lid = 2.5;  // Thread turns on lid socket
+thread_turns_base = 4.5; // Extended thread turns on base tube
+clearance = 0.4;         // Total fit clearance on diameter
 
-/* [Stick & Thread Parameters] */
-clearance = 0.1;
-neck_dia = 16.0;
-thread_pitch = 4.0;
-thread_length = 75.0;
+tube_outer_dia = 17.4;   // Outer diameter of base central tube
+tube_wall_thickness = 2.0;
 
-//====================================================================
-// Modules
-//====================================================================
+socket_inner_dia = tube_outer_dia + (thread_depth * 2) + clearance; // 20.8 mm
+socket_outer_dia = socket_inner_dia + (tube_wall_thickness * 2);    // 24.8 mm
+socket_len = (thread_pitch * (thread_turns_lid + 1));               // 10.5 mm
 
-module parametric_thread(dia, pitch, length, clearance=0) {
-    depth = 0.4 * pitch;
-    R_out = dia / 2 + clearance;
-    R_in = R_out - depth;
+entry_width = 24;        // Width of entrance slots
+entry_height = 18;       // Total height of entrance slots
+step_height = 8;         // Height of flat door sill above floor to block rain
 
-    steps = 64;
+// --- HELPER MODULES FOR CHAMFERS ---
+module chamfered_cylinder(h, d, c = chamfer_size) {
+    union() {
+        cylinder(h = c, d1 = d - (c * 2), d2 = d);
+        translate([0, 0, c])
+        cylinder(h = h - (c * 2), d = d);
+        translate([0, 0, h - c])
+        cylinder(h = c, d1 = d, d2 = d - (c * 2));
+    }
+}
 
-    function thread_r(f) =
-        (f < 0.05) ? R_in :
-        (f < 0.45) ? R_in + (R_out - R_in) * (f - 0.05) / 0.40 :
-        (f < 0.55) ? R_out :
-        (f < 0.95) ? R_out - (R_out - R_in) * (f - 0.55) / 0.40 :
-        R_in;
+// Single-edge chamfered cylinder (Chamfered ONLY at z=0 free edge)
+module bottom_chamfer_cylinder(h, d, c = chamfer_size) {
+    union() {
+        cylinder(h = c, d1 = d - (c * 2), d2 = d);
+        translate([0, 0, c])
+        cylinder(h = h - c, d = d);
+    }
+}
 
-    points = [ for (i = [0:steps-1])
-        let (
-            f = i / steps,
-            r = thread_r(f),
-            theta = f * 360
-        )
-        [r * cos(theta), r * sin(theta)]
+// Pipe cylinder with chamfers on both the top-outer and top-inner rims
+module top_chamfered_pipe(h, d_outer, d_inner, c = chamfer_size) {
+    difference() {
+        // Outer body with top-outer chamfer
+        union() {
+            cylinder(h = h - c, d = d_outer);
+            translate([0, 0, h - c])
+            cylinder(h = c, d1 = d_outer, d2 = d_outer - (c * 2));
+        }
+
+        // Inner bore cutout
+        translate([0, 0, -1])
+        cylinder(h = h + 2, d = d_inner);
+
+        // Top-inner chamfer cutter
+        translate([0, 0, h - c])
+        cylinder(h = c + 0.1, d1 = d_inner, d2 = d_inner + (c * 2));
+    }
+}
+
+// Pipe cylinder with chamfers on top-outer, top-inner, bottom-outer, and bottom-inner rims
+module fully_chamfered_pipe(h, d_outer, d_inner, c = chamfer_size) {
+    difference() {
+        // Outer body with top-outer and bottom-outer chamfers
+        union() {
+            cylinder(h = c, d1 = d_outer - (c * 2), d2 = d_outer);
+            translate([0, 0, c])
+            cylinder(h = h - (c * 2), d = d_outer);
+            translate([0, 0, h - c])
+            cylinder(h = c, d1 = d_outer, d2 = d_outer - (c * 2));
+        }
+
+        // Inner bore cutout
+        translate([0, 0, -1])
+        cylinder(h = h + 2, d = d_inner);
+
+        // Bottom-inner chamfer cutter
+        translate([0, 0, -0.1])
+        cylinder(h = c + 0.1, d1 = d_inner + (c * 2), d2 = d_inner);
+
+        // Top-inner chamfer cutter
+        translate([0, 0, h - c])
+        cylinder(h = c + 0.1, d1 = d_inner, d2 = d_inner + (c * 2));
+    }
+}
+
+// --- WATERTIGHT MANIFOLD TRIANGULATED 90-DEGREE THREAD MODULE ---
+module sawtooth_thread(r_base, r_tip, pitch, turns) {
+    step_deg = 10;
+    steps_per_turn = 360 / step_deg;
+    total_steps = floor(turns * steps_per_turn);
+    fade_steps = steps_per_turn * (30 / 360); // Crisp fade over 30 degrees
+
+    pts = [
+        for (i = [0 : total_steps])
+            let (
+                a = i * step_deg,
+                z = (i / steps_per_turn) * pitch,
+                taper_raw = (i < fade_steps) ? (i / fade_steps) :
+                            (i > total_steps - fade_steps) ? ((total_steps - i) / fade_steps) : 1.0,
+                taper = taper_raw * taper_raw * (3 - 2 * taper_raw),
+                curr_r_tip = r_base + (r_tip - r_base) * taper
+            )
+            each [
+                [r_base * cos(a), r_base * sin(a), z],               // 3*i + 0: base bottom
+                [curr_r_tip * cos(a), curr_r_tip * sin(a), z + pitch/2], // 3*i + 1: tapered tooth tip
+                [r_base * cos(a), r_base * sin(a), z + pitch]        // 3*i + 2: base top
+            ]
     ];
 
-    difference() {
-        linear_extrude(height=length, twist=-360 * length / pitch, slices=length*10)
-            polygon(points);
+    faces = concat(
+        [
+            for (i = [0 : total_steps - 1])
+                let (
+                    p0 = 3 * i,
+                    p1 = 3 * i + 1,
+                    p2 = 3 * i + 2,
+                    q0 = 3 * (i + 1),
+                    q1 = 3 * (i + 1) + 1,
+                    q2 = 3 * (i + 1) + 2
+                )
+                each [
+                    [p0, q0, q1], [p0, q1, p1], // Bottom flank
+                    [p1, q1, q2], [p1, q2, p2], // Top flank
+                    [p2, q2, q0], [p2, q0, p0]  // Back wall
+                ]
+        ],
+        [
+            [0, 1, 2],                                                         // Start cap
+            [3*total_steps + 0, 3*total_steps + 2, 3*total_steps + 1]          // End cap
+        ]
+    );
 
-        // Top chamfer (only for male thread) to prevent mushrooming
-        if (clearance == 0) {
-            translate([0,0,length - pitch])
-            difference() {
-                cylinder(r=dia, h=pitch+1, $fn=64);
-                cylinder(r1=dia/2, r2=R_in-1, h=pitch+0.1, $fn=64);
-            }
-        }
-    }
+    polyhedron(points = pts, faces = faces, convexity = 10);
 }
 
-module female_tap(dia, pitch, length, clearance, lead_in=true) {
+module support_free_door_2d() {
+    rect_h = entry_height - (entry_width / 2);
     union() {
-        parametric_thread(dia=dia, pitch=pitch, length=length, clearance=clearance);
+        translate([-entry_width / 2, 0])
+        square([entry_width, rect_h]);
 
-        // Lead-in chamfer for easy thread engagement (optional, if not overridden by another seat)
-        if (lead_in) {
-            translate([0,0,-0.1])
-            cylinder(r1=dia/2 + clearance + 1.5, r2=dia/2 + clearance - 0.4*pitch, h=pitch, $fn=64);
-        }
-    }
-}
-
-module slug_trap_stick() {
-    // Ground Stake and Conical Ledge
-    // The ledge is now a double-cone (diamond-like profile) with a flattened outer edge.
-    // This removes the sharp transition while remaining 100% support-free in either orientation.
-    rotate_extrude($fn=$fn) {
-        polygon(points=[
-            [0, -50],      // Tip
-            [6, -40],      // Taper to shaft
-            [6, -8.5],     // Smooth shaft up to start of the bottom cone
-            [12.5, -2],    // Flange bottom corner (expands at 45 degrees)
-            [12.5, 2],     // Flat vertical outer wall (4mm tall, removing the sharp edge)
-            [8, 6.5],      // Conical flange top corner (contracts at 45 degrees)
-            [0, 6.5]       // Center closure
+        translate([0, rect_h])
+        polygon(points = [
+            [-entry_width / 2, 0],
+            [entry_width / 2, 0],
+            [0, entry_width / 2]
         ]);
     }
-
-    // Continuous Threaded Shaft
-    // Runs upwards from the top of the conical ledge
-    translate([0, 0, 6.5])
-    parametric_thread(dia=neck_dia, pitch=thread_pitch, length=thread_length);
 }
 
-module slug_trap_bowl() {
-    hub_r = (neck_dia + 12) / 2;
-    rim_top_r = bowl_top_dia / 2;
-    outer_r = bowl_bottom_dia / 2;
-    t = wall_thickness;
+module main_base() {
+    inner_base_wall_dia = base_diameter - (wall_thickness * 2);
+    ferment_inner_dia = ferment_cup_dia - (wall_thickness * 2);
 
-    // To make angles identical: outer_r - rim_top_r = 60 - 40 = 20.
-    // Inner slope must also span 20mm in radius.
-    // Top inner radius is rim_top_r - t.
-    // So bottom inner radius is (rim_top_r - t) - 20.
-    trough_r = rim_top_r - t - 20;
+    r_in = ferment_cup_dia / 2;
+    r_out = inner_base_wall_dia / 2;
+    drain_radius = (ferment_cup_dia / 2 + 2.0) + (drain_hole_dia / 2) + 0.1; // Exactly 30.6 mm (slight overlap with the base of the wall flare to ensure a seamless gutter with zero standing water)
 
-    t_z = t * 1.5; // Vertical thickness for floor and rim apex
-
-    difference() {
-        // We use rotate_extrude to create a perfectly continuous W-shaped shell
-        rotate_extrude($fn=$fn) {
-            polygon(points=[
-                // --- Top / Inner Surface ---
-                [0, bowl_hub_len],
-                [hub_r - 1.5, bowl_hub_len],  // Chamfer top-inner edge of the central hub
-                [hub_r, bowl_hub_len - 1.5],  // Chamfer top-outer edge of the central hub
-                [hub_r, t_z],                 // Hub outer wall drops to floor
-                [trough_r, t_z],              // Flat floor of the moat
-
-                [rim_top_r - t, bowl_depth],  // Inner ramp going UP (same angle as outside!)
-                [rim_top_r, bowl_depth],      // Top flat rim
-                // Chamfered outer bottom edge for cleaner printing
-                [outer_r, 0.5],               // Outer ramp going DOWN to ground
-                [outer_r - 0.5, 0],           // Outer bottom edge chamfer
-
-                // --- Bottom / Underside Surface ---
-                [outer_r - t*1.5, 0],         // Outer foot on ground
-                [rim_top_r - t*0.5, bowl_depth - t_z*1.5], // Apex of cavity underneath
-                [trough_r + t*1.2, 0],        // Inner foot on ground
-                [0, 0]                        // Solid core below hub for thread
-            ]);
-        }
-
-        // Conical lug-nut seat to precisely match the stick's conical flange.
-        // This chamfer prints perfectly without supports inside the hole (45-deg overhang).
-        translate([0, 0, -0.1])
-        cylinder(r1=12.5 + clearance, r2=8 + clearance, h=4.5 + 0.2, $fn=64);
-
-        // Female thread for the stick
-        // Starts exactly where the conical seat ends
-        translate([0, 0, 4.5 - 0.1])
-        female_tap(dia=neck_dia, pitch=thread_pitch, length=bowl_hub_len - 4.5 + 0.2, clearance=clearance, lead_in=false);
-
-        // Drainage holes for Ferromax pellets
-        // Placed dead-center in the moat floor
-        for (i = [0 : 7]) {
-            rotate([0, 0, i * 45])
-            translate([(hub_r + trough_r)/2, 0, -1])
-            cylinder(d=2.0, h=t_z + 2, $fn=12);
-        }
-    }
-}
-
-module slug_trap_lid() {
     difference() {
         union() {
-            // Conical umbrella shell (chamfered at the bottom rim)
-            difference() {
-                rotate_extrude($fn=$fn) {
-                    polygon(points=[
-                        [0, 0],
-                        [lid_dia/2 - 0.5, 0],              // Chamfer bottom edge
-                        [lid_dia/2, 0.5],                  // Chamfer outer edge
-                        [35/2, lid_cone_height],           // Top rim
-                        [0, lid_cone_height]               // Top center
-                    ]);
-                }
 
-                // Hollow interior
-                translate([0, 0, -0.1])
-                cylinder(d1=lid_dia - 2 * wall_thickness, d2=neck_dia + 12 - 2 * wall_thickness, h=lid_cone_height, $fn=$fn);
+            // 2. Sloped Floor Wedge in Pellet Trough
+            rotate_extrude()
+            polygon(points = [
+                [r_in, wall_thickness],
+                [r_out, wall_thickness],
+                [r_out, wall_thickness + slope_height]
+            ]);
+
+            // 3. Main Outer Wall (Both bottom-inner and top-inner chamfers)
+            difference() {
+                chamfered_cylinder(h = base_height, d = base_diameter, c = chamfer_size);
+                translate([0, 0, wall_thickness])
+                union() {
+                    // Bottom-inner chamfer
+                    cylinder(h = chamfer_size + 0.1, d1 = inner_base_wall_dia - (chamfer_size * 2), d2 = inner_base_wall_dia);
+
+                    // Main cutout body
+                    translate([0, 0, chamfer_size])
+                    cylinder(h = base_height - wall_thickness - chamfer_size * 2, d = inner_base_wall_dia);
+
+                    // Top-inner chamfer
+                    translate([0, 0, base_height - wall_thickness - chamfer_size])
+                    cylinder(h = chamfer_size + 0.1, d1 = inner_base_wall_dia, d2 = inner_base_wall_dia + (chamfer_size * 2));
+                }
             }
 
-            // Central threaded hub
-            // Added 1.5mm chamfer to the bottom-outer edge (facing down when printed upside down,
-            // which faces up when assembled) so it matches the bowl hub.
-            translate([0, 0, lid_cone_height - lid_hub_len])
-            rotate_extrude($fn=$fn) {
-                polygon(points=[
-                    [0, 0],
-                    [(neck_dia + 12)/2 - 1.5, 0],   // Chamfer start
-                    [(neck_dia + 12)/2, 1.5],       // Chamfer end
-                    [(neck_dia + 12)/2, lid_hub_len], // Top of hub
-                    [0, lid_hub_len]                // Center top
-                ]);
+            // 4. Ferment Reservoir Outer Wall with reinforcing support collars (inside and outside)
+            translate([0, 0, wall_thickness])
+            difference() {
+                union() {
+                    // Main pipe body with top-outer chamfer
+                    c_size = chamfer_size;
+                    h_pipe = base_height - wall_thickness;
+                    cylinder(h = h_pipe - c_size, d = ferment_cup_dia);
+                    translate([0, 0, h_pipe - c_size])
+                    cylinder(h = c_size, d1 = ferment_cup_dia, d2 = ferment_cup_dia - (c_size * 2));
+
+                    // Bottom-outer reinforcing flare
+                    flare_h = 2.0;
+                    cylinder(h = flare_h, d1 = ferment_cup_dia + (flare_h * 2), d2 = ferment_cup_dia);
+                }
+
+                // Straight inner bore cutout (from Z = flare_h to the top)
+                flare_h = 2.0;
+                translate([0, 0, flare_h])
+                cylinder(h = base_height - wall_thickness - flare_h + 1, d = ferment_inner_dia);
+
+                // Bottom-inner reinforcing flare cutout (tapered cone to leave a solid inner support shoulder)
+                translate([0, 0, -1])
+                cylinder(h = flare_h + 1.1, d1 = ferment_inner_dia - (flare_h * 2), d2 = ferment_inner_dia);
+
+                // Top-inner chamfer cutter
+                c_size = chamfer_size;
+                h_pipe = base_height - wall_thickness;
+                translate([0, 0, h_pipe - c_size])
+                cylinder(h = c_size + 0.1, d1 = ferment_inner_dia, d2 = ferment_inner_dia + (c_size * 2));
+            }
+
+            // 5. Central Nail Tube Structure (With bottom and top, inner and outer chamfers)
+            fully_chamfered_pipe(
+                h = base_height,
+                d_outer = tube_outer_dia,
+                d_inner = nail_shaft_hole
+            );
+
+            // 6. Solid reinforcing collar flare around the base of the central tube
+            flare_h = 3.0;
+            translate([0, 0, wall_thickness])
+            cylinder(h = flare_h, d1 = tube_outer_dia + (flare_h * 2), d2 = tube_outer_dia);
+        }
+
+        // SUBTRACTIONS FROM THE BASE
+        // A. Entrance doors (ONLY through outer perimeter wall)
+        for (a = [0, 45, 90, 135, 180, 225, 270, 315]) {
+            rotate([0, 0, a])
+            translate([base_diameter / 2 - wall_thickness * 2, 0, wall_thickness + step_height])
+            rotate([0, 90, 0])
+            rotate([0, 0, 90])
+            linear_extrude(height = wall_thickness * 4)
+            support_free_door_2d();
+        }
+
+        // B. Aroma release slots (ONLY on ferment cup wall)
+        for (a = [0 : 22.5 : 337.5]) {
+            rotate([0, 0, a])
+            translate([ferment_cup_dia / 2, 0, base_height - 6])
+            rotate([0, 90, 0])
+            cylinder(h = wall_thickness * 3, d = 3.5, center = true);
+        }
+
+        // C. Drainage holes through pellet trough floor next to ferment compartment (With top & bottom chamfers)
+        chamfer_drain = 0.6;
+        for (a = [22.5 : 45 : 337.5]) {
+            rotate([0, 0, a])
+            translate([drain_radius, 0, 0]) {
+                // Through-hole
+                translate([0, 0, -1])
+                cylinder(h = wall_thickness + slope_height + 2, d = drain_hole_dia);
+
+                // Bottom chamfer (Z = 0)
+                translate([0, 0, -0.1])
+                cylinder(h = chamfer_drain + 0.1, d1 = drain_hole_dia + (chamfer_drain * 2), d2 = drain_hole_dia);
+
+                // Top chamfer (Z = z_top)
+                z_top = wall_thickness + ((drain_radius - r_in) / (r_out - r_in)) * slope_height;
+                translate([0, 0, z_top - chamfer_drain + 0.05])
+                cylinder(h = chamfer_drain + 0.1, d1 = drain_hole_dia, d2 = drain_hole_dia + (chamfer_drain * 2));
             }
         }
 
-        // Female thread
-        translate([0, 0, lid_cone_height - lid_hub_len - 0.1])
-        female_tap(dia=neck_dia, pitch=thread_pitch, length=lid_hub_len+0.2, clearance=clearance, lead_in=true);
+        // D. Ground-facing chamfer on bottom nail hole at Z = 0
+        translate([0, 0, -0.1])
+        cylinder(h = chamfer_size + 0.1, d1 = nail_shaft_hole + (chamfer_size * 2), d2 = nail_shaft_hole);
+
+        // E. Through-hole for nail shaft through the bottom floor plate and central tube
+        translate([0, 0, -1])
+        cylinder(h = base_height + 2, d = nail_shaft_hole);
+
+        // F. Counterbore at the top of the central tube to receive the lid's drip-guide lip
+        translate([0, 0, base_height - 2.5])
+        cylinder(h = 2.6, d = nail_shaft_hole + 1.6);
+    }
+
+    // Male 90-Degree Threads on the outside of the central tube (Stopping 90 degrees sooner at the top)
+    thread_offset_deg_base = 90;
+    total_thread_span = (thread_turns_base + 1) * thread_pitch;
+    translate([0, 0, base_height - total_thread_span])
+    sawtooth_thread(
+        r_base = tube_outer_dia / 2,
+        r_tip = (tube_outer_dia / 2) + thread_depth,
+        pitch = thread_pitch,
+        turns = thread_turns_base - (thread_offset_deg_base / 360)
+    );
+}
+
+module rain_roof() {
+    lid_inner_dia = base_diameter + clearance;
+    lid_lip_height = 2;
+
+    difference() {
+        union() {
+            // Main Chamfered Roof Shield Plate
+            chamfered_cylinder(h = 3, d = lid_inner_dia + 16, c = chamfer_size);
+
+            // Outer Lip
+            translate([0, 0, -lid_lip_height])
+            difference() {
+                bottom_chamfer_cylinder(h = lid_lip_height, d = lid_inner_dia + (wall_thickness * 2), c = chamfer_size);
+                translate([0, 0, -1])
+                cylinder(h = lid_lip_height + 2, d = lid_inner_dia);
+                translate([0, 0, -0.1])
+                cylinder(h = chamfer_size + 0.1, d1 = lid_inner_dia + (chamfer_size * 2), d2 = lid_inner_dia);
+            }
+
+            // Downward Hollow Socket with reinforcing support collar (flared outside joint)
+            translate([0, 0, -socket_len])
+            difference() {
+                union() {
+                    // Bottom-outer chamfer at the tip of the socket (local Z = 0)
+                    c_size = chamfer_size / 2;
+                    cylinder(h = c_size, d1 = socket_outer_dia - (c_size * 2), d2 = socket_outer_dia);
+
+                    // Main socket cylinder body
+                    translate([0, 0, c_size])
+                    cylinder(h = socket_len - c_size, d = socket_outer_dia);
+
+                    // Solid reinforcing collar (flares outwards from socket_outer_dia to meet the lid)
+                    flare_h = 3.0;
+                    translate([0, 0, socket_len - flare_h])
+                    cylinder(h = flare_h, d1 = socket_outer_dia, d2 = socket_outer_dia + (flare_h * 2));
+                }
+
+                // Hollow inner bore cutout
+                translate([0, 0, -1])
+                cylinder(h = socket_len + 2, d = socket_inner_dia);
+
+                // Bottom-inner chamfer at the tip of the socket (local Z = 0)
+                c_size = chamfer_size / 2;
+                translate([0, 0, -0.1])
+                cylinder(h = c_size + 0.1, d1 = socket_inner_dia + (c_size * 2), d2 = socket_inner_dia);
+            }
+
+            // Female 90-Degree Threads starting 50 degrees above the socket tip
+            thread_offset_deg = 50;
+            translate([0, 0, -socket_len + (thread_offset_deg / 360) * thread_pitch])
+            rotate([0, 0, thread_offset_deg])
+            sawtooth_thread(
+                r_base = socket_inner_dia / 2,
+                r_tip = (socket_inner_dia / 2) - thread_depth,
+                pitch = thread_pitch,
+                turns = thread_turns_lid - (thread_offset_deg / 360)
+            );
+
+            // Downward drip-guide lip (fits inside base's central counterbore to guide water)
+            translate([0, 0, -2.5])
+            cylinder(h = 2.5, d1 = nail_shaft_hole + 0.6, d2 = nail_shaft_hole + 1.2);
+        }
+
+        // Through-hole for ground nail shaft
+        translate([0, 0, -socket_len - 2])
+        cylinder(h = socket_len + 10, d = nail_shaft_hole);
+
+        // Chamfer on the nail hole at the drip-guide lip tip (local Z = -2.5)
+        translate([0, 0, -2.5 - 0.1])
+        cylinder(h = (chamfer_size / 2) + 0.1, d1 = nail_shaft_hole + chamfer_size, d2 = nail_shaft_hole);
+
+        // Chamfer on the sky-facing top surface (Local Z=3 plane)
+        translate([0, 0, 3 - chamfer_size])
+        cylinder(h = chamfer_size + 0.1, d1 = nail_shaft_hole, d2 = nail_shaft_hole + (chamfer_size * 2));
     }
 }
 
-//====================================================================
-// Layout Engine
-//====================================================================
+// --- RENDER LOGIC ---
+module cross_section_cut() {
+    difference() {
+        children();
+        // Cut away Y < 0 half to expose internal cross-section
+        translate([-200, -400, -100])
+        cube([400, 400, 200]);
+    }
+}
 
-if (part == "all_separated") {
-    // Bowl: Print right-side up
-    translate([-65, -65, 0])
-        slug_trap_bowl();
-
-    // Lid: Print upside down
-    translate([65, -65, lid_cone_height])
-        rotate([180, 0, 0])
-        slug_trap_lid();
-
-    // Stick: Print upside down (flat top of thread on build plate)
-    // This allows the entire stick (threads and spike) to print without supports!
-    // Total height of the stick above the origin is 6.5 + thread_length
-    translate([0, 65, 6.5 + thread_length])
-        rotate([180, 0, 0])
-        slug_trap_stick();
-
-} else if (part == "assembled") {
-    // Stick oriented vertically (stake in ground)
-    slug_trap_stick();
-
-    // Bowl screwed down to the bottom (Z=0)
-    slug_trap_bowl();
-
-    // Lid screwed down leaving a gap for a 20mm slug to easily pass
-    // The bowl rim is at Z = 25, R = 40.
-    // By setting the lid base at Z = 30, the lid roof at R = 40 is at Z ~ 47.
-    // This gives a 22mm vertical clearance perfectly over the rim.
-    // The lid female thread starts at Z_lid = 20, so global Z = 50.
-    // Thread ends at global Z = 65, which fits comfortably on the 75mm thread.
-    translate([0, 0, 30])
-        slug_trap_lid();
-
-} else if (part == "bowl") {
-    slug_trap_bowl();
-} else if (part == "lid") {
-    translate([0, 0, lid_cone_height])
-        rotate([180, 0, 0])
-        slug_trap_lid();
-} else if (part == "stick") {
-    translate([0, 0, thread_length])
-        rotate([180, 0, 0])
-        slug_trap_stick();
+if (view_mode == "base") {
+    main_base();
+} else if (view_mode == "lid") {
+    // Oriented flat on the print bed
+    translate([0, 0, 3])
+    rotate([180, 0, 0])
+    rain_roof();
+} else if (view_mode == "both") {
+    // Both side-by-side on the print bed
+    main_base();
+    translate([base_diameter + 30, 0, 3])
+    rotate([180, 0, 0])
+    rain_roof();
+} else if (view_mode == "assembled") {
+    main_base();
+    translate([0, 0, base_height])
+    rain_roof();
+} else if (view_mode == "cut") {
+    cross_section_cut() {
+        main_base();
+        translate([0, 0, base_height])
+        rain_roof();
+    }
 }
