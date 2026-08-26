@@ -2,6 +2,8 @@
 
 A printable slug trap in two parts (base + lid), designed in OpenSCAD. A fermenting sugar-and-yeast mixture in the central cup lures slugs in through the low entry doors, where they eat indigestible ironmax pellets. The raised door sill keeps rain out, the lid screws on with a watertight 90° manifold thread, and a 7 mm central hole lets you stake the trap to the ground with a nail.
 
+Shop: <https://taaralabs.eu/limuka-timukas>
+
 Video: <https://youtu.be/3ELC7s2WZh4>
 
 ## Gallery

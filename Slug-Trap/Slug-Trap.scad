@@ -406,9 +406,11 @@ if (view_mode == "base") {
     rotate([180, 0, 0])
     rain_roof();
 } else if (view_mode == "both") {
-    // Both side-by-side on the print bed
+    // Both side-by-side on the print bed, 5 mm apart
+    both_gap = 5;
+    lid_plate_dia = base_diameter + clearance + 16; // Matches rain_roof roof plate diameter
     main_base();
-    translate([base_diameter + 30, 0, 3])
+    translate([(base_diameter + lid_plate_dia) / 2 + both_gap, 0, 3])
     rotate([180, 0, 0])
     rain_roof();
 } else if (view_mode == "assembled") {
