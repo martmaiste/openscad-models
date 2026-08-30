@@ -1,16 +1,18 @@
-// Spanish Slug Trap - Watertight Manifold Thread Fix
-// Version: 3.48 (3rd major version)
+// Spanish Slug Trap
+// Version: 3.51 (3rd major version)
+// Repository: https://github.com/martmaiste/openscad-models/tree/main/Slug-Trap
+// License: MIT
 
 $fn = 128;
 
 // --- VIEW OPTIONS ---
-view_mode = "both"; // ["base": Only base, "lid": Only lid, "both": Both side-by-side, "assembled": Assembled, "cut": Assembled Cross-Section]
+view_mode = "lid"; // ["base": Only base, "lid": Only lid, "both": Both side-by-side, "assembled": Assembled, "cut": Assembled Cross-Section]
 
 // --- PARAMETERS ---
-base_diameter = 120;     // Outer diameter of the base wall
-base_height = 35;        // Total height of side walls
+base_diameter = 110;     // Outer diameter of the base wall
+base_height = 32;        // Total height of side walls
 wall_thickness = 3.0;    // Main wall thickness
-ferment_cup_dia = 55;    // Central ferment reservoir outer diameter
+ferment_cup_dia = 55;    // Central ferment reservobase, ir outer diameter
 chamfer_size = 0.8;      // Chamfer size on outer exposed edges
 drain_hole_dia = 2.0;    // Diameter of water drainage holes in pellet floor
 slope_height = 2.4;      // Height of slope tapering down to ferment wall
@@ -171,7 +173,10 @@ module main_base() {
 
     r_in = ferment_cup_dia / 2;
     r_out = inner_base_wall_dia / 2;
-    drain_radius = (ferment_cup_dia / 2 + 2.0) + (drain_hole_dia / 2) + 0.1; // Exactly 30.6 mm (slight overlap with the base of the wall flare to ensure a seamless gutter with zero standing water)
+    drain_radius = (ferment_cup_dia / 2 + 2.0) + (drain_hole_dia / 2) + 0.1;
+
+    thread_offset_deg_base = 90;
+    total_thread_span = (thread_turns_base + 1) * thread_pitch;
 
     difference() {
         union() {
@@ -242,9 +247,21 @@ module main_base() {
             );
 
             // 6. Solid reinforcing collar flare around the base of the central tube
-            flare_h = 3.0;
+            flare_h = 2.0;
             translate([0, 0, wall_thickness])
             cylinder(h = flare_h, d1 = tube_outer_dia + (flare_h * 2), d2 = tube_outer_dia);
+
+            // 7. Male 90-Degree Threads (inside the union so CSG subtraction cuts through the central hole)
+            // r_base buried 0.1mm into the tube wall: with r_base exactly at the tube radius the
+            // thread back wall lies on the tube's 128-gon surface (vertices coincide), which is a
+            // boolean degeneracy that leaves non-manifold slivers in the export.
+            translate([0, 0, base_height - total_thread_span])
+            sawtooth_thread(
+                r_base = (tube_outer_dia / 2) - 0.1,
+                r_tip = (tube_outer_dia / 2) + thread_depth,
+                pitch = thread_pitch,
+                turns = thread_turns_base - (thread_offset_deg_base / 360)
+            );
         }
 
         // SUBTRACTIONS FROM THE BASE
@@ -295,30 +312,31 @@ module main_base() {
         cylinder(h = base_height + 2, d = nail_shaft_hole);
 
         // F. Counterbore at the top of the central tube to receive the lid's drip-guide lip
-        translate([0, 0, base_height - 2.5])
-        cylinder(h = 2.6, d = nail_shaft_hole + 1.6);
+        // 45-degree transition cone below the counterbore removes the flat shelf inside the hole,
+        // so the slicer prints a self-supporting slope instead of a thin horizontal layer.
+        // The cone (z 28.7..29.5) sits below the lip's engagement zone (z 29.5..32), so lid fit is unchanged.
+        cb_depth = 2.5;
+        cb_dia = nail_shaft_hole + 1.6;
+        taper_h = (cb_dia - nail_shaft_hole) / 2; // 45-degree self-supporting angle
+        translate([0, 0, base_height - cb_depth])
+        union() {
+            // Straight counterbore upper section
+            cylinder(h = cb_depth + 0.1, d = cb_dia);
+            // 45-degree self-supporting transition cone below counterbore
+            translate([0, 0, -taper_h])
+            cylinder(h = taper_h + 0.01, d1 = nail_shaft_hole, d2 = cb_dia);
+        }
     }
-
-    // Male 90-Degree Threads on the outside of the central tube (Stopping 90 degrees sooner at the top)
-    thread_offset_deg_base = 90;
-    total_thread_span = (thread_turns_base + 1) * thread_pitch;
-    translate([0, 0, base_height - total_thread_span])
-    sawtooth_thread(
-        r_base = tube_outer_dia / 2,
-        r_tip = (tube_outer_dia / 2) + thread_depth,
-        pitch = thread_pitch,
-        turns = thread_turns_base - (thread_offset_deg_base / 360)
-    );
 }
 
 module rain_roof() {
     lid_inner_dia = base_diameter + clearance;
-    lid_lip_height = 2;
+    lid_lip_height = 1;
 
     difference() {
         union() {
             // Main Chamfered Roof Shield Plate
-            chamfered_cylinder(h = 3, d = lid_inner_dia + 16, c = chamfer_size);
+            chamfered_cylinder(h = 3, d = lid_inner_dia + 15, c = chamfer_size);
 
             // Outer Lip
             translate([0, 0, -lid_lip_height])
@@ -359,11 +377,14 @@ module rain_roof() {
             }
 
             // Female 90-Degree Threads starting 50 degrees above the socket tip
+            // Female Threads
+            // r_base buried 0.1mm outward into the socket wall (same degeneracy as the base:
+            // a back wall exactly on the socket inner surface produced non-manifold edges in the export).
             thread_offset_deg = 50;
             translate([0, 0, -socket_len + (thread_offset_deg / 360) * thread_pitch])
             rotate([0, 0, thread_offset_deg])
             sawtooth_thread(
-                r_base = socket_inner_dia / 2,
+                r_base = socket_inner_dia / 2 + 0.1,
                 r_tip = (socket_inner_dia / 2) - thread_depth,
                 pitch = thread_pitch,
                 turns = thread_turns_lid - (thread_offset_deg / 360)
