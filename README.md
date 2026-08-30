@@ -15,26 +15,26 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
+  <a href="12V-Battery-Mount">
+    <img src="12V-Battery-Mount/12V-Battery-Mount.png" alt="12V Battery Mount" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  </a>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="12V-Battery-Mount" style="color: inherit; text-decoration: none;">12V Battery Mount</a></div>
+</div>
+</td>
+      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Thumb-Knob">
     <img src="Thumb-Knob/Thumb-Knob.png" alt="Thumb Knob" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="Thumb-Knob" style="color: inherit; text-decoration: none;">Thumb Knob</a></div>
 </div>
 </td>
+    </tr>
+    <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
   <a href="Dummy-Knob">
     <img src="Dummy-Knob/Dummy-Knob.png" alt="Dummy Knob" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
   <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="Dummy-Knob" style="color: inherit; text-decoration: none;">Dummy Knob</a></div>
-</div>
-</td>
-    </tr>
-    <tr>
-      <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="GoPro-Bolt-Adapter">
-    <img src="GoPro-Bolt-Adapter/GoPro-Bolt-Adapter.png" alt="GoPro Bolt Adapter" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
-  </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="GoPro-Bolt-Adapter" style="color: inherit; text-decoration: none;">GoPro Bolt Adapter</a></div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
