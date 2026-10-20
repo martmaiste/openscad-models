@@ -8,14 +8,15 @@
 //
 //   sup_adapter()    - Standard SUP pump male bayonet (Halkey-Roberts) to
 //                      threaded nozzle (original v0.01 design).
-//   boston_adapter() - Boston straight tapered barrel (18mm long, 18mm OD
-//                      at the base, 17mm OD at the tip, chamfered tip
-//                      edges) to threaded nozzle.
+//   boston_adapter() - Boston straight tapered barrel (20mm long, 17mm OD
+//                      at the tip, 18.11mm OD at the base, same 1:18 taper
+//                      ratio; chamfered tip edges) to threaded nozzle.
 //
 //              All adapters share the same threaded end (with a 16mm x 2mm
 //              counterbore at its open end, ending in a 45-degree transition
-//              into the main bore) and the original wide ribbed grip lip
-//              (collar) with chamfered top and bottom edges, between the
+//              into the main bore) and the original wide grip lip
+//              (collar) with chamfered top and bottom edges, optional grip
+//              ribs and optional lanyard ears, between the
 //              thread and the nozzle, so they all fit the same air line. The 20mm seal seat neck is part of the
 //              SUP nozzle only. Choose which adapter to render with the
 //              `adapter` setting below ("sup", "boston", or "both" for a
@@ -84,6 +85,21 @@ lip_thickness = 5.0;
 lip_dia = 32.0;
 // Small chamfer on the lip's top and bottom edges (mm)
 lip_chamfer_h = 0.4;
+// Draw the vertical grip ribs (false = smooth collar)
+grip_ribs = true;
+// Number of lanyard ears on the collar (0 = plain round collar,
+// 1 = single ear, 2 = two ears opposite each other)
+lip_ears_n = 1; // [0, 1, 2]
+// Width of each lanyard ear (mm)
+lip_ear_width = 12.0;
+// Radial length of each lanyard ear beyond the collar surface (mm)
+lip_ear_length = 8.0;
+// Chamfer on the top and bottom outer edges of each ear (mm)
+lip_ear_chamfer_h = 0.4;
+// Diameter of the lanyard hole through each ear (mm)
+lip_ear_hole_dia = 4.0;
+// Chamfer on the top and bottom edges of each lanyard hole (mm)
+lip_ear_hole_chamfer_h = 0.4;
 // Number of vertical grip ribs around the lip
 lip_ribs_n = 24;
 // Grip rib diameter (mm)
@@ -96,12 +112,18 @@ seal_neck_dia = 20.0;
 seal_neck_length = 4.0;
 
 /* [Boston Adapter Settings (Straight Tapered Barrel)] */
-// Barrel length (mm)
-boston_barrel_length = 18.0;
-// Barrel outer diameter at the base (mm)
-boston_barrel_base_dia = 18.0;
+// Total barrel length above the grip lip (mm)
+boston_barrel_length = 20.0;
 // Barrel outer diameter at the tip (mm)
 boston_barrel_tip_dia = 17.0;
+// Taper ratio: OD growth per unit length (mm OD per mm length). The
+// original 18 mm barrel went 17 -> 18 mm, i.e. 1/18.
+boston_barrel_taper_ratio = 1 / 18;
+// Barrel outer diameter at the base (grip-lip) end, derived so the taper
+// (and thus the profile at any distance from the tip) stays constant when
+// the barrel length changes.
+boston_barrel_base_dia = boston_barrel_tip_dia
+                        + boston_barrel_length * boston_barrel_taper_ratio;
 // Small chamfer size on the tip edges: outer rim and bore edge (mm)
 boston_tip_chamfer_h = 0.4;
 
@@ -187,11 +209,6 @@ module threaded_end() {
                 h = open_cbore_chamfer_h + 0.05
             );
 
-        // Trim the thread ridge's top end sliver: the tapered end slice is
-        // not perfectly flat, leaving a ~0.03mm sliver above z = 0 that
-        // would show as a hairline ring on the mating end's base face
-        cylinder(d = thread_base_dia + 2 * thread_height + 1.0, h = 0.1, center = false);
-
         // Lead-in chamfer on the outer edge of the threaded tip, same size
         // as the counterbore open-end chamfer (45 degrees). Note tip_chamfer
         // adds +0.1 to its height, so the cone dimensions compensate to keep
@@ -211,36 +228,118 @@ module threaded_end() {
 // nozzle of every adapter, giving a wide finger grip. (The 20mm seal
 // seat neck is part of the SUP nozzle only - see sup_female_end().)
 module grip_lip() {
-    difference() {
-        union() {
-            // Simple circular lip (collar)
-            cylinder(d = lip_dia, h = lip_thickness);
+    union() {
+        difference() {
+            union() {
+                // Simple circular lip (collar)
+                cylinder(d = lip_dia, h = lip_thickness);
 
-            // Vertical grip ribs around the collar (the edge chamfers
-            // below trim their ends)
-            for (i = [0 : lip_ribs_n - 1]) {
-                rotate([0, 0, i * 360 / lip_ribs_n])
-                    translate([lip_dia/2 + lip_rib_h - lip_rib_dia/2, 0, 0])
-                        cylinder(d = lip_rib_dia, h = lip_thickness);
+                // Vertical grip ribs around the collar (the edge chamfers
+                // below trim their ends)
+                if (grip_ribs) {
+                    for (i = [0 : lip_ribs_n - 1]) {
+                        rotate([0, 0, i * 360 / lip_ribs_n])
+                            translate([lip_dia/2 + lip_rib_h - lip_rib_dia/2, 0, 0])
+                                cylinder(d = lip_rib_dia, h = lip_thickness);
+                    }
+                }
             }
+
+            // Bottom edge chamfer (face at z = 0): 45-degree cone from
+            // (lip_dia/2 - c, 0) up to (lip_dia/2, c). The ring ends exactly
+            // at the chamfer foot so it trims the rib ends cleanly.
+            translate([0, 0, -0.1])
+                difference() {
+                    cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
+                    cylinder(d1 = lip_dia - 2 * lip_chamfer_h - 0.2, d2 = lip_dia, h = lip_chamfer_h + 0.1);
+                }
+
+            // Top edge chamfer (tip face at z = lip_thickness)
+            translate([0, 0, lip_thickness - lip_chamfer_h])
+                difference() {
+                    cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
+                    cylinder(d1 = lip_dia, d2 = lip_dia - 2 * lip_chamfer_h - 0.2, h = lip_chamfer_h + 0.1);
+                }
         }
 
-        // Bottom edge chamfer (face at z = 0): 45-degree cone from
-        // (lip_dia/2 - c, 0) up to (lip_dia/2, c). The ring ends exactly
-        // at the chamfer foot so it trims the rib ends cleanly.
-        translate([0, 0, -0.1])
-            difference() {
-                cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
-                cylinder(d1 = lip_dia - 2 * lip_chamfer_h - 0.2, d2 = lip_dia, h = lip_chamfer_h + 0.1);
-            }
-
-        // Top edge chamfer (tip face at z = lip_thickness)
-        translate([0, 0, lip_thickness - lip_chamfer_h])
-            difference() {
-                cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
-                cylinder(d1 = lip_dia, d2 = lip_dia - 2 * lip_chamfer_h - 0.2, h = lip_chamfer_h + 0.1);
-            }
+        // Optional lanyard ears (kept outside the chamfer difference
+        // so the ear faces stay flat)
+        if (lip_ears_n > 0) {
+            grip_lip_ears();
+        }
     }
+}
+
+// Horizontal ears on the grip collar (lip_ears_n: 1 or 2; 0 draws nothing),
+// each a rounded tab with chamfered top and bottom outer edges and a
+// through hole for a lanyard, spanning z: 0 .. lip_thickness.
+// With 2 ears they are placed opposite each other.
+module grip_lip_ears() {
+    // Radial distance of the rounded ear end center from the axis
+    ear_c = lip_dia/2 + lip_ear_length - lip_ear_width/2;
+    // Hole center: the rounded ear end center, so the hole looks centered
+    // in the curved part of the ear. A minimum keeps the hole and its
+    // countersink openings clear of the collar wall (needed when a wide
+    // tab pulls ear_c close to the wall, which would create non-manifold
+    // geometry where the surfaces touch).
+    hole_c = max(ear_c,
+                 lip_dia/2 + lip_ear_hole_dia/2 + lip_ear_hole_chamfer_h + 0.5);
+
+    ec = lip_ear_chamfer_h;
+
+    difference() {
+        for (i = [0 : lip_ears_n - 1]) {
+            // Hull of three ear-profile slices: the end slices are inset
+            // by the chamfer, so the connecting faces are 45-degree
+            // chamfers on the top and bottom outer edges of the ear.
+            rotate([0, 0, i * 360 / lip_ears_n])
+                hull() {
+                    ear_slice(lip_ear_width - 2 * ec, 0, 0.03);
+                    ear_slice(lip_ear_width, ec, lip_thickness - 2 * ec);
+                    ear_slice(lip_ear_width - 2 * ec, lip_thickness - 0.03, 0.03);
+                }
+        }
+
+        // Lanyard hole through each ear, with 45-degree chamfer cones
+        // opening it on the bottom (z = 0) and top (z = lip_thickness)
+        // faces. The cones extend 0.05 mm past each face; their 1:1 slope
+        // keeps the opening exactly lip_ear_hole_dia + 2 * ch at the face.
+        ch = lip_ear_hole_chamfer_h;
+        for (i = [0 : lip_ears_n - 1]) {
+            rotate([0, 0, i * 360 / lip_ears_n]) {
+                translate([hole_c, 0, -0.1])
+                    cylinder(d = lip_ear_hole_dia, h = lip_thickness + 0.2);
+
+                translate([hole_c, 0, -0.05])
+                    cylinder(d1 = lip_ear_hole_dia + 2 * ch + 0.1,
+                             d2 = lip_ear_hole_dia,
+                             h = ch + 0.05);
+
+                translate([hole_c, 0, lip_thickness - ch])
+                    cylinder(d1 = lip_ear_hole_dia,
+                             d2 = lip_ear_hole_dia + 2 * ch + 0.1,
+                             h = ch + 0.05);
+            }
+        }
+    }
+}
+
+// One horizontal slice of the ear profile: a rounded tab (hull of two
+// cylinders of diameter w) from z = z0 with height h. The inset end
+// slices of the ear body use a reduced w so the hull faces are 45-degree
+// chamfers.
+module ear_slice(w, z0, h) {
+    ear_c = lip_dia/2 + lip_ear_length - lip_ear_width/2;
+
+    translate([0, 0, z0])
+        hull() {
+            // Base cylinder embedded in the collar
+            translate([lip_dia/2 - 1.6, 0, 0])
+                cylinder(d = w, h = h);
+            // Rounded ear end
+            translate([ear_c, 0, 0])
+                cylinder(d = w, h = h);
+        }
 }
 
 // Creates a subtractive ring to form a clean chamfer on a screw tip
@@ -254,7 +353,10 @@ module tip_chamfer(d_outer, d_inner, height) {
 // Creates a mathematically precise, 100% solid helical thread ridge
 // using a polyhedron sweep to avoid OpenSCAD's linear_extrude rendering bugs.
 module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio = 0.3, start_offset = 1.5) {
-    active_length = length - start_offset;
+    // Stop 0.3mm short of the top so the tapered end cap is fully buried
+    // inside the base cylinder (an end cap exactly at the cylinder's top
+    // plane leaves coplanar sliver faces that slicers flag as non-manifold).
+    active_length = length - start_offset - 0.3;
     turns = active_length / pitch;
     total_angle = turns * 360;
 
@@ -263,6 +365,12 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
     N = round(turns * slices_per_turn);
 
     r_actual_base = base_dia / 2;
+    // Surface points sit 0.02mm outside the nominal radius: the base
+    // cylinder is a 128-gon whose flat faces lie ~0.003mm inside the
+    // circumradius, and surface points exactly at the circumradius would
+    // hover over those faces, producing sliver intersections (non-manifold
+    // edges in slicers). Effect on the measured ridge width: ~0.01mm.
+    r_surf = r_actual_base + 0.02;
     r_base = r_actual_base - 0.8; // 0.8mm overlap into the cylinder to ensure a perfect manifold union
 
     // We taper the thread at both ends (start and stop) over a smooth 60-degree turn
@@ -296,10 +404,10 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
             )
             for (pt = [
                 [r_base, z - h_surf/2],                 // 0: inner bottom (deep inside cylinder)
-                [r_actual_base, z - h_surf/2],          // 1: surface bottom
+                [r_surf, z - h_surf/2],                 // 1: surface bottom
                 [r_proj, z - h_tip/2],                  // 2: outer bottom
                 [r_proj, z + h_tip/2],                  // 3: outer top
-                [r_actual_base, z + h_surf/2],          // 4: surface top
+                [r_surf, z + h_surf/2],                 // 4: surface top
                 [r_base, z + h_surf/2]                  // 5: inner top
             ])
             [pt[0] * c, pt[0] * s, pt[1]]
@@ -438,7 +546,13 @@ module rim_fillet_cutter(rho_a, rho_b, rho_c, zf, r, up = true) {
         }
         translate([0, 0, z_c])
             rotate_extrude()
-                translate([rho_c, 0]) circle(r = r);
+                // Tube scaled 2% radially: an exact circle reaches the
+                // wall with a tangent equator, and the tangent ring of
+                // polygon vertices pokes through the wall's flat chord
+                // faces (sliver intersections slicers flag as
+                // non-manifold). The 2% squash makes the fillet surface
+                // cross the wall transversally; cost is ~0.02mm.
+                translate([rho_c, 0]) scale([1.02, 1]) circle(r = r);
     }
 }
 
@@ -501,9 +615,11 @@ module sup_adapter() {
 
 // Straight tapered barrel for the Boston valve, occupying
 // z: 0 .. boston_barrel_length in local coordinates (the adapter seats
-// it on the grip lip).
+// it on the grip lip). z = 0 is the base (grip lip) end, the tip points
+// up at z = boston_barrel_length.
 module boston_barrel() {
-    cylinder(d1 = boston_barrel_base_dia, d2 = boston_barrel_tip_dia, h = boston_barrel_length);
+    cylinder(d1 = boston_barrel_base_dia, d2 = boston_barrel_tip_dia,
+             h = boston_barrel_length);
 }
 
 // Small 45-degree chamfers on both edges of the barrel tip: the outer

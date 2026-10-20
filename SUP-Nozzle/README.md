@@ -7,12 +7,15 @@ shared threaded air line to inflatable gear.
 
 ## Adapters
 
-All adapters share the same threaded end and ribbed grip lip, so they all fit the same air line:
+All adapters share the same threaded end and grip lip, so they all fit the same air line:
+
+The grip lip's vertical ribs are optional (`grip_ribs`), and it can carry 0, 1 or 2 lanyard ears
+(`lip_ears_n`), each a 12 mm-wide tab with a 4 mm through hole centered on the rounded ear end.
 
 | Adapter | Valve side |
 |---|---|
-| `sup` | Female 21 mm SUP pump bayonet (Halkey-Roberts style) with J-slots, lead-in ramps, seal seat neck, rounded bayonet edges and ribbed grip lip |
-| `boston` | Straight tapered Boston-valve barrel (18 mm long, 18 mm → 17 mm OD, chamfered tip) |
+| `sup` | Female 21 mm SUP pump bayonet (Halkey-Roberts style) with J-slots, lead-in ramps, seal seat neck, rounded bayonet edges and grip lip |
+| `boston` | Straight tapered Boston-valve barrel (20 mm long, 17 mm → 18.11 mm OD at a 1:18 taper ratio, chamfered tip; the longer/thicker base also grips worn or out-of-tolerance valve mouths) |
 
 ## Shared threaded end
 
