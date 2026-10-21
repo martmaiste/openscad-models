@@ -365,12 +365,14 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
     N = round(turns * slices_per_turn);
 
     r_actual_base = base_dia / 2;
-    // Surface points sit 0.02mm outside the nominal radius: the base
-    // cylinder is a 128-gon whose flat faces lie ~0.003mm inside the
-    // circumradius, and surface points exactly at the circumradius would
-    // hover over those faces, producing sliver intersections (non-manifold
-    // edges in slicers). Effect on the measured ridge width: ~0.01mm.
-    r_surf = r_actual_base + 0.02;
+    // Surface points sit 0.02mm inside the nominal radius: this is below
+    // even the 128-gon base cylinder's apothem (~0.003mm inside the
+    // circumradius), so the surface ribbon and the tapered end caps stay
+    // strictly buried inside the cylinder. Protruding them outside instead
+    // creates a near-parallel double wall (0.02mm apart) that every
+    // boolean crossing shatters into non-manifold slivers. Effect on the
+    // measured ridge width: <0.01mm.
+    r_surf = r_actual_base - 0.02;
     r_base = r_actual_base - 0.8; // 0.8mm overlap into the cylinder to ensure a perfect manifold union
 
     // We taper the thread at both ends (start and stop) over a smooth 60-degree turn
@@ -390,7 +392,14 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
                     ((angle > total_angle - taper_angle) ? ((total_angle - angle) / taper_angle) : 1.0),
 
                 active_h = thread_h * t,
-                r_proj = r_actual_base + active_h,
+                // The taper starts 0.05mm below the base radius so the
+                // ridge tip (and its end-cap corners) start strictly
+                // buried inside the base cylinder and pierce its wall
+                // transversally. Starting exactly at r_actual_base would
+                // make the near-zero-height tip graze the polygon's
+                // circumcircle tangentially (non-manifold slivers).
+                // At t=1 the crest is at the nominal r_actual_base+thread_h.
+                r_proj = (r_actual_base - 0.05) + (thread_h + 0.05) * t,
 
                 // Trapezoidal cross-section: axial width is exactly thread_t
                 // where the ridge meets the cylinder surface (r_actual_base),
@@ -399,8 +408,8 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
                 // through the 0.8mm union-overlap zone, so the buried part
                 // does not narrow the visible thread. (All widths taper to ~0
                 // at the helix start/stop via t.)
-                h_surf = thread_t * (0.05 + 0.95 * t),
-                h_tip = (thread_t * crest_ratio) * (0.05 + 0.95 * t)
+                h_surf = thread_t * (0.1 + 0.9 * t),
+                h_tip = (thread_t * crest_ratio) * (0.1 + 0.9 * t)
             )
             for (pt = [
                 [r_base, z - h_surf/2],                 // 0: inner bottom (deep inside cylinder)
