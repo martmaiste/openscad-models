@@ -20,6 +20,10 @@ The grip lip's vertical ribs are optional (`grip_ribs`), and it can carry 0, 1 o
 | `boston` | Straight tapered Boston-valve barrel (20 mm long, 17 mm → 18.11 mm OD at a 1:18 taper ratio, chamfered tip; the longer/thicker base also grips worn or out-of-tolerance valve mouths) |
 | `kite` | Female 20 mm kite/wing pump bayonet socket, 13 mm deep, with two L-grooves for 4 mm locking pegs (axial entry slots turning into a 40° arc groove); the chamber floor captures a standard 1/2" flat rubber tap-washer seal (~23 × 16 × 2.2 mm) that the pump valve tip presses against |
 
+| sup | boston | kite |
+|:---:|:---:|:---:|
+| ![sup adapter](Pumpressor-Nozzle-sup.png) | ![boston adapter](Pumpressor-Nozzle-boston.png) | ![kite adapter](Pumpressor-Nozzle-kite.png) |
+
 ## Shared threaded end
 
 - Male ACME thread (29° included flank angle): 21 mm minor / 23 mm major Ø, 15 mm long, 3.5 mm
@@ -33,6 +37,13 @@ Everything is driven by parameters in the OpenSCAD customizer (thread dimensions
 bayonet geometry, barrel geometry, kite socket/seal geometry, etc.), and `adapter` selects which
 model to render (`"sup"`, `"boston"`, `"kite"` or `"all"` side by side). `section_view = true`
 shows a vertical cutaway.
+
+## Nozzle holder
+
+`Nozzle-Holder.scad` is a companion mounting strip with four through-threaded ACME holes (50 mm
+spacing) and counterbored mounting holes, for stowing the nozzles on a wall, rack or trolley:
+
+![Nozzle holder](Nozzle-Holder.png)
 
 ## Files
 
@@ -64,6 +75,9 @@ openscad -o Nozzle-Holder.stl Nozzle-Holder.scad
 # Previews
 openscad -D adapter='"kite"' --render --projection=perspective --autocenter --viewall \
     --imgsize=1200,1200 -o Pumpressor-Nozzle.png Pumpressor-Nozzle.scad
+for a in sup boston kite; do \
+    openscad -D adapter="'\"$a\"'" --render --imgsize=1200,1200 --colorscheme=Solarized \
+        -o "Pumpressor-Nozzle-$a.png" Pumpressor-Nozzle.scad; done
 openscad --render --projection=perspective --autocenter --viewall \
     --imgsize=1200,1200 -o Nozzle-Holder.png Nozzle-Holder.scad
 ```
