@@ -1,8 +1,8 @@
 // =========================================================================
 // Parametric SUP Nozzle Adapters
 // File: SUP-Nozzle/SUP-Nozzle.scad
-// Version: v0.04
-// Date: 2026-10-18
+// Version: v0.07
+// Date: 2026-11-08
 // Description: Modular parametric OpenSCAD model of nozzle adapters that
 //              connect a shared threaded air line to inflatable gear:
 //
@@ -11,6 +11,15 @@
 //   boston_adapter() - Boston straight tapered barrel (20mm long, 17mm OD
 //                      at the tip, 18.11mm OD at the base, same 1:18 taper
 //                      ratio; chamfered tip edges) to threaded nozzle.
+//   kite_adapter()   - Kite/SUP pump style female 20mm bayonet socket,
+//                      13mm deep, with two L-grooves on opposite sides
+//                      for 3.6mm long round locking pegs (4mm dia):
+//                      axial entry slots turning into a 40-degree arc
+//                      groove centered at mid-depth of the socket,
+//                      grooves 4mm deep in the wall; to threaded nozzle.
+//                      The chamber floor holds a captured 1/2" flat
+//                      rubber tap-washer seal that the valve tip presses
+//                      against.
 //
 //              All adapters share the same threaded end (with a 16mm x 2mm
 //              counterbore at its open end, ending in a 45-degree transition
@@ -19,10 +28,16 @@
 //              ribs and optional lanyard ears, between the
 //              thread and the nozzle, so they all fit the same air line. The 20mm seal seat neck is part of the
 //              SUP nozzle only. Choose which adapter to render with the
-//              `adapter` setting below ("sup", "boston", or "both" for a
-//              side-by-side preview).
+//              `adapter` setting below ("sup", "boston", "kite", or "all"
+//              for a side-by-side preview).
 //              Layout convention: threaded end points down (-Z), the valve
 //              side points up (+Z).
+//
+//              The shared thread is a male ACME thread (29 degree included
+//              flank angle) matched to the female ACME thread of
+//              Nozzle-Holder.scad: 21mm minor / 23mm major diameter,
+//              3.5mm pitch, 1mm height, 2mm ridge width at the minor
+//              diameter.
 // =========================================================================
 
 /* [General Settings] */
@@ -30,27 +45,29 @@
 // This is the only $fn setting; no module overrides it.
 $fn = 128;
 
-// Which adapter to render: "sup", "boston", or "all"
-adapter = "boston";
+// Which adapter to render: "sup", "boston", "kite", or "all"
+adapter = "kite";
 
 // Show a vertical section (cutaway) view: keeps only the x >= 0 half so
-// the internal bores and counterbore are visible   w
+// the internal bores and counterbore are visible
 section_view = false;
 
 /* [Shared Threaded Nozzle Settings] */
-// Base outer diameter of the thread cylinder (mm)
+// Base outer diameter of the thread cylinder = thread minor diameter (mm)
 thread_base_dia = 21.0;
 // Length of the threaded portion (mm)
 thread_length = 15.0;
 // Height of the thread ridge from the base (mm)
 thread_height = 1.0;
-// Thickness of the thread ridge (mm)
-thread_thickness = 1.6;
+// Width of the thread ridge at the base (minor) diameter (mm). Matches
+// the ACME nut's groove opening width (groove_w in Nozzle-Holder.scad).
+thread_width = 2.0;
 // Thread step (pitch): axial advance per full turn (mm)
 thread_step = 3.5;
-// Crest width as a fraction of the ridge width at the surface (0..1).
-// 1 = rectangular thread, 0.3 = trapezoid with a crest 30% as wide
-thread_crest_ratio = 0.8;
+// ACME flank half-angle (degrees): half of the 29 degree ACME included
+// angle. The ridge flanks taper outward at this angle, giving a crest
+// width of thread_width - 2*thread_height*tan(flank_angle).
+thread_flank_angle = 14.5;
 // Internal bore diameter for air passage through the neck/thread (mm)
 bore_dia = 14.0;
 // Counterbore diameter at the open (tip) end of the thread (mm)
@@ -111,6 +128,49 @@ seal_neck_dia = 20.0;
 // Length of the seal seat neck (mm)
 seal_neck_length = 4.0;
 
+/* [Kite Adapter Settings (Female 20mm Pump Bayonet)] */
+// Female socket bore inner diameter (mm)
+kite_bore_dia = 20.7;
+// Socket bore depth measured down from the rim to the chamber floor
+// (mm). This is the functional dimension (how far the pump connector
+// inserts); the socket body length is derived from it.
+kite_bore_depth = 12.5;
+// Socket wall thickness; socket OD = bore + 2 * wall (mm). Must stay
+// at least kite_groove_depth + 1 mm so 1mm of wall remains behind the
+// grooves.
+kite_wall = 5.0;
+// Round locking peg diameter (mm)
+kite_peg_dia = 4.0;
+// Radial length of the locking pegs on the mating connector (mm)
+kite_peg_len = 3.6;
+// Radial depth of the locking grooves, measured from the socket bore
+// wall outward (mm)
+kite_groove_depth = 4.0;
+// Clearance around the peg inside the grooves (mm)
+kite_peg_clr = 0.3;
+// Angular peg travel when locking (degrees)
+kite_turn_deg = 40;
+// Height of the peg centre above the socket chamber floor (mm). Default
+// (calculated): mid-depth of the bore, where the pegs sit on the mating
+// connector.
+kite_peg_z = kite_bore_depth / 2;
+// 45-degree lead-in chamfer at the socket opening (mm)
+kite_chamfer_h = 0.5;
+// Small chamfer on the socket's outer top rim edge (mm)
+kite_rim_chamfer_h = 0.4;
+// Flat rubber 1/2" tap-washer seal (standard size ~ 23 OD x 16 ID x
+// 2.2 mm) captured in a groove at the chamber floor. The valve tip
+// presses against the washer instead of the plastic floor. The washer
+// is pressed in through the socket bore from above (rubber flex); the
+// groove is wider than the bore, so the washer cannot blow out.
+// Washer thickness (mm); also sets the seal pocket depth, so the washer
+// sits flush in the pocket.
+kite_seal_thk = 2.5;
+// Washer pocket diameter (mm). Larger than the standard 23.0 mm washer
+// OD; the washer is retained by having to squeeze through the 14 mm air
+// bore to enter the pocket, not by the pocket wall.
+kite_seal_groove_dia = 24.0;
+
 /* [Boston Adapter Settings (Straight Tapered Barrel)] */
 // Total barrel length above the grip lip (mm)
 boston_barrel_length = 20.0;
@@ -133,16 +193,23 @@ boston_tip_chamfer_h = 0.4;
 // The helix pitch is exactly the step set by the user
 thread_pitch = thread_step;
 
+
 // =========================================================================
 // Main Assembly Execution
 // =========================================================================
-if (adapter == "sup") {
+// Set to 0 when including this file for its modules only (no top-level
+// geometry rendered).
+render_nozzle = 1;
+if (render_nozzle && adapter == "sup") {
     sectioned() sup_adapter();
-} else if (adapter == "boston") {
+} else if (render_nozzle && adapter == "boston") {
     sectioned() boston_adapter();
-} else if (adapter == "all") {
-    translate([-45, 0, 0]) sectioned() sup_adapter();
-    translate([45, 0, 0]) sectioned() boston_adapter();
+} else if (render_nozzle && adapter == "kite") {
+    sectioned() kite_adapter();
+} else if (render_nozzle && adapter == "all") {
+    translate([-90, 0, 0]) sectioned() sup_adapter();
+    translate([0, 0, 0])   sectioned() boston_adapter();
+    translate([90, 0, 0])  sectioned() kite_adapter();
 }
 
 // Wraps children in an optional vertical cutaway: intersect with the
@@ -170,19 +237,21 @@ module sectioned() {
 module threaded_end() {
     difference() {
         union() {
-            // Thread base cylinder
+            // Thread base cylinder (runs 0.5mm past z = 0 into the grip
+            // lip so its top rim is buried; a face exactly coplanar with
+            // the lip underside flags as non-manifold in slicers)
             translate([0, 0, -thread_length])
-                cylinder(d = thread_base_dia, h = thread_length);
+                cylinder(d = thread_base_dia, h = thread_length + 0.5);
 
             // Helical Thread Ridge
             translate([0, 0, -thread_length])
                 helical_thread(
                     base_dia = thread_base_dia,
                     thread_h = thread_height,
-                    thread_t = thread_thickness,
+                    thread_t = thread_width,
                     pitch = thread_pitch,
                     length = thread_length,
-                    crest_ratio = thread_crest_ratio
+                    flank_angle = thread_flank_angle
                 );
         }
 
@@ -228,14 +297,35 @@ module threaded_end() {
 // nozzle of every adapter, giving a wide finger grip. (The 20mm seal
 // seat neck is part of the SUP nozzle only - see sup_female_end().)
 module grip_lip() {
+    // Radial reach of the ribs beyond the collar surface (0 for a smooth
+    // collar). The edge-chamfer trim rings below must cover this far out
+    // so the 45-degree cone sweeps across the rib ends instead of leaving
+    // an untrimmed shelf where the rib sticks out past the collar chamfer.
+    rib_reach = grip_ribs ? lip_rib_h : 0;
+
+    // The rib cylinders span exactly z: 0 .. lip_thickness (flush with the
+    // collar faces). The ribs overlap the flat part of the collar faces
+    // (their inner radius is below the chamfer foot radius), so any rib
+    // material past the faces would survive the cone as a thin tapered fin
+    // hanging off the collar; flush ends keep the rib height equal to the
+    // lip height.
+    //
+    // Shared height of the two trim rings: they extend 0.1 mm past the
+    // collar face plane and reach 0.2 mm above the height where the cone
+    // has cleared the rib outer radius (z = lip_chamfer_h + rib_reach +
+    // 0.2), so the 45-degree cone sweeps a continuous ramp across each
+    // rib end.
+    trim_h = lip_chamfer_h + rib_reach + 0.3;
+
     union() {
         difference() {
             union() {
                 // Simple circular lip (collar)
                 cylinder(d = lip_dia, h = lip_thickness);
 
-                // Vertical grip ribs around the collar (the edge chamfers
-                // below trim their ends)
+                // Vertical grip ribs around the collar. The chamfer rings
+                // below trim their ends with a continuous 45-degree ramp
+                // that wraps around the collar chamfer.
                 if (grip_ribs) {
                     for (i = [0 : lip_ribs_n - 1]) {
                         rotate([0, 0, i * 360 / lip_ribs_n])
@@ -246,19 +336,24 @@ module grip_lip() {
             }
 
             // Bottom edge chamfer (face at z = 0): 45-degree cone from
-            // (lip_dia/2 - c, 0) up to (lip_dia/2, c). The ring ends exactly
-            // at the chamfer foot so it trims the rib ends cleanly.
+            // (lip_dia/2 - c, 0) up to (lip_dia/2, c), extended out past
+            // the rib crests so the cone also sweeps across the rib ends.
             translate([0, 0, -0.1])
                 difference() {
-                    cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
-                    cylinder(d1 = lip_dia - 2 * lip_chamfer_h - 0.2, d2 = lip_dia, h = lip_chamfer_h + 0.1);
+                    cylinder(d = lip_dia + 2 * rib_reach + 1.0, h = trim_h);
+                    cylinder(d1 = lip_dia - 2 * lip_chamfer_h - 0.2,
+                             d2 = lip_dia + 2 * rib_reach + 0.4,
+                             h = trim_h);
                 }
 
-            // Top edge chamfer (tip face at z = lip_thickness)
-            translate([0, 0, lip_thickness - lip_chamfer_h])
+            // Top edge chamfer (face at z = lip_thickness): the same cone
+            // mirrored, likewise sized from rib_reach.
+            translate([0, 0, lip_thickness - lip_chamfer_h - rib_reach - 0.2])
                 difference() {
-                    cylinder(d = lip_dia + 2.0, h = lip_chamfer_h + 0.1);
-                    cylinder(d1 = lip_dia, d2 = lip_dia - 2 * lip_chamfer_h - 0.2, h = lip_chamfer_h + 0.1);
+                    cylinder(d = lip_dia + 2 * rib_reach + 1.0, h = trim_h);
+                    cylinder(d1 = lip_dia + 2 * rib_reach + 0.4,
+                             d2 = lip_dia - 2 * lip_chamfer_h - 0.2,
+                             h = trim_h);
                 }
         }
 
@@ -275,6 +370,13 @@ module grip_lip() {
 // through hole for a lanyard, spanning z: 0 .. lip_thickness.
 // With 2 ears they are placed opposite each other.
 module grip_lip_ears() {
+    // The ear end faces are inset 0.05 mm from the collar faces: flush
+    // ear faces would be coplanar with the flat lip top/bottom faces,
+    // and the intersecting face boundaries produce slicer-visible
+    // non-manifold edges. A 0.05 mm recess is invisible in print.
+    ear_inset = 0.05;
+    f_bot = ear_inset;
+    f_top = lip_thickness - ear_inset;
     // Radial distance of the rounded ear end center from the axis
     ear_c = lip_dia/2 + lip_ear_length - lip_ear_width/2;
     // Hole center: the rounded ear end center, so the hole looks centered
@@ -294,28 +396,29 @@ module grip_lip_ears() {
             // chamfers on the top and bottom outer edges of the ear.
             rotate([0, 0, i * 360 / lip_ears_n])
                 hull() {
-                    ear_slice(lip_ear_width - 2 * ec, 0, 0.03);
-                    ear_slice(lip_ear_width, ec, lip_thickness - 2 * ec);
-                    ear_slice(lip_ear_width - 2 * ec, lip_thickness - 0.03, 0.03);
+                    ear_slice(lip_ear_width - 2 * ec, f_bot, 0.03);
+                    ear_slice(lip_ear_width, f_bot + ec, f_top - f_bot - 2 * ec);
+                    ear_slice(lip_ear_width - 2 * ec, f_top - 0.03, 0.03);
                 }
         }
 
         // Lanyard hole through each ear, with 45-degree chamfer cones
-        // opening it on the bottom (z = 0) and top (z = lip_thickness)
-        // faces. The cones extend 0.05 mm past each face; their 1:1 slope
-        // keeps the opening exactly lip_ear_hole_dia + 2 * ch at the face.
+        // opening it on the recessed bottom (z = f_bot) and top
+        // (z = f_top) faces. The cones extend 0.05 mm past each face;
+        // their 1:1 slope keeps the opening exactly
+        // lip_ear_hole_dia + 2 * ch at the face.
         ch = lip_ear_hole_chamfer_h;
         for (i = [0 : lip_ears_n - 1]) {
             rotate([0, 0, i * 360 / lip_ears_n]) {
                 translate([hole_c, 0, -0.1])
                     cylinder(d = lip_ear_hole_dia, h = lip_thickness + 0.2);
 
-                translate([hole_c, 0, -0.05])
+                translate([hole_c, 0, f_bot - 0.05])
                     cylinder(d1 = lip_ear_hole_dia + 2 * ch + 0.1,
                              d2 = lip_ear_hole_dia,
                              h = ch + 0.05);
 
-                translate([hole_c, 0, lip_thickness - ch])
+                translate([hole_c, 0, f_top - ch])
                     cylinder(d1 = lip_ear_hole_dia,
                              d2 = lip_ear_hole_dia + 2 * ch + 0.1,
                              h = ch + 0.05);
@@ -350,18 +453,29 @@ module tip_chamfer(d_outer, d_inner, height) {
     }
 }
 
-// Creates a mathematically precise, 100% solid helical thread ridge
+// Creates a mathematically precise, 100% solid helical ACME thread ridge
 // using a polyhedron sweep to avoid OpenSCAD's linear_extrude rendering bugs.
-module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio = 0.3, start_offset = 1.5) {
-    // Stop 0.3mm short of the top so the tapered end cap is fully buried
+module helical_thread(base_dia, thread_h, thread_t, pitch, length, flank_angle = 14.5, start_offset = 1.5) {
+    // Stop 0.9mm short of the top so the tapered end cap is fully buried
     // inside the base cylinder (an end cap exactly at the cylinder's top
     // plane leaves coplanar sliver faces that slicers flag as non-manifold).
-    active_length = length - start_offset - 0.3;
+    // 0.3mm is NOT enough: the receding tapered tip then grazes the base
+    // cylinder's polygon vertices just below the lip underside plane, and
+    // the boolean leaves multiplicity-4 non-manifold edges along the wall
+    // at z = 0 (reproduced with OpenSCAD 2026.08, Manifold and CGAL
+    // backends). Do not reduce this margin without re-running the
+    // STL edge-multiplicity check on all three adapters.
+    active_length = length - start_offset - 0.9;
     turns = active_length / pitch;
     total_angle = turns * 360;
 
-    // Smoothness: 36 slices per turn for an incredibly clean finish
-    slices_per_turn = 144;
+    // Smoothness: slices per turn of the helix. 120 (3-degree steps) is
+    // deliberately below the base cylinder's 128-gon resolution: at 144
+    // the helix/wall intersection phase reproducibly garbles the CGAL
+    // union into multiplicity-4 non-manifold patches on the cylinder
+    // wall. Do not raise this without re-running the STL edge-multiplicity
+    // check on all three adapters.
+    slices_per_turn = 120;
     N = round(turns * slices_per_turn);
 
     r_actual_base = base_dia / 2;
@@ -401,15 +515,17 @@ module helical_thread(base_dia, thread_h, thread_t, pitch, length, crest_ratio =
                 // At t=1 the crest is at the nominal r_actual_base+thread_h.
                 r_proj = (r_actual_base - 0.05) + (thread_h + 0.05) * t,
 
-                // Trapezoidal cross-section: axial width is exactly thread_t
-                // where the ridge meets the cylinder surface (r_actual_base),
-                // tapering to thread_t * thread_crest_ratio at the crest.
+                // ACME trapezoidal cross-section: axial width is exactly
+                // thread_t where the ridge meets the cylinder surface
+                // (r_actual_base), tapering at the flank angle to
+                // thread_t - 2*thread_h*tan(flank_angle) at the crest.
                 // From the surface it runs straight down (constant width)
                 // through the 0.8mm union-overlap zone, so the buried part
                 // does not narrow the visible thread. (All widths taper to ~0
                 // at the helix start/stop via t.)
                 h_surf = thread_t * (0.1 + 0.9 * t),
-                h_tip = (thread_t * crest_ratio) * (0.1 + 0.9 * t)
+                h_tip = max(thread_t - 2 * thread_h * tan(flank_angle), 0.2)
+                        * (0.1 + 0.9 * t)
             )
             for (pt = [
                 [r_base, z - h_surf/2],                 // 0: inner bottom (deep inside cylinder)
@@ -668,5 +784,128 @@ module boston_adapter() {
             cylinder(d = bore_dia, h = z_base + boston_barrel_length + 1.5);
 
         boston_tip_chamfer();
+    }
+}
+
+// =========================================================================
+// Kite Adapter (female 20mm pump bayonet)
+// =========================================================================
+
+// Subtractive L-grooves for the two round locking pegs, on opposite
+// sides: axial entry slots for peg insertion that turn into a
+// circumferential arc groove centered on kite_peg_z above the chamber
+// floor. Both grooves turn clockwise (viewed from the rim
+// down the axis); the mating connector is inserted pegs-down and
+// rotated kite_turn_deg degrees to lock. z_fl is the socket chamber
+// floor, z_top the rim plane.
+module kite_lgrooves(z_fl, z_top) {
+    // Groove pocket: kite_groove_depth past the bore wall; sized so a
+    // peg of kite_peg_len (rooted on the mating stem at the bore wall)
+    // travels inside with kite_peg_clr clearance on both radial sides.
+    r_out = kite_bore_dia / 2 + kite_groove_depth;       // groove outer r
+    r_in  = max(r_out - kite_peg_len - 2 * kite_peg_clr - 0.5, 0.01);
+    w     = kite_peg_dia + 2 * kite_peg_clr;             // groove width
+    z_lo  = z_fl + kite_peg_z - w / 2;                   // turn band bottom
+    z_hi  = z_lo + w;                                    // band top / slot floor
+    hw    = asin(min(w / 2 / r_in, 1)) + 2;              // groove end half-width
+
+    // Annular sector (one segment of the turning arc groove), 2D.
+    module arc_seg(a0, a1) {
+        n = max(ceil((a1 - a0) / 5), 2);
+        polygon(concat(
+            [ for (i = [0 : n])
+                  [ r_out * cos(a0 + (a1 - a0) * i / n),
+                    r_out * sin(a0 + (a1 - a0) * i / n) ] ],
+            [ for (i = [n : -1 : 0])
+                  [ r_in * cos(a0 + (a1 - a0) * i / n),
+                    r_in * sin(a0 + (a1 - a0) * i / n) ] ]));
+    }
+
+    for (a0 = [0, 180])
+        rotate([0, 0, a0]) {
+            // Axial entry slot: from above the rim down into the turn
+            // band (0.01 overlap avoids coplanar boolean faces).
+            translate([0, 0, z_lo + 0.01])
+                linear_extrude(height = z_top + 1 - (z_lo + 0.01))
+                    polygon([[r_in, -w/2], [r_out, -w/2],
+                             [r_out,  w/2], [r_in,  w/2]]);
+
+            // Turning arc groove: the peg travels kite_turn_deg
+            // clockwise from the entry slot (negative angle side).
+            translate([0, 0, z_lo])
+               linear_extrude(height = w)
+                    arc_seg(-(kite_turn_deg + hw), 0);
+        }
+}
+
+// Female kite-pump bayonet receiver end, occupying z: 0 .. lip + socket.
+// Grip lip (collar), plain socket body, Ø20 chamber, lead-in rim chamfer
+// and the L-grooves. The chamber ends in a flat-bottomed groove that
+// captures the flat rubber washer seal: the groove is wider than the
+// chamber bore, so the washer (pressed in through the bore) cannot
+// escape toward the valve, and the washer top face sits flush with the
+// chamber floor for the valve tip to seal against.
+module kite_female_end() {
+    z_base = lip_thickness;                    // rim... body base
+    z_top  = z_base + kite_bore_depth;         // socket rim
+    z_fl   = z_base;                           // chamber floor
+    z_sf   = z_fl - kite_seal_thk;             // seal groove floor
+
+    difference() {
+        union() {
+            // Wide grip lip (collar)
+            grip_lip();
+
+            // Socket body
+            translate([0, 0, z_base])
+                cylinder(d = kite_bore_dia + 2 * kite_wall, h = kite_bore_depth);
+        }
+
+        // Air passage through the lip up to the flat seal-groove floor,
+        // then the washer pocket opening into the chamber. The pocket
+        // stays clear of the lip underside by design: pocket depth
+        // (washer thickness) < lip thickness.
+        // (0.01 overlaps avoid coplanar boolean faces between the cuts,
+        // which slicers can read as non-manifold edges)
+        translate([0, 0, -0.5])
+            cylinder(d = bore_dia, h = z_sf + 0.51);
+        translate([0, 0, z_sf])
+            cylinder(d = kite_seal_groove_dia,
+                     h = kite_seal_thk + 0.01);
+
+        // Socket chamber (1mm past the rim)
+        translate([0, 0, z_fl])
+            cylinder(d = kite_bore_dia, h = z_top - z_fl + 1);
+
+        // 45-degree lead-in chamfer at the opening (past the face)
+        translate([0, 0, z_top - kite_chamfer_h])
+            cylinder(h = kite_chamfer_h + 1,
+                     r1 = kite_bore_dia / 2,
+                     r2 = kite_bore_dia / 2 + kite_chamfer_h + 1);
+
+        // Small 45-degree chamfer on the socket's outer top rim edge:
+        // cut the band above a 1:1 cone (oversized 0.01 mm on every face
+        // to avoid tangential boolean contacts at the chamfer corners).
+        kite_od = kite_bore_dia + 2 * kite_wall;
+        translate([0, 0, z_top - kite_rim_chamfer_h - 0.01])
+            difference() {
+                cylinder(d = kite_od + 2,
+                         h = kite_rim_chamfer_h + 0.02);
+                cylinder(d1 = kite_od + 0.02,
+                         d2 = kite_od - 2 * kite_rim_chamfer_h - 0.02,
+                         h = kite_rim_chamfer_h + 0.02);
+            }
+
+        // L-grooves for the locking pegs
+        kite_lgrooves(z_fl, z_top);
+    }
+}
+
+// Kite adapter: grip lip + female 20mm pump bayonet socket on top,
+// threaded nozzle on the bottom - fits the same air line.
+module kite_adapter() {
+    union() {
+        kite_female_end();
+        threaded_end();
     }
 }
