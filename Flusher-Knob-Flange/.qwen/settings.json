@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3)",
+      "Bash(.read)",
+      "Bash(print)",
+      "Bash(py)",
+      "Bash(cd *)",
+      "Bash(python3 *)",
+      "Bash(head *)",
+      "Bash(grep *)",
+      "Bash(awk *)",
+      "Bash(do *)",
+      "Bash(knob *)",
+      "Bash(openscad *)",
+      "Bash(done)",
+      "Bash(tail *)",
+      "Bash(ls *)",
+      "Bash(cat)",
+      "Bash(cube)",
+      "Bash(import *)",
+      "Bash(sys.path.insert)",
+      "Bash(tris *)",
+      "Bash('/tmp/dbg.stl')",
+      "Bash(5.0, *)",
+      "Bash(h *)",
+      "Bash(tris,)",
+      "Bash(ys_ok *)",
+      "Bash(zok *)",
+      "Bash(f *)",
+      "Bash('/tmp/fkf_asmorient.stl')",
+      "Bash(z *)",
+      "Bash(yok *)",
+      "Bash(echo *)",
+      "Bash(echo)",
+      "Bash(git status *)"
+    ]
+  },
+  "$version": 4
+}
