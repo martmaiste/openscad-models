@@ -8,10 +8,10 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
   <tbody>
     <tr>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="SUP-Nozzle">
-    <img src="SUP-Nozzle/SUP-Nozzle.png" alt="SUP Nozzle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  <a href="Pumpressor-Nozzle">
+    <img src="Pumpressor-Nozzle/Pumpressor-Nozzle.png" alt="Pumpressor Nozzle" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="SUP-Nozzle" style="color: inherit; text-decoration: none;">SUP Nozzle</a></div>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="Pumpressor-Nozzle" style="color: inherit; text-decoration: none;">Pumpressor Nozzle</a></div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
@@ -38,10 +38,10 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
-  <a href="SUP-Nozzle">
-    <img src="SUP-Nozzle/Nozzle-Holder.png" alt="Nozzle Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
+  <a href="Pumpressor-Nozzle">
+    <img src="Pumpressor-Nozzle/Nozzle-Holder.png" alt="Nozzle Holder" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">
   </a>
-  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="SUP-Nozzle" style="color: inherit; text-decoration: none;">Nozzle Holder</a></div>
+  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="Pumpressor-Nozzle" style="color: inherit; text-decoration: none;">Nozzle Holder</a></div>
 </div>
 </td>
       <td style="width: 33%; vertical-align: top;"><div style="text-align: center; padding: 10px;">
