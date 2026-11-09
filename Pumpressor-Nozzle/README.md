@@ -40,6 +40,9 @@ shows a vertical cutaway.
 |---|---|
 | `Pumpressor-Nozzle.scad` | The parametric nozzle model (single file) |
 | `Pumpressor-Nozzle.png` | Rendered preview |
+| `Pumpressor-Nozzle-sup.png` | Rendered preview of the `sup` adapter |
+| `Pumpressor-Nozzle-boston.png` | Rendered preview of the `boston` adapter |
+| `Pumpressor-Nozzle-kite.png` | Rendered preview of the `kite` adapter |
 | `Pumpressor-Nozzle-Kite.3mf` | Ready-to-print slice of the kite adapter |
 | `Nozzle-Holder.scad` | Companion holder strip: 4 through-threaded ACME holes (50 mm spacing) with mounting holes, for stowing the nozzles |
 | `Nozzle-Holder.png` | Rendered preview of the holder |
