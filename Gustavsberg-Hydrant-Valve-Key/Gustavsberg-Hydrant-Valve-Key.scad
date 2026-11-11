@@ -4,7 +4,7 @@
 
 /* [Socket Parameters] */
 // Side length of the square socket (mm)
-socket_size = 7.5;
+socket_size = 7.3;
 // Depth of the square socket (mm)
 socket_depth = 11;
 
