@@ -1,0 +1,30 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "New set 1": {
+            "corner_radius": "2",
+            "cover_size": "56",
+            "delta": "0.050000000000000003",
+            "face_thickness": "2",
+            "frame_depth": "9.5",
+            "frame_tab_opening": "52",
+            "frame_tab_thickness": "1",
+            "frame_tab_width": "20",
+            "front_chamfer": "1.5",
+            "gusset_height": "2",
+            "gusset_width": "2",
+            "hook_overlap": "0.80000000000000004",
+            "hook_play": "0",
+            "mode": "print",
+            "pry_notch": "false",
+            "release_angle": "45",
+            "render_segments": "64",
+            "skirt_depth": "8",
+            "tab_clearance": "0.10000000000000001",
+            "tab_extension": "1.5",
+            "tab_thickness": "1.8",
+            "tab_width": "18",
+            "wall_thickness": "1.2"
+        }
+    }
+}
