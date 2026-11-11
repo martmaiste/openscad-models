@@ -19,10 +19,11 @@ The grip lip's vertical ribs are optional (`grip_ribs`), and it can carry 0, 1 o
 | `sup` | Female 21 mm SUP pump bayonet (Halkey-Roberts style) with J-slots, lead-in ramps, seal seat neck, rounded bayonet edges and grip lip |
 | `boston` | Straight tapered Boston-valve barrel (20 mm long, 17 mm → 18.11 mm OD at a 1:18 taper ratio, chamfered tip; the longer/thicker base also grips worn or out-of-tolerance valve mouths) |
 | `kite` | Female 20 mm kite/wing pump bayonet socket, 13 mm deep, with two L-grooves for 4 mm locking pegs (axial entry slots turning into a 40° arc groove); the chamber floor captures a standard 1/2" flat rubber tap-washer seal (~23 × 16 × 2.2 mm) that the pump valve tip presses against |
+| `maxflow` | MaxFlow tapered nozzle barrel as used on Ensis wings and Liquid Force kites (18 mm long, 31 mm → 30.75 mm OD, constant 3 mm wall → 24.75 mm tip bore, both tip edges lightly chamfered) |
 
-| sup | boston | kite |
-|:---:|:---:|:---:|
-| ![sup adapter](Pumpressor-Nozzle-sup.png) | ![boston adapter](Pumpressor-Nozzle-boston.png) | ![kite adapter](Pumpressor-Nozzle-kite.png) |
+| sup | boston | kite | maxflow |
+|:---:|:---:|:---:|:---:|
+| ![sup adapter](Pumpressor-Nozzle-sup.png) | ![boston adapter](Pumpressor-Nozzle-boston.png) | ![kite adapter](Pumpressor-Nozzle-kite.png) | ![maxflow adapter](Pumpressor-Nozzle-maxflow.png) |
 
 ## Shared threaded end
 
@@ -35,7 +36,7 @@ The grip lip's vertical ribs are optional (`grip_ribs`), and it can carry 0, 1 o
 
 Everything is driven by parameters in the OpenSCAD customizer (thread dimensions, bore/counterbore,
 bayonet geometry, barrel geometry, kite socket/seal geometry, etc.), and `adapter` selects which
-model to render (`"sup"`, `"boston"`, `"kite"` or `"all"` side by side). `section_view = true`
+model to render (`"sup"`, `"boston"`, `"kite"`, `"maxflow"` or `"all"` side by side). `section_view = true`
 shows a vertical cutaway.
 
 ## Nozzle holder
@@ -54,6 +55,7 @@ spacing) and counterbored mounting holes, for stowing the nozzles on a wall, rac
 | `Pumpressor-Nozzle-sup.png` | Rendered preview of the `sup` adapter |
 | `Pumpressor-Nozzle-boston.png` | Rendered preview of the `boston` adapter |
 | `Pumpressor-Nozzle-kite.png` | Rendered preview of the `kite` adapter |
+| `Pumpressor-Nozzle-maxflow.png` | Rendered preview of the `maxflow` adapter |
 | `Pumpressor-Nozzle-Kite.3mf` | Ready-to-print slice of the kite adapter |
 | `Nozzle-Holder.scad` | Companion holder strip: 4 through-threaded ACME holes (50 mm spacing) with mounting holes, for stowing the nozzles |
 | `Nozzle-Holder.png` | Rendered preview of the holder |
@@ -68,6 +70,7 @@ matches the parameters you set.
 openscad -D adapter='"sup"'    -o Pumpressor-Nozzle-sup.stl    Pumpressor-Nozzle.scad
 openscad -D adapter='"boston"' -o Pumpressor-Nozzle-boston.stl Pumpressor-Nozzle.scad
 openscad -D adapter='"kite"'   -o Pumpressor-Nozzle-kite.stl   Pumpressor-Nozzle.scad
+openscad -D adapter='"maxflow"' -o Pumpressor-Nozzle-maxflow.stl Pumpressor-Nozzle.scad
 
 # Holder STL
 openscad -o Nozzle-Holder.stl Nozzle-Holder.scad
@@ -75,7 +78,7 @@ openscad -o Nozzle-Holder.stl Nozzle-Holder.scad
 # Previews
 openscad -D adapter='"kite"' --render --projection=perspective --autocenter --viewall \
     --imgsize=1200,1200 -o Pumpressor-Nozzle.png Pumpressor-Nozzle.scad
-for a in sup boston kite; do \
+for a in sup boston kite maxflow; do \
     openscad -D adapter="'\"$a\"'" --render --imgsize=1200,1200 --colorscheme=Solarized \
         -o "Pumpressor-Nozzle-$a.png" Pumpressor-Nozzle.scad; done
 openscad --render --projection=perspective --autocenter --viewall \

@@ -1,6 +1,6 @@
 // =========================================================================
-// Parametric SUP Nozzle Adapters
-// File: SUP-Nozzle/SUP-Nozzle.scad
+// Parametric Pumpressor Nozzle Adapters
+// File: Pumpressor-Nozzle.scad
 // Version: v0.07
 // Date: 2026-11-08
 // Description: Modular parametric OpenSCAD model of nozzle adapters that
@@ -20,6 +20,11 @@
 //                      The chamber floor holds a captured 1/2" flat
 //                      rubber tap-washer seal that the valve tip presses
 //                      against.
+//   maxflow_adapter()- MaxFlow tapered nozzle (Ensis wings, Liquid Force
+//                      kites): 18mm long, 31mm OD at the base tapering
+//                      to 30.75mm at the tip with a constant 3mm wall,
+//                      both tip edges lightly chamfered; to threaded
+//                      nozzle.
 //
 //              All adapters share the same threaded end (with a 16mm x 2mm
 //              counterbore at its open end, ending in a 45-degree transition
@@ -28,8 +33,8 @@
 //              ribs and optional lanyard ears, between the
 //              thread and the nozzle, so they all fit the same air line. The 20mm seal seat neck is part of the
 //              SUP nozzle only. Choose which adapter to render with the
-//              `adapter` setting below ("sup", "boston", "kite", or "all"
-//              for a side-by-side preview).
+//              `adapter` setting below ("sup", "boston", "kite",
+//              "maxflow", or "all" for a side-by-side preview).
 //              Layout convention: threaded end points down (-Z), the valve
 //              side points up (+Z).
 //
@@ -45,7 +50,7 @@
 // This is the only $fn setting; no module overrides it.
 $fn = 128;
 
-// Which adapter to render: "sup", "boston", "kite", or "all"
+// Which adapter to render: "sup", "boston", "kite", "maxflow", or "all"
 adapter = "kite";
 
 // Show a vertical section (cutaway) view: keeps only the x >= 0 half so
@@ -171,6 +176,27 @@ kite_seal_thk = 2.5;
 // bore to enter the pocket, not by the pocket wall.
 kite_seal_groove_dia = 24.0;
 
+/* [MaxFlow Adapter Settings (Tapered Nozzle)] */
+// Total barrel length above the grip lip (mm)
+maxflow_barrel_length = 18.0;
+// Barrel outer diameter at the base (grip-lip) end (mm)
+maxflow_barrel_base_dia = 31.0;
+// Taper ratio: OD shrinkage per unit length (mm OD per mm length).
+// Original MaxFlow nozzle: 31 -> 30.75mm over 18mm, i.e. 0.25/18.
+maxflow_barrel_taper_ratio = 0.25 / 18;
+// Barrel outer diameter at the tip, derived so the taper stays constant
+// when the barrel length changes.
+maxflow_barrel_tip_dia = maxflow_barrel_base_dia
+                       - maxflow_barrel_length * maxflow_barrel_taper_ratio;
+// Barrel wall thickness (mm). The bore tapers parallel to the outer wall,
+// so the wall stays this thick along the whole barrel.
+maxflow_wall = 3.0;
+// Barrel bore diameters at the base and tip, derived from the wall thickness
+maxflow_bore_base_dia = maxflow_barrel_base_dia - 2 * maxflow_wall;
+maxflow_bore_tip_dia = maxflow_barrel_tip_dia - 2 * maxflow_wall;
+// Small chamfer size on the tip edges: outer rim and bore edge (mm)
+maxflow_tip_chamfer_h = 0.4;
+
 /* [Boston Adapter Settings (Straight Tapered Barrel)] */
 // Total barrel length above the grip lip (mm)
 boston_barrel_length = 20.0;
@@ -206,10 +232,13 @@ if (render_nozzle && adapter == "sup") {
     sectioned() boston_adapter();
 } else if (render_nozzle && adapter == "kite") {
     sectioned() kite_adapter();
+} else if (render_nozzle && adapter == "maxflow") {
+    sectioned() maxflow_adapter();
 } else if (render_nozzle && adapter == "all") {
-    translate([-90, 0, 0]) sectioned() sup_adapter();
-    translate([0, 0, 0])   sectioned() boston_adapter();
-    translate([90, 0, 0])  sectioned() kite_adapter();
+    translate([-135, 0, 0]) sectioned() sup_adapter();
+    translate([-45, 0, 0])  sectioned() boston_adapter();
+    translate([45, 0, 0])   sectioned() kite_adapter();
+    translate([135, 0, 0])  sectioned() maxflow_adapter();
 }
 
 // Wraps children in an optional vertical cutaway: intersect with the
@@ -784,6 +813,68 @@ module boston_adapter() {
             cylinder(d = bore_dia, h = z_base + boston_barrel_length + 1.5);
 
         boston_tip_chamfer();
+    }
+}
+
+// =========================================================================
+// MaxFlow Adapter (tapered nozzle, Ensis wings / Liquid Force kites)
+// =========================================================================
+
+// Straight tapered barrel for the MaxFlow nozzle, occupying
+// z: 0 .. maxflow_barrel_length in local coordinates (the adapter seats
+// it on the grip lip). z = 0 is the base (grip lip) end, the tip points
+// up at z = maxflow_barrel_length.
+module maxflow_barrel() {
+    cylinder(d1 = maxflow_barrel_base_dia, d2 = maxflow_barrel_tip_dia,
+             h = maxflow_barrel_length);
+}
+
+// Small 45-degree chamfers on both edges of the barrel tip: the outer
+// rim and the bore edge in the tip face (deburring + easy handling).
+module maxflow_tip_chamfer() {
+    z_tip = lip_thickness + maxflow_barrel_length;
+    c = maxflow_tip_chamfer_h;
+
+    // Outer edge: cut from the tip face, running down along the barrel wall
+    translate([0, 0, z_tip - c])
+        difference() {
+            cylinder(d = maxflow_barrel_tip_dia + 2.0, h = c + 0.1);
+            cylinder(d1 = maxflow_barrel_tip_dia, d2 = maxflow_barrel_tip_dia - 2 * c - 0.2, h = c + 0.1);
+        }
+
+    // Inner edge: cut from the bore edge, running out into the tip face
+    translate([0, 0, z_tip - c])
+        cylinder(d1 = maxflow_bore_tip_dia,
+                 d2 = maxflow_bore_tip_dia + 2 * c + 0.2, h = c + 0.1);
+}
+
+// MaxFlow adapter: grip lip + straight tapered barrel on top, threaded
+// nozzle on the bottom - fits the same air line as the other adapters.
+module maxflow_adapter() {
+    z_base = lip_thickness;
+
+    difference() {
+        union() {
+            threaded_end();
+            grip_lip();
+            translate([0, 0, z_base])
+                maxflow_barrel();
+        }
+
+        // Air passage: the 14mm bore of the threaded end (opened by
+        // threaded_end itself), a transition cone through the grip lip up
+        // to the barrel bore base, then the barrel bore tapering parallel
+        // to the outer wall (constant maxflow_wall). The barrel bore cone
+        // runs 0.5mm past the tip so the tip face opens cleanly.
+        translate([0, 0, 0])
+            cylinder(d1 = bore_dia, d2 = maxflow_bore_base_dia, h = z_base);
+        translate([0, 0, z_base])
+            cylinder(d1 = maxflow_bore_base_dia,
+                     d2 = maxflow_bore_tip_dia
+                        - 0.5 * maxflow_barrel_taper_ratio,
+                     h = maxflow_barrel_length + 0.5);
+
+        maxflow_tip_chamfer();
     }
 }
 
