@@ -1,8 +1,8 @@
 // ==============================================================================
 // EasyDrive Battery Charger Wall Mount
 // File: EasyDrive-Charger-Holder.scad
-// Version: v0.17
-// Date: 2026-06-07
+// Version: v0.28
+// Date: 2026-07-29
 // Description: Minimalist horizontal wall mount for the EasyDrive battery charger.
 // Features clean 1mm chamfers (phases) on outward-facing edges and front/side wall
 // top entry edges. Uses an exact 0.01mm thickness 3D pyramid hull to create perfectly
@@ -55,6 +55,22 @@ side_recession_z_offset = 5;
 enable_bottom_cutout = true;
 // Margin of solid material left around the bottom plate cutout in mm
 bottom_margin = 12;
+
+/* [Status LED Hole] */
+// Enable an optional cutout/hole in the front wall for the status LED
+enable_led_hole = true;
+// Diameter of the inner LED status hole in mm
+led_hole_diameter = 6.0;
+// Distance of the LED from the left side of the charger in mm (use 133 for 24mm from the right side)
+led_x_offset = 133.0;
+// Distance of the LED from the bottom of the charger in mm
+led_z_offset = 14.0;
+// Enable a flare/countersink on the outside of the LED hole for better viewing angle
+enable_led_countersink = true;
+// Outer diameter of the flare/countersink in mm (default 10.0mm creates a 45-degree angle with 2.0mm depth)
+led_hole_countersink_diameter = 10.0;
+// Depth of the flare/countersink taper into the wall in mm
+led_hole_countersink_depth = 2.0;
 
 /* [Preview Options] */
 // Show a translucent ghost representation of the charger for visualization
@@ -128,7 +144,30 @@ module easy_drive_charger_mount() {
             cube([W_inner - 2 * bottom_margin, D_inner - 2 * bottom_margin, bottom_thickness + 2]);
         }
 
-        // 4. CHAMFERS (PHASES) ON OUTWARD-FACING EDGES ONLY
+        // 4. Status LED hole (optional)
+        if (enable_led_hole) {
+            // Main inner pilot hole (goes all the way through the wall)
+            translate([clearance + led_x_offset, D_inner - 1, led_z_offset])
+            rotate([-90, 0, 0])
+            cylinder(d = led_hole_diameter, h = wall_thickness + 2, $fn = 64);
+
+            // Optional outer flare/countersink for better angular visibility
+            if (enable_led_countersink && led_hole_countersink_diameter > led_hole_diameter && led_hole_countersink_depth > 0) {
+                let (depth = min(led_hole_countersink_depth, wall_thickness - 0.5)) {
+                    // Tapered cone starting from the depth of the countersink up to the outer face
+                    translate([clearance + led_x_offset, D_inner + wall_thickness - depth, led_z_offset])
+                    rotate([-90, 0, 0])
+                    cylinder(d1 = led_hole_diameter, d2 = led_hole_countersink_diameter, h = depth, $fn = 64);
+
+                    // Clean-cut cylinder extending beyond the outer face to prevent any thin-wall artifacts
+                    translate([clearance + led_x_offset, D_inner + wall_thickness - 0.01, led_z_offset])
+                    rotate([-90, 0, 0])
+                    cylinder(d = led_hole_countersink_diameter, h = 2, $fn = 64);
+                }
+            }
+        }
+
+        // 5. CHAMFERS (PHASES) ON OUTWARD-FACING EDGES ONLY
         if (chamfer_size > 0) {
             let (c = chamfer_size, s2 = sqrt(2) * chamfer_size) {
                 // --- Vertical front corners (Z-axis) ---
@@ -141,6 +180,42 @@ module easy_drive_charger_mount() {
                 translate([W_inner + wall_thickness, D_inner + wall_thickness, (pocket_height - bottom_thickness)/2])
                 rotate([0, 0, 45])
                 cube([s2, s2, pocket_height + bottom_thickness + 2], center=true);
+
+                // --- Back wall exposed portion corners/edges (Z and X axes) ---
+                // Left-front vertical edge of back wall above side walls (Z-axis)
+                translate([-wall_thickness, 0, pocket_height + (back_wall_height - pocket_height)/2])
+                rotate([0, 0, 45])
+                cube([s2, s2, back_wall_height - pocket_height + 0.1], center=true);
+
+                // Right-front vertical edge of back wall above side walls (Z-axis)
+                translate([W_inner + wall_thickness, 0, pocket_height + (back_wall_height - pocket_height)/2])
+                rotate([0, 0, 45])
+                cube([s2, s2, back_wall_height - pocket_height + 0.1], center=true);
+
+                // Top-front edge of the back wall (X-axis) - guides the charger down and rounds the exposed top-front edge
+                translate([W_inner/2, 0, back_wall_height])
+                rotate([45, 0, 0])
+                cube([W_outer + 2, s2, s2], center=true);
+
+                // --- Transition spheres between back wall vertical chamfers and side wall horizontal chamfers ---
+                // Left transition sphere to blend the horizontal side-wall and vertical back-wall chamfers
+                translate([-wall_thickness, 0, pocket_height])
+                sphere(r = c, $fn = 32);
+
+                // Right transition sphere to blend the horizontal side-wall and vertical back-wall chamfers
+                translate([W_inner + wall_thickness, 0, pocket_height])
+                sphere(r = c, $fn = 32);
+
+                // --- Back plate top-left and top-right corner chamfers (XZ plane) ---
+                // Top-left corner
+                translate([-wall_thickness, -wall_thickness / 2, back_wall_height])
+                rotate([0, 45, 0])
+                cube([s2, wall_thickness + 2, s2], center=true);
+
+                // Top-right corner
+                translate([W_inner + wall_thickness, -wall_thickness / 2, back_wall_height])
+                rotate([0, -45, 0])
+                cube([s2, wall_thickness + 2, s2], center=true);
 
                 // --- Top rim horizontal edges (X/Y axes) ---
                 // Top-front edge (X-axis)
@@ -170,6 +245,52 @@ module easy_drive_charger_mount() {
                     cube([W_inner + 2 * c, D_inner + c, 0.01]);
                 }
 
+                // --- Side ventilation cutouts chamfers (X-axis, outer & inner) ---
+                if (enable_side_recessions) {
+                    // Left outer side chamfer cone
+                    translate([-wall_thickness - 1, D_inner / 2, pocket_height + side_recession_z_offset])
+                    rotate([0, 90, 0])
+                    cylinder(r1 = side_recession_radius + c + 1, r2 = side_recession_radius, h = c + 1, $fn = 128);
+
+                    // Left inner side chamfer cone
+                    translate([-c, D_inner / 2, pocket_height + side_recession_z_offset])
+                    rotate([0, 90, 0])
+                    cylinder(r1 = side_recession_radius, r2 = side_recession_radius + c + 1, h = c + 1, $fn = 128);
+
+                    // Right inner side chamfer cone
+                    translate([W_inner - 1, D_inner / 2, pocket_height + side_recession_z_offset])
+                    rotate([0, 90, 0])
+                    cylinder(r1 = side_recession_radius + c + 1, r2 = side_recession_radius, h = c + 1, $fn = 128);
+
+                    // Right outer side chamfer cone
+                    translate([W_inner + wall_thickness - c, D_inner / 2, pocket_height + side_recession_z_offset])
+                    rotate([0, 90, 0])
+                    cylinder(r1 = side_recession_radius, r2 = side_recession_radius + c + 1, h = c + 1, $fn = 128);
+                }
+
+                // --- Bottom plate cutout chamfer frustums (outer & inner) ---
+                if (enable_bottom_cutout && (W_inner > 2 * bottom_margin) && (D_inner > 2 * bottom_margin)) {
+                    let (W_cut = W_inner - 2 * bottom_margin, D_cut = D_inner - 2 * bottom_margin) {
+                        // Outer bottom chamfer frustum (Z-axis)
+                        hull() {
+                            translate([bottom_margin - c, bottom_margin - c, -bottom_thickness - 0.01])
+                            cube([W_cut + 2 * c, D_cut + 2 * c, 0.01]);
+
+                            translate([bottom_margin, bottom_margin, -bottom_thickness + c])
+                            cube([W_cut, D_cut, 0.01]);
+                        }
+
+                        // Inner bottom chamfer frustum (Z-axis)
+                        hull() {
+                            translate([bottom_margin, bottom_margin, -c])
+                            cube([W_cut, D_cut, 0.01]);
+
+                            translate([bottom_margin - c, bottom_margin - c, 0.01])
+                            cube([W_cut + 2 * c, D_cut + 2 * c, 0.01]);
+                        }
+                    }
+                }
+
                 // --- Bottom plate horizontal edges (X/Y axes) ---
                 // Bottom-front edge (X-axis)
                 translate([W_inner/2, D_inner + wall_thickness, -bottom_thickness])
@@ -193,6 +314,11 @@ module easy_drive_charger_mount() {
     if (show_charger_mockup) {
         %translate([clearance, clearance, 0])
         cube([charger_width, charger_depth, charger_height]);
+
+        // Status LED mockup on the front face of the charger (non-printed background object)
+        %translate([clearance + led_x_offset, clearance + charger_depth, led_z_offset])
+        rotate([-90, 0, 0])
+        cylinder(d = 3, h = 1.0, $fn = 16);
     }
 }
 
