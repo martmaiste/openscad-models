@@ -5,11 +5,42 @@ This script generates thumbnail gallery files from OpenSCAD .scad files
 and their associated .png renderings.
 """
 
-import os
+import fnmatch
 import subprocess
 from pathlib import Path
 
-VERSION = "0.14"
+VERSION = "0.15"
+
+
+def load_gitignore_patterns(base_dir):
+    """Load .gitignore patterns from base_dir, in file order (last match wins)."""
+    patterns = []
+    ignore_file = base_dir / ".gitignore"
+    if not ignore_file.is_file():
+        return patterns
+
+    for raw_line in ignore_file.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        negate = line.startswith("!")
+        if negate:
+            line = line[1:].strip()
+        # A trailing slash means "directories only"; we only check directories anyway.
+        # A leading slash anchors the pattern to the repo root (top-level dirs here).
+        line = line.rstrip("/").lstrip("/")
+        if line:
+            patterns.append((negate, line))
+    return patterns
+
+
+def is_ignored_dir(name, patterns):
+    """Return True if a top-level directory name is ignored by the .gitignore patterns."""
+    ignored = False
+    for negate, pattern in patterns:
+        if fnmatch.fnmatch(name, pattern):
+            ignored = not negate
+    return ignored
 
 
 def generate_assets():
@@ -19,38 +50,44 @@ def generate_assets():
 
     print(f"Starting rendering from directory: {current_dir}")
 
-    for root, dirs, files in os.walk(current_dir):
-        # Ignore hidden directories
-        dirs[:] = [d for d in dirs if not d.startswith(".")]
+    # Scan only one level deep: the immediate project subdirectories
+    ignore_patterns = load_gitignore_patterns(current_dir)
+    for project_dir in sorted(current_dir.iterdir()):
+        if not project_dir.is_dir() or project_dir.name.startswith("."):
+            continue
+        if is_ignored_dir(project_dir.name, ignore_patterns):
+            print(f"Skipping gitignored directory: {project_dir.name}")
+            continue
 
-        for file in files:
-            if file.endswith(".scad"):
-                full_path = Path(root) / file
-                scad_files.append(full_path)
+        for file in sorted(project_dir.iterdir()):
+            if file.is_file() and file.name.endswith(".scad"):
+                scad_files.append(file)
 
-                png_path = full_path.with_suffix(".png")
+    # Render each found file if its image doesn't exist yet
+    for full_path in scad_files:
+        png_path = full_path.with_suffix(".png")
 
-                # Render only if image doesn't exist
-                if not png_path.exists():
-                    print(f"Rendering high quality: {png_path.name}")
-                    try:
-                        subprocess.run(
-                            [
-                                "openscad",
-                                "-o",
-                                str(png_path),
-                                "--render",
-                                "--imgsize=1200,1200",
-                                "--colorscheme=Solarized",
-                                str(full_path),
-                            ],
-                            check=True,
-                            capture_output=True,
-                        )
-                    except subprocess.CalledProcessError as e:
-                        print(f"Error rendering {file}: {e}")
-                else:
-                    print(f"Using cached image: {png_path.name}")
+        # Render only if image doesn't exist
+        if not png_path.exists():
+            print(f"Rendering high quality: {png_path.name}")
+            try:
+                subprocess.run(
+                    [
+                        "openscad",
+                        "-o",
+                        str(png_path),
+                        "--render",
+                        "--imgsize=1200,1200",
+                        "--colorscheme=Solarized",
+                        str(full_path),
+                    ],
+                    check=True,
+                    capture_output=True,
+                )
+            except subprocess.CalledProcessError as e:
+                print(f"Error rendering {full_path.name}: {e}")
+        else:
+            print(f"Using cached image: {png_path.name}")
 
     # Sort by modification time (newest first)
     scad_files.sort(key=lambda x: x.stat().st_mtime, reverse=True)
@@ -105,6 +142,10 @@ def create_thumbnail_html(scad_files, base_dir):
             align-items: center;
             justify-content: center;
         }}
+        .card-info a {{
+            color: inherit;
+            text-decoration: none;
+        }}
         h1 {{
             text-align: center;
             margin-bottom: 30px;
@@ -133,7 +174,7 @@ def create_thumbnail_html(scad_files, base_dir):
             <a href="{rel_dir}">
                 <img src="{rel_png}" loading="lazy" alt="{rel_scad}">
             </a>
-            <div class="card-info">{clean_name}</div>
+            <div class="card-info"><a href="{rel_dir}">{clean_name}</a></div>
         </div>
     """
 
@@ -177,7 +218,7 @@ This gallery contains all OpenSCAD designs in this repository with their visual 
                     f'  <a href="{rel_dir}">\n'
                     f'    <img src="{rel_png}" alt="{clean_name}" style="width: 250px; height: 250px; object-fit: cover; border-radius: 12px; display: block; margin: 0 auto;">\n'
                     f"  </a>\n"
-                    f'  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;">{clean_name}</div>\n'
+                    f'  <div style="margin-top: 12px; font-size: 14px; word-wrap: break-word;"><a href="{rel_dir}" style="color: inherit; text-decoration: none;">{clean_name}</a></div>\n'
                     f"</div>\n"
                 )
 
