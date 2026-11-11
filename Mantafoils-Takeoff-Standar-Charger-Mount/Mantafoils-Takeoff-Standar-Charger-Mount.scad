@@ -66,7 +66,7 @@ charger_depth = 60.0;
 
 /* [ Ear Dimensions ] */
 // Thickness of the mounting ears in mm
-ear_thickness = 1.5;
+ear_thickness = 1.2;
 
 // Height of the mounting ears in mm
 ear_height = 88.0;
@@ -89,7 +89,7 @@ mount_thickness = 10.0;
 mount_width = 30.0;
 
 // Total height of the mount piece in mm (should be larger than ear_height + slot_bottom_offset)
-mount_height = 110.0;
+mount_height = 98.0;
 
 // Offset from the bottom of the mount to the bottom of the slot in mm (solid support base)
 slot_bottom_offset = 5.0;
