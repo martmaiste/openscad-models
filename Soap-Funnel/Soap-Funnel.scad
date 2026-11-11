@@ -5,7 +5,7 @@
 
 /* [Dimensions] */
 // Diameter of the wide top part
-d_wide = 45;
+d_wide = 50;
 // Length of the wide top part
 h_wide = 40;
 
@@ -30,7 +30,7 @@ module soap_funnel() {
     r_thin = d_thin / 2;
 
     // 45-degree transition means the transition height equals the difference in radii
-    h_trans = r_wide - r_thin;
+    h_trans = r_wide - r_thin * 0.15;
 
     // Calculate the vertical shift for the inner 45-degree wall
     // to maintain constant perpendicular wall thickness.
