@@ -21,8 +21,8 @@
 //                      rubber tap-washer seal that the valve tip presses
 //                      against.
 //   maxflow_adapter()- MaxFlow tapered nozzle (Ensis wings, Liquid Force
-//                      kites): 18mm long, 31mm OD at the base tapering
-//                      to 30.75mm at the tip with a constant 3mm wall,
+//                      kites): 18mm long, 31.5mm OD at the base tapering
+//                      to 31.25mm at the tip with a constant 3mm wall,
 //                      both tip edges lightly chamfered; to threaded
 //                      nozzle.
 //
@@ -180,7 +180,7 @@ kite_seal_groove_dia = 24.0;
 // Total barrel length above the grip lip (mm)
 maxflow_barrel_length = 18.0;
 // Barrel outer diameter at the base (grip-lip) end (mm)
-maxflow_barrel_base_dia = 31.0;
+maxflow_barrel_base_dia = 31.5;
 // Taper ratio: OD shrinkage per unit length (mm OD per mm length).
 // Original MaxFlow nozzle: 31 -> 30.75mm over 18mm, i.e. 0.25/18.
 maxflow_barrel_taper_ratio = 0.25 / 18;

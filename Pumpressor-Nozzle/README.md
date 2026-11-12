@@ -19,7 +19,7 @@ The grip lip's vertical ribs are optional (`grip_ribs`), and it can carry 0, 1 o
 | `sup` | Female 21 mm SUP pump bayonet (Halkey-Roberts style) with J-slots, lead-in ramps, seal seat neck, rounded bayonet edges and grip lip |
 | `boston` | Straight tapered Boston-valve barrel (20 mm long, 17 mm → 18.11 mm OD at a 1:18 taper ratio, chamfered tip; the longer/thicker base also grips worn or out-of-tolerance valve mouths) |
 | `kite` | Female 20 mm kite/wing pump bayonet socket, 13 mm deep, with two L-grooves for 4 mm locking pegs (axial entry slots turning into a 40° arc groove); the chamber floor captures a standard 1/2" flat rubber tap-washer seal (~23 × 16 × 2.2 mm) that the pump valve tip presses against |
-| `maxflow` | MaxFlow tapered nozzle barrel as used on Ensis wings and Liquid Force kites (18 mm long, 31 mm → 30.75 mm OD, constant 3 mm wall → 24.75 mm tip bore, both tip edges lightly chamfered) |
+| `maxflow` | MaxFlow tapered nozzle barrel as used on Ensis wings and Liquid Force kites (18 mm long, 31.5 mm → 31.25 mm OD, constant 3 mm wall → 25.25 mm tip bore, both tip edges lightly chamfered) |
 
 | sup | boston | kite | maxflow |
 |:---:|:---:|:---:|:---:|
